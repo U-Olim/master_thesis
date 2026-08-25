@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a list</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lst {tibble}"><tr><td>lst {tibble}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a list</h2>
+
+<h3>Description</h3>
+
+<p><code>lst()</code> is similar to <code><a href="../../base/html/list.html">list()</a></code>, but like <code>tibble()</code>, it
+evaluates its arguments lazily and in order, and automatically adds names.
+</p>
+<p><code>tibble()</code> is a trimmed down version of <code><a href="../../base/html/data.frame.html">data.frame()</a></code> that:
+</p>
+
+<ul>
+<li><p> Never coerces inputs (i.e. strings stay as strings!).
+</p>
+</li>
+<li><p> Never adds <code>row.names</code>.
+</p>
+</li>
+<li><p> Never munges column names.
+</p>
+</li>
+<li><p> Only recycles length 1 inputs.
+</p>
+</li>
+<li><p> Evaluates its arguments lazily and in order.
+</p>
+</li>
+<li><p> Adds <code>tbl_df</code> class to output.
+</p>
+</li>
+<li><p> Automatically adds column names.
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+lst(...)
+
+lst_(xs)
+
+tibble(...)
+
+tibble_(xs)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>A set of name-value pairs. Arguments are evaluated sequentially,
+so you can refer to previously created variables.</p>
+</td></tr>
+<tr valign="top"><td><code>xs</code></td>
+<td>
+<p>A list of unevaluated expressions created with <code>~</code>,
+<code><a href="../../base/html/substitute.html">quote()</a></code>, or (deprecated) <code><a href="../../lazyeval/html/lazy.html">lazyeval::lazy()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="as_tibble.html">as_tibble()</a></code> to turn an existing list into
+a data frame.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+lst(n = 5, x = runif(n))
+
+# You can splice-unquote a list of quotes and formulas
+lst(!!! list(n = rlang::quo(2 + 3), y = quote(runif(n))))
+
+a &lt;- 1:5
+tibble(a, b = a * 2)
+tibble(a, b = a * 2, c = 1)
+tibble(x = runif(10), y = x * 2)
+
+lst(n = 5, x = runif(n))
+
+# tibble never coerces its inputs
+str(tibble(letters))
+str(tibble(x = list(diag(1), diag(2))))
+
+# or munges column names
+tibble(`a + b` = 1:5)
+
+# You can splice-unquote a list of quotes and formulas
+tibble(!!! list(x = rlang::quo(1:10), y = quote(x * 2)))
+
+# data frames can only contain 1d atomic vectors and lists
+# and can not contain POSIXlt
+## Not run: 
+tibble(x = tibble(1, 2, 3))
+tibble(y = strptime("2000/01/01", "%x"))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>tibble</em> version 1.3.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

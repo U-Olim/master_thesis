@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Shooting Lasso</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for LassoShooting.fit {hdm}"><tr><td>LassoShooting.fit {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Shooting Lasso</h2>
+
+<h3>Description</h3>
+
+<p>Implementation of the Shooting Lasso (Fu, 1998) with variable dependent
+penalization weights.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+LassoShooting.fit(x, y, lambda, control = list(maxIter = 1000, optTol =
+  10^(-5), zeroThreshold = 10^(-6)), XX = NULL, Xy = NULL,
+  beta.start = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>matrix of regressor variables (<code>n</code> times <code>p</code> where
+<code>n</code> denotes the number of observations and <code>p</code> the number of
+regressors)</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>dependent variable (vector or matrix)</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>vector of length <code>p</code> of penalization parameters for each
+regressor</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>list with control parameters: <code>maxIter</code> maximal number
+of iterations, <code>optTol</code> tolerance for parameter precision,
+<code>zeroThreshold</code> threshold applied to the estimated coefficients
+for numerical issues.</p>
+</td></tr>
+<tr valign="top"><td><code>XX</code></td>
+<td>
+<p>optional, precalculated matrix <i>t(X)*X</i></p>
+</td></tr>
+<tr valign="top"><td><code>Xy</code></td>
+<td>
+<p>optional, precalculated matrix <i>t(X)*y</i></p>
+</td></tr>
+<tr valign="top"><td><code>beta.start</code></td>
+<td>
+<p>start value for beta</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function implements the Shooting Lasso (Fu, 1998) with variable dependent
+penalization. The arguments <code>XX</code> and <code>Xy</code> are optional and allow to use precalculated matrices which might improve performance.
+</p>
+
+
+<h3>Value</h3>
+
+<table summary="R valueblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>estimated coefficients by the Shooting Lasso
+Algorithm</p>
+</td></tr> <tr valign="top"><td><code>coef.list</code></td>
+<td>
+<p>matrix of coefficients from each iteration</p>
+</td></tr>
+<tr valign="top"><td><code>num.it</code></td>
+<td>
+<p>number of iterations run</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Fu, W. (1998). Penalized regressions: the bridge vs the lasso.
+<em>Journal of Computational and Graphical Software</em> 7, 397-416.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

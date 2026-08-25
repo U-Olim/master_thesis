@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add units to the labels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for unit_format {scales}"><tr><td>unit_format {scales}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add units to the labels</h2>
+
+<h3>Description</h3>
+
+<p>Add units to the labels
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+unit_format(unit = "m", scale = 1, sep = " ", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>unit</code></td>
+<td>
+<p>The units to append</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>A scaling factor. Useful if the underlying data is on another scale</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>The separator between the number and the label</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed on to <code><a href="../../base/html/format.html">format</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="comma_format.html">comma</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# labels in kilometer when the raw data are in meter
+km &lt;- unit_format(unit = "km", scale = 1e-3, digits = 2)
+km(runif(10) * 1e3)
+
+# labels in hectares, raw data in square meters
+ha &lt;- unit_format(unit = "ha", scale = 1e-4)
+km(runif(10) * 1e5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>scales</em> version 0.5.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions for estimation of treatment effects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rlassoATE {hdm}"><tr><td>rlassoATE {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions for estimation of treatment effects</h2>
+
+<h3>Description</h3>
+
+<p>This class of functions estimates the average treatment effect (ATE), the ATE of the tretated (ATET), the local average treatment effects (LATE) and the LATE of
+the tretated (LATET). The estimation methods rely on immunized / orthogonal moment
+conditions which guarantee valid post-selection inference in a high-dimensional setting. Further details can be found in Belloni et al. (2014).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rlassoATE(x, ...)
+
+## Default S3 method:
+rlassoATE(x, d, y, bootstrap = "none", nRep = 500, ...)
+
+## S3 method for class 'formula'
+rlassoATE(formula, data, bootstrap = "none", nRep = 500,
+  ...)
+
+rlassoATET(x, ...)
+
+## Default S3 method:
+rlassoATET(x, d, y, bootstrap = "none", nRep = 500, ...)
+
+## S3 method for class 'formula'
+rlassoATET(formula, data, bootstrap = "none", nRep = 500,
+  ...)
+
+rlassoLATE(x, ...)
+
+## Default S3 method:
+rlassoLATE(x, d, y, z, bootstrap = "none", nRep = 500,
+  post = TRUE, intercept = TRUE, ...)
+
+## S3 method for class 'formula'
+rlassoLATE(formula, data, bootstrap = "none", nRep = 500,
+  post = TRUE, intercept = TRUE, ...)
+
+rlassoLATET(x, ...)
+
+## Default S3 method:
+rlassoLATET(x, d, y, z, bootstrap = "none", nRep = 500,
+  post = TRUE, intercept = TRUE, ...)
+
+## S3 method for class 'formula'
+rlassoLATET(formula, data, bootstrap = "none", nRep = 500,
+  post = TRUE, intercept = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>exogenous variables</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed, e.g. <code>intercept</code> and <code>post</code></p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>treatment variable (binary)</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>outcome variable / dependent variable</p>
+</td></tr>
+<tr valign="top"><td><code>bootstrap</code></td>
+<td>
+<p>boostrap method which should be employed: 'none', 'Bayes',
+'normal', 'wild'</p>
+</td></tr>
+<tr valign="top"><td><code>nRep</code></td>
+<td>
+<p>number of replications for the bootstrap</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>An object of class <code>Formula</code> of the form &quot; y ~ x + d | x&quot; with y the outcome variable,
+d treatment variable, and x exogenous variables.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. 
+If not found in data, the variables are taken from environment(formula), typically the environment from which <code>rlassoATE</code> is called.</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>instrumental variables (binary)</p>
+</td></tr>
+<tr valign="top"><td><code>post</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, post-lasso estimation is conducted.</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, intercept is included which is not
+penalized.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Details can be found in Belloni et al. (2014).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Functions return an object of class <code>rlassoTE</code> with estimated effects, standard errors and
+individual effects in the form of a <code>list</code>.
+</p>
+
+
+<h3>References</h3>
+
+<p>A. Belloni, V. Chernozhukov, I. Fernandez-Val, and C. Hansen
+(2014). Program evaluation with high-dimensional data. Working Paper.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

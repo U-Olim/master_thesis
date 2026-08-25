@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: checkmate: Fast and Versatile Argument Checks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for checkmate-package {checkmate}"><tr><td>checkmate-package {checkmate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>checkmate: Fast and Versatile Argument Checks</h2>
+
+<h3>Description</h3>
+
+
+<dl>
+<dt>Homepage:</dt><dd><p><a href="https://github.com/mllg/checkmate">https://github.com/mllg/checkmate</a></p>
+</dd>
+<dt>Bug Reports:</dt><dd><p><a href="https://github.com/mllg/checkmate/issues">https://github.com/mllg/checkmate/issues</a></p>
+</dd>
+</dl>
+
+
+
+<h3>Overview of implemented functions</h3>
+
+<p>Check scalars:
+</p>
+
+<ul>
+<li><p><code><a href="checkFlag.html">checkFlag</a></code>
+</p>
+</li>
+<li><p><code><a href="checkCount.html">checkCount</a></code>
+</p>
+</li>
+<li><p><code><a href="checkNumber.html">checkNumber</a></code>
+</p>
+</li>
+<li><p><code><a href="checkInt.html">checkInt</a></code>
+</p>
+</li>
+<li><p><code><a href="checkString.html">checkString</a></code>
+</p>
+</li>
+<li><p><code><a href="checkScalar.html">checkScalar</a></code>
+</p>
+</li>
+<li><p><code><a href="checkScalarNA.html">checkScalarNA</a></code>
+</p>
+</li></ul>
+
+<p>Check vectors:
+</p>
+
+<ul>
+<li><p><code><a href="checkLogical.html">checkLogical</a></code>
+</p>
+</li>
+<li><p><code><a href="checkNumeric.html">checkNumeric</a></code>
+</p>
+</li>
+<li><p><code><a href="checkInteger.html">checkInteger</a></code>
+</p>
+</li>
+<li><p><code><a href="checkIntegerish.html">checkIntegerish</a></code>
+</p>
+</li>
+<li><p><code><a href="checkCharacter.html">checkCharacter</a></code>
+</p>
+</li>
+<li><p><code><a href="checkComplex.html">checkComplex</a></code>
+</p>
+</li>
+<li><p><code><a href="checkFactor.html">checkFactor</a></code>
+</p>
+</li>
+<li><p><code><a href="checkList.html">checkList</a></code>
+</p>
+</li>
+<li><p><code><a href="checkVector.html">checkVector</a></code>
+</p>
+</li>
+<li><p><code><a href="checkAtomic.html">checkAtomic</a></code>
+</p>
+</li>
+<li><p><code><a href="checkAtomicVector.html">checkAtomicVector</a></code>
+</p>
+</li></ul>
+
+<p>Check attributes:
+</p>
+
+<ul>
+<li><p><code><a href="checkClass.html">checkClass</a></code>
+</p>
+</li>
+<li><p><code><a href="checkNames.html">checkNames</a></code>
+</p>
+</li>
+<li><p><code><a href="checkNamed.html">checkNamed</a></code> (deprecated)
+</p>
+</li></ul>
+
+<p>Check compound types:
+</p>
+
+<ul>
+<li><p><code><a href="checkArray.html">checkArray</a></code>
+</p>
+</li>
+<li><p><code><a href="checkDataFrame.html">checkDataFrame</a></code>
+</p>
+</li>
+<li><p><code><a href="checkMatrix.html">checkMatrix</a></code>
+</p>
+</li></ul>
+
+<p>Check other built-in R types:
+</p>
+
+<ul>
+<li><p><code><a href="checkDate.html">checkDate</a></code>
+</p>
+</li>
+<li><p><code><a href="checkEnvironment.html">checkEnvironment</a></code>
+</p>
+</li>
+<li><p><code><a href="checkFunction.html">checkFunction</a></code>
+</p>
+</li>
+<li><p><code><a href="checkNull.html">checkNull</a></code>
+</p>
+</li></ul>
+
+<p>Check sets:
+</p>
+
+<ul>
+<li><p><code><a href="checkChoice.html">checkChoice</a></code>
+</p>
+</li>
+<li><p><code><a href="checkSubset.html">checkSubset</a></code>
+</p>
+</li>
+<li><p><code><a href="checkSetEqual.html">checkSetEqual</a></code>
+</p>
+</li></ul>
+
+<p>File IO:
+</p>
+
+<ul>
+<li><p><code><a href="checkFileExists.html">checkFileExists</a></code>
+</p>
+</li>
+<li><p><code><a href="checkDirectoryExists.html">checkDirectoryExists</a></code>
+</p>
+</li>
+<li><p><code><a href="checkPathForOutput.html">checkPathForOutput</a></code>
+</p>
+</li>
+<li><p><code><a href="checkAccess.html">checkAccess</a></code>
+</p>
+</li></ul>
+
+<p>Popular data types in external packages:
+</p>
+
+<ul>
+<li><p><code><a href="checkBit.html">checkBit</a></code>
+</p>
+</li>
+<li><p><code><a href="checkDataTable.html">checkDataTable</a></code>
+</p>
+</li>
+<li><p><code><a href="checkR6.html">checkR6</a></code>
+</p>
+</li>
+<li><p><code><a href="checkTibble.html">checkTibble</a></code>
+</p>
+</li></ul>
+
+<p>Safe coercion to integer:
+</p>
+
+<ul>
+<li><p><code><a href="asInteger.html">asCount</a></code>
+</p>
+</li>
+<li><p><code><a href="asInteger.html">asInt</a></code>
+</p>
+</li>
+<li><p><code><a href="asInteger.html">asInteger</a></code>
+</p>
+</li></ul>
+
+<p>Quick argument checks using a DSL:
+</p>
+
+<ul>
+<li><p><code><a href="qassert.html">qassert</a></code>
+</p>
+</li>
+<li><p><code><a href="qassertr.html">qassertr</a></code>
+</p>
+</li></ul>
+
+<p>Misc:
+</p>
+
+<ul>
+<li><p><code><a href="checkOS.html">checkOS</a></code> (check operating system)
+</p>
+</li>
+<li><p><code><a href="assert.html">assert</a></code> (combine multiple checks into an assertion)
+</p>
+</li>
+<li><p><code><a href="anyMissing.html">anyMissing</a></code>
+</p>
+</li>
+<li><p><code><a href="anyMissing.html">allMissing</a></code>
+</p>
+</li>
+<li><p><code><a href="anyNaN.html">anyNaN</a></code>
+</p>
+</li>
+<li><p><code><a href="wf.html">wf</a></code> (which.first and which.last)
+</p>
+</li></ul>
+
+
+
+<h3>Author(s)</h3>
+
+<p><strong>Maintainer</strong>: Michel Lang <a href="mailto:michellang@gmail.com">michellang@gmail.com</a>
+</p>
+<p>Other contributors:
+</p>
+
+<ul>
+<li><p> Bernd Bischl <a href="mailto:bernd_bischl@gmx.de">bernd_bischl@gmx.de</a> [contributor]
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Useful links:
+</p>
+
+<ul>
+<li> <p><a href="https://github.com/mllg/checkmate">https://github.com/mllg/checkmate</a>
+</p>
+</li>
+<li><p> Report bugs at <a href="https://github.com/mllg/checkmate/issues">https://github.com/mllg/checkmate/issues</a>
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>checkmate</em> version 1.8.5 <a href="00Index.html">Index</a>]</div>
+</body></html>

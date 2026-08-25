@@ -1,0 +1,14 @@
+cv.hqreg                Cross-validation for hqreg
+hqreg                   Fit a robust regression model with Huber or
+                        quantile loss penalized by lasso or elasti-net
+hqreg-package           Regularization Paths for Lasso or Elastic-net
+                        Penalized Huber Loss Regression and Quantile
+                        Regression
+hqreg_raw               Fit a robust regression model on raw data with
+                        Huber or quantile loss penalized by lasso or
+                        elasti-net
+plot.cv.hqreg           Plot the cross-validation curve for a
+                        "cv.hqreg" object
+plot.hqreg              Plot coefficients from a "hqreg" object
+predict.cv.hqreg        Model predictions based on "cv.hqreg" object.
+predict.hqreg           Model predictions based on "hqreg" object.

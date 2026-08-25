@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot coefficients from a &quot;hqreg&quot; object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for plot.hqreg {hqreg}"><tr><td>plot.hqreg {hqreg}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot coefficients from a &quot;hqreg&quot; object</h2>
+
+<h3>Description</h3>
+
+<p>Produce a plot of the coefficient paths for a fitted
+<code>"hqreg"</code> object.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'hqreg'
+plot(x, xvar = c("lambda", "norm"), log.l= TRUE, nvars = TRUE, 
+    alpha = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>hqreg</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>xvar</code></td>
+<td>
+<p>What is on the X-axis. <code>"lambda"</code> plots against the lambda sequence, 
+<code>"norm"</code> against the L1-norm of the coefficients. Default is <code>"lambda"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>log.l</code></td>
+<td>
+<p>Should <code>log(lambda)</code> be used instead of <code>lambda</code> when <code>xvar = "lambda"</code>? 
+Default is TRUE. It has no effect for <code>"norm"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nvars</code></td>
+<td>
+<p>If <code>TRUE</code> (the default), places an axis on top of the plot denoting the 
+number of variables with nonzero coefficients at each <code>lambda</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>A value between 0 and 1 for alpha transparency channel(0 means transparent 
+and 1 means opaque), helpful when the number of variables is large.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other graphical parameters to <code>plot</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Congrui Yi &lt;congrui-yi@uiowa.edu&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Yi, C. and Huang, J. (2016) 
+<em>Semismooth Newton Coordinate Descent Algorithm for 
+Elastic-Net Penalized Huber Loss Regression and Quantile Regression</em>,
+<a href="https://arxiv.org/abs/1509.02957">https://arxiv.org/abs/1509.02957</a> <br />
+<em>Journal of Computational and Graphical Statistics, accepted in Nov 2016</em> <br />
+<a href="http://www.tandfonline.com/doi/full/10.1080/10618600.2016.1256816">http://www.tandfonline.com/doi/full/10.1080/10618600.2016.1256816</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="hqreg.html">hqreg</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+X = matrix(rnorm(1000*100), 1000, 100)
+beta = rnorm(10)
+eps = 4*rnorm(1000)
+y = drop(X[,1:10] %*% beta + eps) 
+fit = hqreg(X, y)
+par(mfrow = c(2,2))
+plot(fit)
+plot(fit, nvars = FALSE, alpha = 0.5)
+plot(fit, xvar = "norm")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hqreg</em> version 1.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

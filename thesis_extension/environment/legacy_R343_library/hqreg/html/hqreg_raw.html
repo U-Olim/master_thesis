@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit a robust regression model on raw data with Huber or...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for hqreg_raw {hqreg}"><tr><td>hqreg_raw {hqreg}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit a robust regression model on raw data with Huber or quantile loss penalized by lasso or elasti-net</h2>
+
+<h3>Description</h3>
+
+<p>On raw data without internal data preprocessing, fit solution paths for Huber loss regression or 
+quantile regression penalized by lasso or elastic-net over a grid of values for the regularization parameter lambda.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+hqreg_raw(X, y, method = c("huber", "quantile", "ls"),
+    gamma = IQR(y)/10, tau = 0.5, alpha = 1, nlambda = 100, lambda.min = 0.05, lambda, 
+    intercept = TRUE, screen = c("ASR", "SR", "none"), 
+    max.iter = 10000, eps = 1e-7, dfmax = ncol(X)+1, penalty.factor = rep(1, ncol(X)), 
+    message = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>Input matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Response vector.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>The loss function to be used in the model. Either &quot;huber&quot; (default), 
+&quot;quantile&quot;, or &quot;ls&quot; for least squares (see <code>Details</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>gamma</code></td>
+<td>
+<p>The tuning parameter of Huber loss, with no effect for the other loss 
+functions. Huber loss is quadratic for absolute values less than gamma and linear for those 
+greater than gamma. The default value is IQR(y)/10.</p>
+</td></tr>
+<tr valign="top"><td><code>tau</code></td>
+<td>
+<p>The tuning parameter of the quantile loss, with no effect for the other loss 
+functions. It represents the conditional quantile of the response to be estimated, so 
+must be a number between 0 and 1. It includes the absolute loss when tau = 0.5 (default).</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>The elastic-net mixing parameter that controls the relative contribution 
+from the lasso and the ridge penalty. It must be a number between 0 and 1. <code>alpha=1</code> 
+is the lasso penalty and <code>alpha=0</code> the ridge penalty.</p>
+</td></tr>
+<tr valign="top"><td><code>nlambda</code></td>
+<td>
+<p>The number of lambda values.  Default is 100.</p>
+</td></tr>
+<tr valign="top"><td><code>lambda.min</code></td>
+<td>
+<p>The smallest value for lambda, as a fraction of lambda.max, the data 
+derived entry value. Default is 0.05.</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>A user-specified sequence of lambda values. Typical usage is to leave 
+blank and have the program automatically compute a <code>lambda</code> sequence based on 
+<code>nlambda</code> and <code>lambda.min</code>. Specifying <code>lambda</code> overrides this. This 
+argument should be used with care and supplied with a decreasing sequence instead of 
+a single value. To get coefficients for a single <code>lambda</code>, use <code>coef</code> or 
+<code>predict</code> instead after fitting the solution path with <code>hqreg</code> or performing 
+k-fold CV with <code>cv.hqreg</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>Should an intercept be included? Default is TRUE.</p>
+</td></tr>
+<tr valign="top"><td><code>screen</code></td>
+<td>
+<p>Screening rule to be applied at each <code>lambda</code> that discards variables 
+for speed. Either &quot;ASR&quot; (default), &quot;SR&quot; or &quot;none&quot;. &quot;SR&quot; stands for the strong rule, 
+and &quot;ASR&quot; for the adaptive strong rule. Using &quot;ASR&quot; typically requires fewer iterations 
+to converge than &quot;SR&quot;, but the computing time are generally close. Note that the option 
+&quot;none&quot; is used mainly for debugging, which may lead to much longer computing time.</p>
+</td></tr>
+<tr valign="top"><td><code>max.iter</code></td>
+<td>
+<p>Maximum number of iterations. Default is 10000.</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p>Convergence threshold. The algorithms continue until the maximum change in the
+objective after any coefficient update is less than <code>eps</code> times the null deviance. 
+Default is <code>1E-7</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dfmax</code></td>
+<td>
+<p>Upper bound for the number of nonzero coefficients. The algorithm exits and 
+returns a partial path if <code>dfmax</code> is reached. Useful for very large dimensions.</p>
+</td></tr>
+<tr valign="top"><td><code>penalty.factor</code></td>
+<td>
+<p>A numeric vector of length equal to the number of variables. Each 
+component multiplies <code>lambda</code> to allow differential penalization. Can be 0 for 
+some variables, in which case the variable is always in the model without penalization. 
+Default is 1 for all variables.</p>
+</td></tr>
+<tr valign="top"><td><code>message</code></td>
+<td>
+<p>If set to TRUE,  hqreg will inform the user of its progress. This argument 
+is kept for debugging. Default is FALSE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The sequence of models indexed by the regularization parameter <code>lambda</code> is fit 
+using a semismooth Newton coordinate descent algorithm. The objective function is defined 
+to be </p>
+<p style="text-align: center;"><i>&sum; loss_i /n + &lambda;*penalty.</i></p>
+
+<p>For <code>method = "huber"</code>, 
+</p>
+<p style="text-align: center;"><i>loss(t) = t^2/(2*&gamma;) I(|t|&le; &gamma;) + (|t| - &gamma;/2) I(|t|&gt;&gamma;);</i></p>
+
+<p>for <code>method = "quantile"</code>, </p>
+<p style="text-align: center;"><i>loss(t) = t (&tau; - I(t&lt;0));</i></p>
+
+<p>for <code>method = "ls"</code>, </p>
+<p style="text-align: center;"><i>loss(t) = t^2/2.</i></p>
+
+<p>In the model, &quot;t&quot; is replaced by residuals.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns an object of S3 class <code>"hqreg"</code>, which is a list containing:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>The call that produced this object.</p>
+</td></tr>
+<tr valign="top"><td><code>beta</code></td>
+<td>
+<p>The fitted matrix of coefficients.  The number of rows is equal to the number 
+of coefficients, and the number of columns is equal to <code>nlambda</code>. An intercept is included.</p>
+</td></tr>
+<tr valign="top"><td><code>iter</code></td>
+<td>
+<p>A vector of length <code>nlambda</code> containing the number of iterations until 
+convergence at each value of <code>lambda</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>saturated</code></td>
+<td>
+<p>A logical flag for whether the number of nonzero coefficients has reached <code>dfmax</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>The sequence of regularization parameter values in the path.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Same as above.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma</code></td>
+<td>
+<p>Same as above. <code>NULL</code> except when <code>method = "huber"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>tau</code></td>
+<td>
+<p>Same as above. <code>NULL</code> except when <code>method = "quantile"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>penalty.factor</code></td>
+<td>
+<p>Same as above.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Same as above.</p>
+</td></tr>
+<tr valign="top"><td><code>nv</code></td>
+<td>
+<p>The variable screening rules are accompanied with checks of optimality 
+conditions. When violations occur, the program adds in violating variables and re-runs 
+the inner loop until convergence. <code>nv</code> is the number of violations.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Congrui Yi &lt;congrui-yi@uiowa.edu&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Yi, C. and Huang, J. (2016) 
+<em>Semismooth Newton Coordinate Descent Algorithm for 
+Elastic-Net Penalized Huber Loss Regression and Quantile Regression</em>,
+<a href="https://arxiv.org/abs/1509.02957">https://arxiv.org/abs/1509.02957</a> <br />
+<em>Journal of Computational and Graphical Statistics, accepted in Nov 2016</em> <br />
+<a href="http://www.tandfonline.com/doi/full/10.1080/10618600.2016.1256816">http://www.tandfonline.com/doi/full/10.1080/10618600.2016.1256816</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="plot.hqreg.html">plot.hqreg</a></code>, <code><a href="cv.hqreg.html">cv.hqreg</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+X = matrix(rnorm(1000*100), 1000, 100)
+beta = rnorm(10)
+eps = 4*rnorm(1000)
+y = drop(X[,1:10] %*% beta) + eps
+
+# Huber loss
+# include an intercept by default
+fit1 = hqreg_raw(X, y)
+coef(fit1, 0.01)
+predict(fit1, X[1:5,], lambda = c(0.02, 0.01))
+
+# no intercept
+fit2 = hqreg_raw(X, y, intercept = FALSE)
+plot(fit2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hqreg</em> version 1.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

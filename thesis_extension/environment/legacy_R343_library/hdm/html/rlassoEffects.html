@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: rigorous Lasso for Linear Models: Inference</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rlassoEffects {hdm}"><tr><td>rlassoEffects {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>rigorous Lasso for Linear Models: Inference</h2>
+
+<h3>Description</h3>
+
+<p>Estimation and inference of (low-dimensional) target coefficients in a high-dimensional linear model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rlassoEffects(x, ...)
+
+## Default S3 method:
+rlassoEffects(x, y, index = c(1:ncol(x)),
+  method = "partialling out", I3 = NULL, post = TRUE, ...)
+
+## S3 method for class 'formula'
+rlassoEffects(formula, data, I, method = "partialling out",
+  included = NULL, post = TRUE, ...)
+
+rlassoEffect(x, y, d, method = "double selection", I3 = NULL, post = TRUE,
+  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>matrix of regressor variables serving as controls and potential
+treatments. For <code>rlassoEffect</code> it contains only controls, for <code>rlassoEffects</code> both controls and potential treatments. For <code>rlassoEffects</code> it must have at least two columns.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>outcome variable (vector or matrix)</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>vector of integers, logicals or variables names indicating the position (column) of
+variables (integer case), logical vector of length of the variables (TRUE or FALSE) or the variable names of <code>x</code> which should be used for inference / as treatment variables.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>method for inference, either 'partialling out' (default) or 'double selection'.</p>
+</td></tr>
+<tr valign="top"><td><code>I3</code></td>
+<td>
+<p>For the 'double selection'-method the logical vector <code>I3</code> has same length as the number of variables in <code>x</code>;
+indicates if variables (TRUE) should be included in any case to the model and they are exempt from selection. These variables should not be included in the <code>index</code>; hence the intersection with <code>index</code> must be the empty set.
+In the case of partialling out it is ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>post</code></td>
+<td>
+<p>logical, if post Lasso is conducted with default <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>An element of class <code>formula</code> specifying the linear model.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. 
+If not found in data, the variables are taken from environment(formula), typically the environment from which the function is called.</p>
+</td></tr>
+<tr valign="top"><td><code>I</code></td>
+<td>
+<p>An one-sided formula specifying the variables for which inference is conducted.</p>
+</td></tr>
+<tr valign="top"><td><code>included</code></td>
+<td>
+<p>One-sided formula of variables which should be included in any case (only for method=&quot;double selection&quot;).</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>variable for which inference is conducted (treatment variable)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>parameters passed to the <code>rlasso</code> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The functions estimates (low-dimensional) target coefficients in a high-dimensional linear model.
+An application is e.g. estimation of a treatment effect <i>&alpha;_0</i> in a
+setting of high-dimensional controls. The user can choose between the so-called post-double-selection method and partialling-out.
+The idea of the double selection method is to select variables by Lasso regression of
+the outcome variable on the control variables and the treatment variable on
+the control variables. The final estimation is done by a regression of the
+outcome on the treatment effect and the union of the selected variables in
+the first two steps. In partialling-out first the effect of the regressors on the outcome and the treatment variable is taken out by Lasso and then a regression of the residuals is conducted. The resulting estimator for <i>&alpha;_0</i> is normal
+distributed which allows inference on the treatment effect. It presents a wrap function for <code>rlassoEffect</code> 
+which does inference for a single variable.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns an object of class <code>rlassoEffects</code> with the following entries: </p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>vector with estimated
+values of the coefficients for each selected variable</p>
+</td></tr> <tr valign="top"><td><code>se</code></td>
+<td>
+<p>standard error (vector)</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+<p>t-statistic</p>
+</td></tr> <tr valign="top"><td><code>pval</code></td>
+<td>
+<p>p-value</p>
+</td></tr> <tr valign="top"><td><code>samplesize</code></td>
+<td>
+<p>sample size of the data set</p>
+</td></tr> <tr valign="top"><td><code>index</code></td>
+<td>
+<p>index of the variables for which inference is performed</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>A. Belloni, V. Chernozhukov, C. Hansen (2014). Inference on
+treatment effects after selection among high-dimensional controls. The
+Review of Economic Studies 81(2), 608-650.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(hdm); library(ggplot2)
+set.seed(1)
+n = 100 #sample size
+p = 100 # number of variables
+s = 3 # nubmer of non-zero variables
+X = matrix(rnorm(n*p), ncol=p)
+colnames(X) &lt;- paste("X", 1:p, sep="")
+beta = c(rep(3,s), rep(0,p-s))
+y = 1 + X%*%beta + rnorm(n)
+data = data.frame(cbind(y,X))
+colnames(data)[1] &lt;- "y"
+fm = paste("y ~", paste(colnames(X), collapse="+"))
+fm = as.formula(fm)                 
+lasso.effect = rlassoEffects(X, y, index=c(1,2,3,50))
+lasso.effect = rlassoEffects(fm, I = ~ X1 + X2 + X3 + X50, data=data)
+print(lasso.effect)
+summary(lasso.effect)
+confint(lasso.effect)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

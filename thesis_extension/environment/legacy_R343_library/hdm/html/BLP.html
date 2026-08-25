@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: BLP data set</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for BLP {hdm}"><tr><td>BLP {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>BLP data set</h2>
+
+<h3>Description</h3>
+
+<p>Automobile data set from the US.
+</p>
+
+
+<h3>Format</h3>
+
+ 
+<dl>
+<dt>model.name</dt><dd><p>model name</p>
+</dd>
+<dt>model.id</dt><dd><p>model id</p>
+</dd>
+<dt>firm.id</dt><dd><p>firm id</p>
+</dd>
+<dt>cdid</dt><dd><p>cdid</p>
+</dd>
+<dt>id</dt><dd><p>id</p>
+</dd>
+<dt>price</dt><dd><p>log price</p>
+</dd>
+<dt>mpg</dt><dd><p>miles per gallon</p>
+</dd>
+<dt>mpd</dt><dd><p>miles per dollar</p>
+</dd>
+<dt>hpwt</dt><dd><p>horse power per weight</p>
+</dd>
+<dt>air</dt><dd><p>air conditioning (binary variable)</p>
+</dd>
+<dt>space</dt><dd><p>size of the car</p>
+</dd>
+<dt>share</dt><dd><p>market share</p>
+</dd>
+<dt>outshr</dt><dd><p>share s0</p>
+</dd>
+<dt>y</dt><dd><p>outcome variable defined as log(share) - log(outshr) </p>
+</dd>
+<dt>trend</dt><dd><p>time trend</p>
+</dd>
+</dl>
+
+
+<h3>Details</h3>
+
+<p>Data set was analysed in Berry, Levinsohn and Pakes (1995). The data stem from annual issues of the Automotive News Market Data Book. 
+The data set inlcudes information on all models marketed during the the periord beginning 1971 and ending in 1990 cotaining 2217 model/years from 997 distinct models.
+A detailed description is given in BLP (1995, 868&ndash;871). The internal function <code>constructIV</code> constructs instrumental variables along the lines described and used in BLP (1995).
+</p>
+
+
+<h3>References</h3>
+
+<p>S. Berry, J. Levinsohn, A. Pakes (1995). Automobile Prices in Market EquilibriumD. Econometrica, 63(4), 841&ndash;890.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BLP)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

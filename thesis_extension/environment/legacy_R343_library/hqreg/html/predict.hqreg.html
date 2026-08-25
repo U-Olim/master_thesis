@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model predictions based on &quot;hqreg&quot; object.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for predict.hqreg {hqreg}"><tr><td>predict.hqreg {hqreg}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model predictions based on &quot;hqreg&quot; object.</h2>
+
+<h3>Description</h3>
+
+<p>This function returns fitted values, coefficients and more from a fitted <code>"hqreg"</code> object.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'hqreg'
+predict(object, X, lambda, type = c("response","coefficients","nvars"), 
+    exact = FALSE, ...)
+## S3 method for class 'hqreg'
+coef(object, lambda, exact = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Fitted <code>"hqreg"</code> model object.</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>Matrix of values at which predictions are to be made. Used only for <code>type = "response"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>Values of the regularization parameter <code>lambda</code> at which predictions 
+are requested. Default is the entire sequence used to create the model.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of prediction. <code>"response"</code> returns the fitted values; 
+<code>"coefficients"</code> returns the coefficients; <code>"nvars"</code> returns the number of 
+nonzero coefficients at each value of <code>lambda</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>exact</code></td>
+<td>
+<p>If <code>exact=FALSE</code> (default), then the function uses linear interpolation 
+to make predictions for values of <code>lambda</code> that do not coincide with those used to 
+fit the model. If <code>exact=TRUE</code>, and predictions are requested at values of <code>lambda</code> 
+not included in the original fit, the model is refit on a lambda sequence consisting 
+<code>object$lambda</code> and the new ones before predictions are made. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used. Other arguments to predict.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The object returned depends on type.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Congrui Yi &lt;congrui-yi@uiowa.edu&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Yi, C. and Huang, J. (2016) 
+<em>Semismooth Newton Coordinate Descent Algorithm for 
+Elastic-Net Penalized Huber Loss Regression and Quantile Regression</em>,
+<a href="https://arxiv.org/abs/1509.02957">https://arxiv.org/abs/1509.02957</a> <br />
+<em>Journal of Computational and Graphical Statistics, accepted in Nov 2016</em> <br />
+<a href="http://www.tandfonline.com/doi/full/10.1080/10618600.2016.1256816">http://www.tandfonline.com/doi/full/10.1080/10618600.2016.1256816</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="hqreg.html">hqreg</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+X = matrix(rnorm(1000*100), 1000, 100)
+beta = rnorm(10)
+eps = 4*rnorm(1000)
+y = drop(X[,1:10] %*% beta + eps) 
+fit = hqreg(X, y, method = "quantile", tau = 0.7)
+predict(fit, X[1:5,], lambda = c(0.05, 0.01))
+predict(fit, X[1:5,], lambda = 0.05, exact = TRUE)
+predict(fit, X[1:5,], lambda = 0.05, type = "nvars")
+coef(fit, lambda = 0.05)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hqreg</em> version 1.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

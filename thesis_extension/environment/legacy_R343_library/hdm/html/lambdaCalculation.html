@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function for Calculation of the penalty parameter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for lambdaCalculation {hdm}"><tr><td>lambdaCalculation {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function for Calculation of the penalty parameter</h2>
+
+<h3>Description</h3>
+
+<p>This function implements different methods for calculation of the penalization parameter <i>&lambda;</i>. Further details can be found under <a href="rlasso.html">rlasso</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lambdaCalculation(penalty = list(homoscedastic = FALSE, X.dependent.lambda =
+  FALSE, lambda.start = NULL, c = 1.1, gamma = 0.1), y = NULL, x = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>penalty</code></td>
+<td>
+<p>list with options for the calculation of the penalty. 
+</p>
+
+<ul>
+<li><p><code>c</code> and <code>gamma</code> constants for the penalty with default <code>c=1.1</code> and <code>gamma=0.1</code>
+</p>
+</li>
+<li><p><code>homoscedastic</code> logical, if homoscedastic errors are considered (default <code>FALSE</code>). Option <code>none</code> is described below.
+</p>
+</li>
+<li><p><code>X.dependent.lambda</code> if <code>independent</code> or <code>dependent</code> design matrix <code>X</code> is assumed for calculation of the parameter <i>&lambda;</i>
+</p>
+</li>
+<li><p><code>numSim</code> number of simulations for the X-dependent methods
+</p>
+</li>
+<li><p><code>lambda.start</code> initial penalization value, compulsory for method &quot;none&quot;
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>residual which is used for calculation of the variance or the data-dependent loadings</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>matrix of regressor variables</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The functions returns a list with the penalty <code>lambda</code> which is the product of <code>lambda0</code> and <code>Ups0</code>. <code>Ups0</code>
+denotes either the variance (<code>independent</code> case) or the data-dependent loadings for the regressors. <code>method</code> gives the selected method for the calculation.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

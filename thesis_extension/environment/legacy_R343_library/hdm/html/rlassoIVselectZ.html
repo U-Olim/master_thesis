@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Instrumental Variable Estimation with Lasso</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rlassoIVselectZ {hdm}"><tr><td>rlassoIVselectZ {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Instrumental Variable Estimation with Lasso</h2>
+
+<h3>Description</h3>
+
+<p>This function selects the instrumental variables in the first stage by
+Lasso. First stage predictions are then used in the second stage as optimal
+instruments to estimate the parameter vector. The function returns an element of class <code>rlassoIVselectZ</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rlassoIVselectZ(x, ...)
+
+## Default S3 method:
+rlassoIVselectZ(x, d, y, z, post = TRUE, intercept = TRUE,
+  ...)
+
+## S3 method for class 'formula'
+rlassoIVselectZ(formula, data, post = TRUE,
+  intercept = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>exogenous variables in the structural equation (matrix)</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>endogenous variables in the structural equation (vector or matrix)</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>outcome or dependent variable in the structural equation (vector or matrix)</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>set of potential instruments for the endogenous variables.
+Exogenous variables serve as their own instruments.</p>
+</td></tr>
+<tr valign="top"><td><code>post</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, post-lasso estimation is conducted.</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, intercept is included in the second stage equation.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>An object of class <code>Formula</code> of the form &quot; y ~ x + d | x + z&quot; with y the outcome variable,
+d endogenous variable, z instrumental variables, and x exogenous variables.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. 
+If not found in data, the variables are taken from environment(formula), typically the environment from which <code>rlassoIVselectZ</code> is called.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to the function <code>rlasso</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The implementation follows the procedure described in Belloni et al. (2012).
+Option <code>post=TRUE</code> conducts post-lasso estimation, i.e. a refit of the
+model with the selected variables, to estimate the optimal instruments. The
+parameter vector of the structural equation is then fitted by two-stage
+least square (tsls) estimation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>rlassoIVselectZ</code> containing at least the following
+components: </p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>estimated parameter vector</p>
+</td></tr>
+<tr valign="top"><td><code>vcov</code></td>
+<td>
+<p>variance-covariance matrix</p>
+</td></tr> <tr valign="top"><td><code>residuals</code></td>
+<td>
+
+<p>residuals</p>
+</td></tr> <tr valign="top"><td><code>samplesize</code></td>
+<td>
+<p>sample size</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>D. Belloni, D. Chen, V. Chernozhukov and C. Hansen (2012).
+Sparse models and methods for optimal instruments with an application to
+eminent domain. <em>Econometrica</em> 80 (6), 2369&ndash;2429.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

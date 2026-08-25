@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Eminent Domain data set</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for EminentDomain {hdm}"><tr><td>EminentDomain {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Eminent Domain data set</h2>
+
+<h3>Description</h3>
+
+<p>Dataset on judicial eminent domain decisions.
+</p>
+
+
+<h3>Format</h3>
+
+ 
+<dl>
+<dt>y</dt><dd><p>economic outcome variable</p>
+</dd>
+<dt>x</dt><dd><p>set of exogenous variables</p>
+</dd>
+<dt>d</dt><dd><p>eminent domain decisions</p>
+</dd>
+<dt>z</dt><dd><p>set of potential instruments</p>
+</dd>
+</dl>
+
+
+<h3>Details</h3>
+
+<p>Data set was analyzed in Belloni et al. (2012).  They estimate the effect of judicial eminent domain decisions on economic outcomes with instrumental variables (IV) in a setting high a large set of potential IVs. 
+A detailed decription of the data can be found at 
+<a href="https://www.econometricsociety.org/publications/econometrica/2012/11/01/sparse-models-and-methods-optimal-instruments-application">https://www.econometricsociety.org/publications/econometrica/2012/11/01/sparse-models-and-methods-optimal-instruments-application</a> 
+The data set contains four &quot;sub-data sets&quot; which differ mainly in the dependent variables: repeat-sales FHFA/OFHEO house price index for metro (FHFA) and non-metro (NM) area, the Case-Shiller home price index (CS), 
+and state-level GDP from the Bureau of Economic Analysis - all transformed with the logarithm. The structure of each subdata set is comparable and given above.
+</p>
+
+
+<h3>References</h3>
+
+<p>D. Belloni, D. Chen, V. Chernozhukov and C. Hansen (2012).
+Sparse models and methods for optimal instruments with an application to
+eminent domain. <em>Econometrica</em> 80 (6), 2369&ndash;2429.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(EminentDomain)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

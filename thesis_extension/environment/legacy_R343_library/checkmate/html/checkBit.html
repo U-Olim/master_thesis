@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check if an argument is a bit vector</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for checkBit {checkmate}"><tr><td>checkBit {checkmate}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check if an argument is a bit vector</h2>
+
+<h3>Description</h3>
+
+<p>Check if an argument is a bit vector
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+checkBit(x, len = NULL, min.len = NULL, max.len = NULL, min.0 = NULL,
+  min.1 = NULL, null.ok = FALSE)
+
+check_bit(x, len = NULL, min.len = NULL, max.len = NULL, min.0 = NULL,
+  min.1 = NULL, null.ok = FALSE)
+
+assertBit(x, len = NULL, min.len = NULL, max.len = NULL, min.0 = NULL,
+  min.1 = NULL, null.ok = FALSE, .var.name = vname(x), add = NULL)
+
+assert_bit(x, len = NULL, min.len = NULL, max.len = NULL, min.0 = NULL,
+  min.1 = NULL, null.ok = FALSE, .var.name = vname(x), add = NULL)
+
+testBit(x, len = NULL, min.len = NULL, max.len = NULL, min.0 = NULL,
+  min.1 = NULL, null.ok = FALSE)
+
+test_bit(x, len = NULL, min.len = NULL, max.len = NULL, min.0 = NULL,
+  min.1 = NULL, null.ok = FALSE)
+
+expect_bit(x, len = NULL, min.len = NULL, max.len = NULL, min.0 = NULL,
+  min.1 = NULL, null.ok = FALSE, info = NULL, label = vname(x))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>[any]<br />
+Object to check.</p>
+</td></tr>
+<tr valign="top"><td><code>len</code></td>
+<td>
+<p>[<code>integer(1)</code>]<br />
+Exact expected length of <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>min.len</code></td>
+<td>
+<p>[<code>integer(1)</code>]<br />
+Minimal length of <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>max.len</code></td>
+<td>
+<p>[<code>integer(1)</code>]<br />
+Maximal length of <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>min.0</code></td>
+<td>
+<p>[<code>integer(1)</code>]<br />
+Minimum number of elements being &ldquo;0&rdquo;/<code>FALSE</code>/off.</p>
+</td></tr>
+<tr valign="top"><td><code>min.1</code></td>
+<td>
+<p>[<code>integer(1)</code>]<br />
+Minimum number of elements being &ldquo;1&rdquo;/<code>TRUE</code>/on.</p>
+</td></tr>
+<tr valign="top"><td><code>null.ok</code></td>
+<td>
+<p>[<code>logical(1)</code>]<br />
+If set to <code>TRUE</code>, <code>x</code> may also be <code>NULL</code>.
+In this case only a type check of <code>x</code> is performed, all additional checks are disabled.</p>
+</td></tr>
+<tr valign="top"><td><code>.var.name</code></td>
+<td>
+<p>[<code>character(1)</code>]<br />
+Name of the checked object to print in assertions. Defaults to
+the heuristic implemented in <code><a href="vname.html">vname</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>[<code>AssertCollection</code>]<br />
+Collection to store assertion messages. See <code><a href="AssertCollection.html">AssertCollection</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>info</code></td>
+<td>
+<p>[character(1)]<br />
+Extra information to be included in the message for the testthat reporter.
+See <code><a href="../../testthat/html/expect_that.html">expect_that</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>[<code>character(1)</code>]<br />
+Name of the checked object to print in messages. Defaults to
+the heuristic implemented in <code><a href="vname.html">vname</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Depending on the function prefix:
+If the check is successful, the functions 
+<code>assertBit</code>/<code>assert_bit</code> return 
+<code>x</code> invisibly, whereas
+<code>checkBit</code>/<code>check_bit</code> and 
+<code>testBit</code>/<code>test_bit</code> return 
+<code>TRUE</code>.
+If the check is not successful, 
+<code>assertBit</code>/<code>assert_bit</code>
+throws an error message, 
+<code>testBit</code>/<code>test_bit</code>
+returns <code>FALSE</code>,
+and <code>checkBit</code> returns a string with the error message.
+The function <code>expect_bit</code> always returns an
+<code><a href="../../testthat/html/expectation.html">expectation</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(bit)
+x = as.bit(replace(logical(10), sample(10, 5), TRUE))
+testBit(x, len = 10, min.0 = 1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>checkmate</em> version 1.8.5 <a href="00Index.html">Index</a>]</div>
+</body></html>

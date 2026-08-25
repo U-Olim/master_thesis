@@ -1,0 +1,8 @@
+Repository commit: 81b8f9864f1737823ab3b31e5d7fdee6d4c7c0fd
+Algorithm: SHA-256
+
+1F838AF3E2580BFD4A6BA66F6050EFD1A62AAF71B358D8B83EA3F00B061EF839  simulation/main.R
+90B5E4B0A278A4B3AA90A1899FA009B1B2145E00DFC7B9C430F7EF00F2AFB866  simulation/fun_callback.R
+8E508215CE31B2EAFE6B85004011BABCA0862FAA944071EDBAE3F4DEBB3D5D3B  simulation/simulation_quantreg/quantreg_Belloni _cv.r
+
+Helper trace: simulation/main.R sources only simulation/fun_callback.R. The Table 3 script does not source another repository file.

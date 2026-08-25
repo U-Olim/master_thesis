@@ -1,0 +1,29 @@
+R=3.4.3
+Formula | 1.2-2 | 1.2.2 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+Matrix | 1.2-12 | 1.2.12 | C:/Program Files/R/R-3.4.3/library
+MatrixModels | 0.4-1 | 0.4.1 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+SparseM | 1.77 | 1.77 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+base | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+checkmate | 1.8.5 | 1.8.5 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+codetools | 0.2-15 | 0.2.15 | C:/Program Files/R/R-3.4.3/library
+compiler | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+datasets | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+doSNOW | 1.0.16 | 1.0.16 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+foreach | 1.4.3 | 1.4.3 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+ggplot2 | 2.2.1 | 2.2.1 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+glmnet | 2.0-13 | 2.0.13 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+grDevices | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+graphics | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+grid | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+hdm | 0.2.0 | 0.2.0 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+hqreg | 1.4 | 1.4 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+iterators | 1.0.8 | 1.0.8 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+lattice | 0.20-35 | 0.20.35 | C:/Program Files/R/R-3.4.3/library
+methods | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+mvtnorm | 1.0-6 | 1.0.6 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+parallel | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+quantreg | 5.34 | 5.34 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+snow | 0.4-2 | 0.4.2 | C:/Users/User/master_thesis/thesis_extension/environment/legacy_R343_library
+stats | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+tools | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library
+utils | 3.4.3 | 3.4.3 | C:/Program Files/R/R-3.4.3/library

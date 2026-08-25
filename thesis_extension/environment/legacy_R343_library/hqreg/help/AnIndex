@@ -1,0 +1,10 @@
+hqreg-package	hqreg-package
+coef.cv.hqreg	predict.cv.hqreg
+coef.hqreg	predict.hqreg
+cv.hqreg	cv.hqreg
+hqreg	hqreg
+hqreg_raw	hqreg_raw
+plot.cv.hqreg	plot.cv.hqreg
+plot.hqreg	plot.hqreg
+predict.cv.hqreg	predict.cv.hqreg
+predict.hqreg	predict.hqreg

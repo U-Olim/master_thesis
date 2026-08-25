@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: cps2012 data set</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cps2012 {hdm}"><tr><td>cps2012 {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>cps2012 data set</h2>
+
+<h3>Description</h3>
+
+<p>Census data from the US for the year 2012.
+</p>
+
+
+<h3>Format</h3>
+
+ 
+<dl>
+<dt>lnw</dt><dd><p>log of hourly wage (annual earnings / annual hours)</p>
+</dd>
+<dt>female</dt><dd><p>female indicator</p>
+</dd>
+<dt>married status</dt><dd><p> six indicators: widowed, divorced, separated, nevermarried, and married (omitted)</p>
+</dd>
+<dt>education attainment</dt><dd><p>six indicators: hsd08, hsd911, hsg, cg, ad, and sc (omitted)</p>
+</dd>
+<dt>region indicators</dt><dd><p>four indicators: mw, so, we, and ne (omitted)</p>
+</dd>
+<dt>potential experience</dt><dd><p>(max[0, age - years of education - 7]): exp1, exp2 (divided by 100), exp3 (divided by 1000), exp4 (divided by 10000)</p>
+</dd>
+<dt>weight</dt><dd><p>March Supplement sampling weight</p>
+</dd>
+<dt>year</dt><dd><p>CPS year</p>
+</dd>
+</dl>
+
+
+<h3>Details</h3>
+
+<p>The CPS is a monthly U.S. household survey conducted jointly by the U.S. Census Bureau and the Bureau of Labor Statistics. The data comprise the year 2012. 
+This data set was used in Mulligan and Rubinstein (2008). 
+The sample comprises white non-hipanic, ages 25-54, working full time full year (35+ hours per week at least 50 weeks), exclude living in group quarters, 
+self-employed, military, agricultural, and private household sector, allocated earning, inconsistent report on earnings and employment, missing data.
+</p>
+
+
+<h3>References</h3>
+
+<p>C. B. Mulligan and Y. Rubinstein (2008). Selection, investment, and women's relative wages over time. The Quarterly Journal of Economics, 1061&ndash;1110.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BLP)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

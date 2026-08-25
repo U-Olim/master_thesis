@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Post-Selection and Post-Regularization Inference in Linear...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rlassoIV {hdm}"><tr><td>rlassoIV {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Post-Selection and Post-Regularization Inference in Linear Models with Many
+Controls and Instruments</h2>
+
+<h3>Description</h3>
+
+<p>The function estimates a treatment effect in a setting with very many
+controls and very many instruments (even larger than the sample size).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rlassoIV(x, ...)
+
+## Default S3 method:
+rlassoIV(x, d, y, z, select.Z = TRUE, select.X = TRUE,
+  post = TRUE, ...)
+
+## S3 method for class 'formula'
+rlassoIV(formula, data, select.Z = TRUE, select.X = TRUE,
+  post = TRUE, ...)
+
+rlassoIVmult(x, d, y, z, select.Z = TRUE, select.X = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>matrix of exogenous variables</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>endogenous variable</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>outcome / dependent variable (vector or matrix)</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>matrix of instrumental variables</p>
+</td></tr>
+<tr valign="top"><td><code>select.Z</code></td>
+<td>
+<p>logical, indicating selection on the instruments.</p>
+</td></tr>
+<tr valign="top"><td><code>select.X</code></td>
+<td>
+<p>logical, indicating selection on the exogenous variables.</p>
+</td></tr>
+<tr valign="top"><td><code>post</code></td>
+<td>
+<p>logical, wheter post-Lasso should be conducted (default=<code>TRUE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>An object of class <code>Formula</code> of the form &quot; y ~ x + d | x + z&quot; with y the outcome variable,
+d endogenous variable, z instrumental variables, and x exogenous variables.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. 
+If not found in data, the variables are taken from environment(formula), typically the environment from which <code>rlassoIV</code> is called.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to the function <code>rlasso</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The implementation for selection on x and z follows the procedure described in Chernozhukov et al.
+(2015) and is built on 'triple selection' to achieve an orthogonal moment
+function. The function returns an object of S3 class <code>rlassoIV</code>.
+Moreover, it is wrap function for the case that selection should be done only with the instruments Z (<code>rlassoIVselectZ</code>) or with 
+the control variables X (<code>rlassoIVselectX</code>) or without selection (<code>tsls</code>). Exogenous variables 
+<code>x</code> are automatically used as instruments and added to the
+instrument set <code>z</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>rlassoIV</code> containing at least the following
+components: </p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>estimated parameter value</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>variance-covariance matrix</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>V. Chernozhukov, C. Hansen, M. Spindler (2015). Post-selection
+and post-regularization inference in linear models with many controls and
+instruments. American Economic Review: Paper &amp; Proceedings 105(5), 486&ndash;490.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+data(EminentDomain)
+z &lt;- EminentDomain$logGDP$z # instruments
+x &lt;- EminentDomain$logGDP$x # exogenous variables
+y &lt;- EminentDomain$logGDP$y # outcome varialbe
+d &lt;- EminentDomain$logGDP$d # treatment / endogenous variable
+lasso.IV.Z = rlassoIV(x=x, d=d, y=y, z=z, select.X=FALSE, select.Z=TRUE) 
+summary(lasso.IV.Z)
+confint(lasso.IV.Z)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: rigorous Lasso for Logistic Models: Inference</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rlassologitEffects {hdm}"><tr><td>rlassologitEffects {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>rigorous Lasso for Logistic Models: Inference</h2>
+
+<h3>Description</h3>
+
+<p>The function estimates (low-dimensional) target coefficients in a high-dimensional logistic model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rlassologitEffects(x, ...)
+
+## Default S3 method:
+rlassologitEffects(x, y, index = c(1:ncol(x)), I3 = NULL,
+  post = TRUE, ...)
+
+## S3 method for class 'formula'
+rlassologitEffects(formula, data, I, included = NULL,
+  post = TRUE, ...)
+
+rlassologitEffect(x, y, d, I3 = NULL, post = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>matrix of regressor variables serving as controls and potential
+treatments.  For <code>rlassologitEffect</code> it contains only controls, for <code>rlassologitEffects</code> both controls and potential treatments. For  <code>rlassologitEffects</code> it must have at least two columns.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>outcome variable</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>vector of integers, logical or names indicating the position (column) or name of
+variables of x which should be used as treatment variables.</p>
+</td></tr>
+<tr valign="top"><td><code>I3</code></td>
+<td>
+<p>logical vector with same length as the number of controls;
+indicates if variables (TRUE) should be included in any case.</p>
+</td></tr>
+<tr valign="top"><td><code>post</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, post-Lasso estimation is conducted.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>An element of class <code>formula</code> specifying the linear model.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame, list or environment (or object coercible by as.data.frame to a data frame) containing the variables in the model. 
+If not found in data, the variables are taken from environment(formula), typically the environment from which the function is called.</p>
+</td></tr>
+<tr valign="top"><td><code>I</code></td>
+<td>
+<p>An one-sided formula specifying the variables for which inference is conducted.</p>
+</td></tr>
+<tr valign="top"><td><code>included</code></td>
+<td>
+<p>One-sided formula of variables which should be included in any case.</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>variable for which inference is conducted (treatment variable)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional parameters</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The functions estimates (low-dimensional) target coefficients in a high-dimensional logistic model.
+An application is e.g. estimation of a treatment effect <i>&alpha;_0</i> in a
+setting of high-dimensional controls. The function is a wrap function for <code>rlassologitEffect</code> which does inference for only one variable (d).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns an object of class <code>rlassologitEffects</code> with the following entries: </p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>estimated
+value of the coefficients</p>
+</td></tr> <tr valign="top"><td><code>se</code></td>
+<td>
+<p>standard errors</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+<p>t-statistics</p>
+</td></tr> <tr valign="top"><td><code>pval</code></td>
+<td>
+<p>p-values</p>
+</td></tr> <tr valign="top"><td><code>samplesize</code></td>
+<td>
+<p>sample size of the data set</p>
+</td></tr> <tr valign="top"><td><code>I</code></td>
+<td>
+<p>index of variables of the union of the lasso regressions</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>A. Belloni, V. Chernozhukov, Y. Wei (2013). Honest confidence regions for a regression parameter in logistic regression with a loarge number of controls.
+cemmap working paper CWP67/13.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

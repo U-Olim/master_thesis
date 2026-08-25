@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: rlasso: Function for Lasso estimation under homoscedastic and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rlasso {hdm}"><tr><td>rlasso {hdm}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>rlasso: Function for Lasso estimation under homoscedastic and heteroscedastic non-Gaussian
+disturbances</h2>
+
+<h3>Description</h3>
+
+<p>The function estimates the coefficients of a Lasso regression with
+data-driven penalty under homoscedasticity and heteroscedasticity with non-Gaussian noise and X-dependent or X-independent design. The
+method of the data-driven penalty can be chosen. The object which is
+returned is of the S3 class <code>rlasso</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rlasso(x, ...)
+
+## S3 method for class 'formula'
+rlasso(formula, data, post = TRUE, intercept = TRUE,
+  model = TRUE, penalty = list(homoscedastic = FALSE, X.dependent.lambda =
+  FALSE, lambda.start = NULL, c = 1.1, gamma = 0.1/log(n)),
+  control = list(numIter = 15, tol = 10^-5, threshold = NULL), ...)
+
+## Default S3 method:
+rlasso(x, y, post = TRUE, intercept = TRUE,
+  model = TRUE, penalty = list(homoscedastic = FALSE, X.dependent.lambda =
+  FALSE, lambda.start = NULL, c = 1.1, gamma = 0.1/log(n)),
+  control = list(numIter = 15, tol = 10^-5, threshold = NULL), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>regressors (vector, matrix or object can be coerced to matrix)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (only for consistent defintion of methods)</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>an object of class &quot;formula&quot; (or one that can be coerced to
+that class): a symbolic description of the model to be fitted in the form
+<code>y~x</code></p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame, list or environment (or object coercible
+by as.data.frame to a data frame) containing the variables in the model. If
+not found in data, the variables are taken from environment(formula),
+typically the environment from which <code>rlasso</code> is called.</p>
+</td></tr>
+<tr valign="top"><td><code>post</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, post-Lasso estimation is conducted.</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, intercept is included which is not
+penalized.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>logical. If <code>TRUE</code> (default), model matrix is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>penalty</code></td>
+<td>
+<p>list with options for the calculation of the penalty. 
+</p>
+
+<ul>
+<li><p><code>c</code> and <code>gamma</code> constants for the penalty with default <code>c=1.1</code> and <code>gamma=0.1</code>
+</p>
+</li>
+<li><p><code>homoscedastic</code> logical, if homoscedastic errors are considered (default <code>FALSE</code>). Option <code>none</code> is described below.
+</p>
+</li>
+<li><p><code>X.dependent.lambda</code> logical,  <code>TRUE</code>, if the penalization parameter depends on the the design of the matrix <code>x</code>. <code>FALSE</code>, if independent of the design matrix  (default).
+</p>
+</li>
+<li><p><code>numSim</code> number of simulations for the dependent methods, default=5000
+</p>
+</li>
+<li><p><code>lambda.start</code> initial penalization value, compulsory for method &quot;none&quot;
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>list with control values.
+<code>numIter</code> number of iterations for the algorithm for
+the estimation of the variance and data-driven penalty, ie. loadings,
+<code>tol</code> tolerance for improvement of the estimated variances.
+<code>threshold</code> is applied to the final estimated lasso
+coefficients. Absolute values below the threshold are set to zero.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>dependent variable (vector, matrix or object can be coerced to matrix)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function estimates the coefficients of a Lasso regression with
+data-driven penalty under homoscedasticity / heteroscedasticity and non-Gaussian noise. The options <code>homoscedastic</code> is a logical with <code>FALSE</code> by default.
+Moreover, for the calculation of the penalty parameter it can be chosen, if the penalization parameter depends on the  design matrix (<code>X.dependent.lambda=TRUE</code>) or <code>independent</code> (default, <code>X.dependent.lambda=FALSE</code>).
+The default value of the constant <code>c</code> is <code>1.1</code> in the post-Lasso case and <code>0.5</code> in the Lasso case. 
+A <em>special</em> option is to set <code>homoscedastic</code> to <code>none</code> and to supply a values <code>lambda.start</code>. Then this value is used as penalty parameter with independent design and heteroscedastic errors to weight the regressors.
+For details of the
+implementation of the Algorithm for estimation of the data-driven penalty,
+in particular the regressor-independent loadings, we refer to Appendix A in
+Belloni et al. (2012). When the option &quot;none&quot; is chosen for <code>homoscedastic</code> (together with
+<code>lambda.start</code>), lambda is set to <code>lambda.start</code> and the
+regressor-independent loadings und heteroscedasticity are used. The options &quot;X-dependent&quot; and
+&quot;X-independent&quot; under homoscedasticity are described in Belloni et al. (2013).
+</p>
+<p>The option <code>post=TRUE</code> conducts post-lasso estimation, i.e. a refit of
+the model with the selected variables.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>rlasso</code> returns an object of class <code>rlasso</code>. An object of
+class &quot;rlasso&quot; is a list containing at least the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p>parameter estimates</p>
+</td></tr>
+<tr valign="top"><td><code>beta</code></td>
+<td>
+<p>parameter estimates (named vector of coefficients without intercept)</p>
+</td></tr>
+<tr valign="top"><td><code>intercept</code></td>
+<td>
+<p>value of the intercept</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>index of selected
+variables (logical vector)</p>
+</td></tr> <tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>data-driven penalty term for each
+variable, product of lambda0 (the penalization parameter) and the loadings</p>
+</td></tr>
+<tr valign="top"><td><code>lambda0</code></td>
+<td>
+<p>penalty term</p>
+</td></tr> <tr valign="top"><td><code>loadings</code></td>
+<td>
+<p>loading for each regressor</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>residuals, response minus fitted values</p>
+</td></tr> <tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>root of the variance of
+the residuals</p>
+</td></tr> <tr valign="top"><td><code>iter</code></td>
+<td>
+<p>number of iterations</p>
+</td></tr> <tr valign="top"><td><code>call</code></td>
+<td>
+<p>function call</p>
+</td></tr>
+<tr valign="top"><td><code>options</code></td>
+<td>
+<p>options</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>model matrix (if <code>model = TRUE</code> in function call)</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>A. Belloni, D. Chen, V. Chernozhukov and C. Hansen (2012).
+Sparse models and methods for optimal instruments with an application to
+eminent domain. <em>Econometrica</em> 80 (6), 2369-2429.
+</p>
+<p>A. Belloni, V. Chernozhukov and C. Hansen (2013). Inference for
+high-dimensional sparse econometric models. In Advances in Economics and
+Econometrics: 10th World Congress, Vol. 3: Econometrics, Cambirdge
+University Press: Cambridge, 245-295.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(1)
+n = 100 #sample size
+p = 100 # number of variables
+s = 3 # nubmer of variables with non-zero coefficients
+X = Xnames = matrix(rnorm(n*p), ncol=p)
+colnames(Xnames) &lt;- paste("V", 1:p, sep="")
+beta = c(rep(5,s), rep(0,p-s))
+Y = X%*%beta + rnorm(n)
+reg.lasso &lt;- rlasso(Y~Xnames)
+Xnew = matrix(rnorm(n*p), ncol=p)  # new X
+colnames(Xnew) &lt;- paste("V", 1:p, sep="")
+Ynew =  Xnew%*%beta + rnorm(n)  #new Y
+yhat = predict(reg.lasso, newdata = Xnew)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hdm</em> version 0.2.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

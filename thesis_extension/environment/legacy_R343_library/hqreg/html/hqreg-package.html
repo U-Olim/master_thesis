@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Regularization Paths for Lasso or Elastic-net Penalized Huber...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for hqreg-package {hqreg}"><tr><td>hqreg-package {hqreg}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Regularization Paths for Lasso or Elastic-net Penalized Huber Loss Regression and Quantile Regression</h2>
+
+<h3>Description</h3>
+
+<p>Efficient algorithms for fitting regularization paths for lasso or elastic-net penalized regression models with 
+Huber loss, quantile loss or squared loss.</p>
+
+
+<h3>Details</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Package: </td><td style="text-align: left;"> hqreg</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Type: </td><td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Version: </td><td style="text-align: left;"> 1.4</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Date: </td><td style="text-align: left;"> 2017-2-15</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+License: </td><td style="text-align: left;"> GPL-3</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>Very simple to use. Accepts <code>X,y</code> data for regression models, and
+produces the regularization path over a grid of values for the tuning
+parameter <code>lambda</code>. Also provides functions for plotting, prediction and parallelized cross-validation.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Congrui Yi &lt;congrui-yi@uiowa.edu&gt;</p>
+
+
+<h3>References</h3>
+
+<p>Yi, C. and Huang, J. (2016) 
+<em>Semismooth Newton Coordinate Descent Algorithm for 
+Elastic-Net Penalized Huber Loss Regression and Quantile Regression</em>,
+<a href="https://arxiv.org/abs/1509.02957">https://arxiv.org/abs/1509.02957</a> <br />
+<em>Journal of Computational and Graphical Statistics, accepted in Nov 2016</em> <br />
+<a href="http://www.tandfonline.com/doi/full/10.1080/10618600.2016.1256816">http://www.tandfonline.com/doi/full/10.1080/10618600.2016.1256816</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+X = matrix(rnorm(1000*100), 1000, 100)
+beta = rnorm(10)
+eps = 4*rnorm(1000)
+y = drop(X[,1:10] %*% beta + eps) 
+
+# Huber loss
+fit1 = hqreg(X, y)
+coef(fit1, 0.01)
+predict(fit1, X[1:5,], lambda = c(0.02, 0.01))
+cv.fit1 = cv.hqreg(X, y)
+plot(cv.fit1)
+
+# Quantile loss
+fit2 = hqreg(X, y, method = "quantile", tau = 0.2)
+plot(fit2)
+
+# Squared loss
+fit3 = hqreg(X, y, method = "ls", preprocess = "rescale")
+plot(fit3, xvar = "norm")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>hqreg</em> version 1.4 <a href="00Index.html">Index</a>]</div>
+</body></html>

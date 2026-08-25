@@ -1,0 +1,36 @@
+AJR                     AJR data set
+BLP                     BLP data set
+EminentDomain           Eminent Domain data set
+Growth Data             Growth data set
+LassoShooting.fit       Shooting Lasso
+cps2012                 cps2012 data set
+hdm-package             hdm: High-Dimensional Metrics
+lambdaCalculation       Function for Calculation of the penalty
+                        parameter
+pension                 Pension 401(k) data set
+predict.rlassologit     Methods for S3 object 'rlassologit'
+print.rlasso            Methods for S3 object 'rlasso'
+print.rlassoEffects     Methods for S3 object 'rlassoEffects'
+print.rlassoIV          Methods for S3 object 'rlassoIV'
+print.rlassoIVselectX   Methods for S3 object 'rlassoIVselectX'
+print.rlassoIVselectZ   Methods for S3 object 'rlassoIVselectZ'
+print.rlassoTE          Methods for S3 object 'rlassoTE'
+print.rlassologitEffects
+                        Methods for S3 object 'rlassologitEffects'
+print.tsls              Methods for S3 object 'tsls'
+rlasso                  rlasso: Function for Lasso estimation under
+                        homoscedastic and heteroscedastic non-Gaussian
+                        disturbances
+rlassoATE               Functions for estimation of treatment effects
+rlassoEffects           rigorous Lasso for Linear Models: Inference
+rlassoIV                Post-Selection and Post-Regularization
+                        Inference in Linear Models with Many Controls
+                        and Instruments
+rlassoIVselectX         Instrumental Variable Estimation with Selection
+                        on the exogenous Variables by Lasso
+rlassoIVselectZ         Instrumental Variable Estimation with Lasso
+rlassologit             rlassologit: Function for logistic Lasso
+                        estimation
+rlassologitEffects      rigorous Lasso for Logistic Models: Inference
+summary.rlassoEffects   Summarizing rlassoEffects fits
+tsls                    Two-Stage Least Squares Estimation (TSLS)
