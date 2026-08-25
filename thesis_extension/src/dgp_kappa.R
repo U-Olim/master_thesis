@@ -24,7 +24,7 @@ make_kappa_dataset <- function(primitives, kappa, s = 7L) {
     Z2 <- z2 + v2 + X[, 7] + X[, 8] + X[, 9] + X[, 10]
     Z <- matrix(cbind(Z1, Z2), nrow = length(D))
     b <- matrix(c(rep(5, s), rep(0, ncol(X) - s)))
-    y <- drop(1 + D + X %*% b + u * D)
+    y <- 1 + D + X %*% b + u * D
     list(y = y, D = D, d = d, X = X, X1 = X[, 1:10], Z = Z,
          kappa = kappa, primitives = primitives)
   })

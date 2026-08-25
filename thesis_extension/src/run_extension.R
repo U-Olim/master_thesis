@@ -12,16 +12,24 @@ run_extension <- function(sample_size, replications, tau_values, kappa_values,
     W <- rep(NA_real_, length(cfg$alpha_grid)); errs <- list()
     for (j in seq_along(cfg$alpha_grid)) {
       attempt <- tryCatch(author_gmm_candidate(dat$y, dat$D, controls, dat$Z, tau, cfg$alpha_grid[j]), error = identity)
-      if (inherits(attempt, "error")) errs[[length(errs) + 1L]] <- list(a = cfg$alpha_grid[j], message = conditionMessage(attempt)) else W[j] <- attempt
+      if (inherits(attempt, "error")) {
+        errs[[length(errs) + 1L]] <- list(a = cfg$alpha_grid[j], message = conditionMessage(attempt))
+      } else if (!is.finite(attempt)) {
+        errs[[length(errs) + 1L]] <- list(a = cfg$alpha_grid[j], message = "non-finite W")
+      } else W[j] <- attempt
     }
     list(alpha_grid = cfg$alpha_grid, W = W,
-         alpha_hat = if (all(!is.finite(W))) NA_real_ else cfg$alpha_grid[which.min(W)], errors = errs)
+         alpha_hat = if (any(!is.finite(W))) NA_real_ else cfg$alpha_grid[which.min(W)], errors = errs)
   }
   safe_direct <- function(fun, points, labels, replication, tau, kappa, estimator) {
     out <- rep(NA_real_, length(points))
     for (j in seq_along(points)) {
       attempt <- tryCatch(fun(points[j]), error = identity)
-      if (inherits(attempt, "error")) add_failure(replication, tau, kappa, estimator, points[j], labels[j], conditionMessage(attempt)) else out[j] <- attempt
+      if (inherits(attempt, "error")) {
+        add_failure(replication, tau, kappa, estimator, points[j], labels[j], conditionMessage(attempt))
+      } else if (!is.finite(attempt)) {
+        add_failure(replication, tau, kappa, estimator, points[j], labels[j], "non-finite W")
+      } else out[j] <- attempt
     }
     out
   }
@@ -47,6 +55,7 @@ run_extension <- function(sample_size, replications, tau_values, kappa_values,
         } else stop("Unknown estimator: ", estimator)
         for (err in profile$errors) add_failure(replication, tau, kappa, estimator, err$a, "profile_candidate", err$message)
         diag <- grid_profile_diagnostics(profile, cfg$critical_value, cfg$grid_step)
+        profile$alpha_hat <- if (diag$profile_failed) NA_real_ else profile$alpha_hat
         truth <- alpha_true(tau)
         direct_points <- c(truth, truth + cfg$power_delta)
         direct_labels <- c("true_value", paste0("power_delta_", cfg$power_delta))
@@ -66,13 +75,18 @@ run_extension <- function(sample_size, replications, tau_values, kappa_values,
           direct_W <- safe_direct(candidate, direct_points, direct_labels, replication, tau, kappa, estimator)
         }
         em <- estimation_metrics(profile$alpha_hat, truth)
-        failed <- any(!is.finite(profile$W)) || !is.finite(direct_W[1])
+        covered <- classify_coverage(direct_W[1], cfg$critical_value)
+        rejected_true <- classify_rejection(direct_W[1], cfg$critical_value)
+        coverage_failed <- !is.finite(direct_W[1])
+        rejected_false <- classify_rejection(direct_W[-1], cfg$critical_value)
+        false_acceptance <- ifelse(is.na(rejected_false), NA, 1 - as.integer(rejected_false))
+        power_evaluation_failed <- !is.finite(direct_W[-1])
+        failed <- diag$profile_failed || coverage_failed || any(power_evaluation_failed)
         results[[length(results) + 1L]] <- data.frame(
           n = sample_size, replication = replication, tau = tau, kappa = kappa, estimator = estimator,
           alpha_true = truth, alpha_hat = profile$alpha_hat, signed_error = em["signed_error"],
           bias = em["bias"], absolute_error = em["absolute_error"], squared_error = em["squared_error"],
-          W_true = direct_W[1], covered = direct_W[1] <= cfg$critical_value,
-          rejected_true = direct_W[1] > cfg$critical_value,
+          W_true = direct_W[1], covered = covered, rejected_true = rejected_true,
           grid_accepted_set_measure = diag$grid_accepted_set_measure,
           accepted_grid_share = diag$accepted_grid_share,
           left_boundary_accepted = diag$left_boundary_accepted,
@@ -80,12 +94,14 @@ run_extension <- function(sample_size, replications, tau_values, kappa_values,
           either_boundary_accepted = diag$either_boundary_accepted,
           both_boundaries_accepted = diag$both_boundaries_accepted,
           all_41_grid_points_accepted = diag$all_41_grid_points_accepted,
-          number_accepted_grid_points = diag$number_accepted_grid_points, failed = failed)
+          number_accepted_grid_points = diag$number_accepted_grid_points,
+          profile_failed = diag$profile_failed, coverage_failed = coverage_failed, failed = failed)
         power[[length(power) + 1L]] <- data.frame(
           n = sample_size, replication = replication, tau = tau, kappa = kappa, estimator = estimator,
           Delta = cfg$power_delta, a_false = truth + cfg$power_delta, W_false = direct_W[-1],
-          rejection = direct_W[-1] > cfg$critical_value,
-          false_acceptance = 1 - as.integer(direct_W[-1] > cfg$critical_value))
+          rejected_false = rejected_false, rejection = rejected_false,
+          false_acceptance = false_acceptance,
+          power_evaluation_failed = power_evaluation_failed)
         profiles[[length(profiles) + 1L]] <- data.frame(
           n = sample_size, replication = replication, tau = tau, kappa = kappa,
           estimator = estimator, a = cfg$alpha_grid, W = profile$W, accepted = diag$accepted)

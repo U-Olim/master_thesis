@@ -31,13 +31,13 @@ author_bc_candidate <- function(y, D, X, Z, tau, a, return_details = FALSE) {
 }
 
 author_bc_evaluate <- function(y, D, X, Z, tau, points, core = 5L) {
-  cl <- parallel::makeCluster(core)
-  on.exit(parallel::stopCluster(cl), add = TRUE)
+  cl <- snow::makeCluster(core)
+  on.exit(snow::stopCluster(cl), add = TRUE)
   doSNOW::registerDoSNOW(cl)
   `%dopar%` <- foreach::`%dopar%`
   values <- foreach::foreach(
     a = points, .inorder = TRUE, .errorhandling = "pass",
-    .packages = c("quantreg", "hdm"),
+    .packages = c("hqreg", "quantreg", "hdm"),
     .export = c("author_bc_candidate", "lambda_BC_author", "norm2n_author")
   ) %dopar% author_bc_candidate(y, D, X, Z, tau, a)
   W <- vapply(values, function(value) if (inherits(value, "error")) NA_real_ else as.numeric(value), numeric(1))
@@ -48,6 +48,6 @@ author_bc_evaluate <- function(y, D, X, Z, tau, points, core = 5L) {
 
 author_bc_profile <- function(y, D, X, Z, tau, alpha_grid, core = 5L) {
   evaluated <- author_bc_evaluate(y, D, X, Z, tau, alpha_grid, core)
-  list(alpha_hat = if (all(!is.finite(evaluated$W))) NA_real_ else alpha_grid[which.min(evaluated$W)],
+  list(alpha_hat = if (any(!is.finite(evaluated$W))) NA_real_ else alpha_grid[which.min(evaluated$W)],
        W = evaluated$W, alpha_grid = alpha_grid, errors = evaluated$errors)
 }
