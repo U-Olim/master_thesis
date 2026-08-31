@@ -1,35 +1,40 @@
-POST-FINAL GRID-SENSITIVITY SMOKE TEST REPORT
-Git SHA: 21dfc7fa582fd479d559c8a154558a58fd304153
+PRE-SPECIFIED TWO-STAGE GRID-SENSITIVITY STAGE-1 SMOKE TEST REPORT
+Git SHA: 12a527368c6fcd7d003a86c768bda5aef5cc5e2e
 Environment result: AUTHOR R343 ENVIRONMENT CHECK: PASS
-Exact command: "C:/Program Files/R/R-3.4.3/bin/x64/Rscript.exe" "C:/Users/User/master_thesis/thesis_extension/diagnostics/grid_sensitivity/run_grid_sensitivity.R" --smoke
-Start time: 2026-08-31 05:17:24 UTC
-End time: 2026-08-31 05:19:24 UTC
-Profile rows: 726
-Range metric rows: 18
-Expansion metric rows: 6
+Exact command: "C:/Program Files/R/R-3.4.3/bin/x64/Rscript.exe" "C:/Users/User/master_thesis/thesis_extension/diagnostics/grid_sensitivity/run_grid_sensitivity.R" --smoke-stage1
+Start time: 2026-08-31 05:51:12 UTC
+End time: 2026-08-31 05:52:11 UTC
+Profile rows: 486
+Range metric rows: 12
+Expansion rows: 6
 Failures: 0
 Warnings: R and worker startup: Setting LC_CTYPE=C.UTF-8 failed; R used the C locale
+Encoded trigger rule: Stage 2 is triggered if any kappa in {0.25,0.10}, tau, estimator cell has either either_boundary_acceptance_rate >= 0.05 OR outer_band_contact_rate >= 0.10.
 Validation checks:
 environment_guard_passed: PASS
-profile_row_count: PASS
-range_metric_row_count: PASS
-expansion_metric_row_count: PASS
-every_wide_profile_has_121_points: PASS
-A1_has_41_points: PASS
-A2_has_81_points: PASS
-A3_has_121_points: PASS
-shared_W_values_identical_by_single_profile_subsetting: PASS
+profile_row_count_486: PASS
+range_metric_row_count_12: PASS
+expansion_row_count_6: PASS
+six_stage1_profiles: PASS
+every_stage1_profile_has_81_points: PASS
+A0_has_41_points: PASS
+A1_has_81_points: PASS
+A0_is_only_a_subset_of_A1: PASS
+shared_A0_W_values_are_identical: PASS
 critical_value_is_qchisq_95_df2: PASS
-protected_author_files_unchanged: PASS
-protected_extension_files_unchanged: PASS
-failure_scope_validation: PASS
+outer_band_definition_exact: PASS
+trigger_thresholds_exact: PASS
+weak_trigger_kappa_exact: PASS
+failure_scope_logic: PASS
+primitive_save_load_roundtrip: PASS
+primitive_hash_verification: PASS
+primitive_hash_mismatch_is_rejected: PASS
 profile_schema: PASS
 range_metric_schema: PASS
-expansion_metric_schema: PASS
 failure_schema: PASS
-summary_schema: PASS
-expansion_summary_schema: PASS
-summary_row_count: PASS
-expansion_summary_row_count: PASS
-full_R300_not_started: PASS
+protected_author_code_unchanged: PASS
+protected_extension_code_unchanged: PASS
+stage1_R100_not_started: PASS
+stage2_not_started: PASS
+obsolete_execute_diagnostic_disabled: PASS
 Conclusion: PASS

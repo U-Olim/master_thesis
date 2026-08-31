@@ -1,5 +1,20 @@
-# Raw grid profiles and replication-level metrics are generated artifacts.
-# The full diagnostic versions are intentionally excluded from version control.
+# All smoke CSVs are disposable validation artifacts.
+output/smoke/*.csv
+output/smoke/primitives/
+
+# Large Stage-1 generated artifacts.
+output/stage1/stage1_profiles.csv
+output/stage1/stage1_range_metrics.csv
+output/stage1/stage1_expansion_metrics.csv
+output/stage1/primitives/
+
+# Large Stage-2 generated artifacts.
+output/stage2/stage2_tail_profiles.csv
+output/stage2/combined_profiles_-5_7.csv
+output/stage2/stage2_range_metrics.csv
+output/stage2/stage2_expansion_metrics.csv
+
+# Obsolete one-shot smoke artifacts retained locally but never recommitted.
 output/grid_sensitivity_profiles.csv
 output/grid_sensitivity_range_metrics.csv
 output/grid_sensitivity_expansion_metrics.csv
