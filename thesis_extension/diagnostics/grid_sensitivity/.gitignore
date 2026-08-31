@@ -1,0 +1,5 @@
+# Raw grid profiles and replication-level metrics are generated artifacts.
+# The full diagnostic versions are intentionally excluded from version control.
+output/grid_sensitivity_profiles.csv
+output/grid_sensitivity_range_metrics.csv
+output/grid_sensitivity_expansion_metrics.csv

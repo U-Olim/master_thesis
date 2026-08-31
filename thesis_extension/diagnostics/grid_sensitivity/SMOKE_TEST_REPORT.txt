@@ -1,0 +1,35 @@
+POST-FINAL GRID-SENSITIVITY SMOKE TEST REPORT
+Git SHA: 21dfc7fa582fd479d559c8a154558a58fd304153
+Environment result: AUTHOR R343 ENVIRONMENT CHECK: PASS
+Exact command: "C:/Program Files/R/R-3.4.3/bin/x64/Rscript.exe" "C:/Users/User/master_thesis/thesis_extension/diagnostics/grid_sensitivity/run_grid_sensitivity.R" --smoke
+Start time: 2026-08-31 05:17:24 UTC
+End time: 2026-08-31 05:19:24 UTC
+Profile rows: 726
+Range metric rows: 18
+Expansion metric rows: 6
+Failures: 0
+Warnings: R and worker startup: Setting LC_CTYPE=C.UTF-8 failed; R used the C locale
+Validation checks:
+environment_guard_passed: PASS
+profile_row_count: PASS
+range_metric_row_count: PASS
+expansion_metric_row_count: PASS
+every_wide_profile_has_121_points: PASS
+A1_has_41_points: PASS
+A2_has_81_points: PASS
+A3_has_121_points: PASS
+shared_W_values_identical_by_single_profile_subsetting: PASS
+critical_value_is_qchisq_95_df2: PASS
+protected_author_files_unchanged: PASS
+protected_extension_files_unchanged: PASS
+failure_scope_validation: PASS
+profile_schema: PASS
+range_metric_schema: PASS
+expansion_metric_schema: PASS
+failure_schema: PASS
+summary_schema: PASS
+expansion_summary_schema: PASS
+summary_row_count: PASS
+expansion_summary_row_count: PASS
+full_R300_not_started: PASS
+Conclusion: PASS
