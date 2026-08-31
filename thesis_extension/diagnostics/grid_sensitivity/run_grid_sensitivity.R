@@ -287,7 +287,9 @@ if (mode == "--execute-stage2") {
   if (nrow(stage1_profiles) != 364500L || length(table(stage1_groups)) != 4500L ||
       !all(table(stage1_groups) == 81L) ||
       !all(vapply(split(stage1_profiles$a, stage1_groups),
-                  function(a) identical(as.numeric(a), cfg$stage1_grid), logical(1)))) {
+                  function(a) length(a) == length(cfg$stage1_grid) &&
+                    all(is.finite(as.numeric(a))) &&
+                    all(abs(as.numeric(a) - cfg$stage1_grid) <= 1e-14), logical(1)))) {
     stop("Stage 2 blocked: Stage-1 profile dimensions/grid are invalid. No Stage-2 estimator work has started.")
   }
   assert_output_namespace_empty(stage2_dir, "Stage 2")
