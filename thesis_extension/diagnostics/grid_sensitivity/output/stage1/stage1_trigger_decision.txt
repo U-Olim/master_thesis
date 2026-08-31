@@ -1,0 +1,127 @@
+STAGE2_TRIGGER = TRUE
+FROZEN_RULE = Stage 2 is triggered if any kappa in {0.25,0.10}, tau, estimator cell has either either_boundary_acceptance_rate >= 0.05 OR outer_band_contact_rate >= 0.10.
+TRIGGERED_CELLS:
+    n  tau kappa   estimator total_replications failed_profiles
+ 1000 0.10  0.10 DML-IVQR-BC                100               0
+ 1000 0.10  0.10    Full-GMM                100               0
+ 1000 0.10  0.10  Oracle-GMM                100               0
+ 1000 0.10  0.25 DML-IVQR-BC                100               0
+ 1000 0.10  0.25    Full-GMM                100               0
+ 1000 0.10  0.25  Oracle-GMM                100               0
+ 1000 0.25  0.10 DML-IVQR-BC                100               0
+ 1000 0.25  0.10    Full-GMM                100               0
+ 1000 0.25  0.10  Oracle-GMM                100               0
+ 1000 0.25  0.25 DML-IVQR-BC                100               0
+ 1000 0.25  0.25    Full-GMM                100               0
+ 1000 0.25  0.25  Oracle-GMM                100               0
+ 1000 0.50  0.10 DML-IVQR-BC                100               0
+ 1000 0.50  0.10    Full-GMM                100               0
+ 1000 0.50  0.10  Oracle-GMM                100               0
+ 1000 0.50  0.25 DML-IVQR-BC                100               0
+ 1000 0.50  0.25    Full-GMM                100               0
+ 1000 0.50  0.25  Oracle-GMM                100               0
+ 1000 0.75  0.10 DML-IVQR-BC                100               0
+ 1000 0.75  0.10    Full-GMM                100               0
+ 1000 0.75  0.10  Oracle-GMM                100               0
+ 1000 0.75  0.25 DML-IVQR-BC                100               0
+ 1000 0.75  0.25    Full-GMM                100               0
+ 1000 0.75  0.25  Oracle-GMM                100               0
+ 1000 0.90  0.10 DML-IVQR-BC                100               0
+ 1000 0.90  0.10    Full-GMM                100               0
+ 1000 0.90  0.10  Oracle-GMM                100               0
+ 1000 0.90  0.25 DML-IVQR-BC                100               0
+ 1000 0.90  0.25    Full-GMM                100               0
+ 1000 0.90  0.25  Oracle-GMM                100               0
+ either_boundary_acceptance_count either_boundary_acceptance_rate
+                               99                            0.99
+                               98                            0.98
+                              100                            1.00
+                               98                            0.98
+                               84                            0.84
+                               77                            0.77
+                               99                            0.99
+                               93                            0.93
+                               93                            0.93
+                               74                            0.74
+                               39                            0.39
+                               36                            0.36
+                               93                            0.93
+                               89                            0.89
+                               89                            0.89
+                               34                            0.34
+                               24                            0.24
+                               20                            0.20
+                               97                            0.97
+                               92                            0.92
+                               96                            0.96
+                               45                            0.45
+                               55                            0.55
+                               47                            0.47
+                               98                            0.98
+                               99                            0.99
+                              100                            1.00
+                               77                            0.77
+                               80                            0.80
+                               76                            0.76
+ outer_band_contact_count outer_band_contact_rate boundary_rule_triggered
+                      100                    1.00                    TRUE
+                      100                    1.00                    TRUE
+                      100                    1.00                    TRUE
+                      100                    1.00                    TRUE
+                       98                    0.98                    TRUE
+                       83                    0.83                    TRUE
+                      100                    1.00                    TRUE
+                       99                    0.99                    TRUE
+                       97                    0.97                    TRUE
+                       81                    0.81                    TRUE
+                       64                    0.64                    TRUE
+                       45                    0.45                    TRUE
+                       94                    0.94                    TRUE
+                       92                    0.92                    TRUE
+                       89                    0.89                    TRUE
+                       44                    0.44                    TRUE
+                       40                    0.40                    TRUE
+                       29                    0.29                    TRUE
+                       99                    0.99                    TRUE
+                       99                    0.99                    TRUE
+                       97                    0.97                    TRUE
+                       51                    0.51                    TRUE
+                       70                    0.70                    TRUE
+                       58                    0.58                    TRUE
+                       99                    0.99                    TRUE
+                      100                    1.00                    TRUE
+                      100                    1.00                    TRUE
+                       83                    0.83                    TRUE
+                       96                    0.96                    TRUE
+                       86                    0.86                    TRUE
+ outer_band_rule_triggered cell_triggered
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE
+                      TRUE           TRUE

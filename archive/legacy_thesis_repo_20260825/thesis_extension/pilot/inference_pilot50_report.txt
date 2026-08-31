@@ -1,0 +1,130 @@
+50-replication full-design inference pilot
+
+R version: R version 3.4.3 (2017-11-30)
+Master seed: 20260818
+Start timestamp: 2026-08-13 01:24:31
+End timestamp: 2026-08-13 05:40:44
+Elapsed wall-clock seconds: 15373.2298219
+Sum of per-replication elapsed seconds: 102703.873888
+Approximate wall-clock seconds per replication: 307.4645964
+Parallel workers may overlap replication elapsed intervals.
+
+Expected/actual raw rows: 6000 / 6000
+Expected/actual power rows: 24000 / 24000
+Expected/actual summary rows: 120 / 120
+Power-summary rows: 480
+Diagnostic rows: 120
+
+W failures: 0
+Non-OK raw statuses: 0
+CR-length NA count: 0
+Coverage failures: 0
+Power failures: 0
+Point left-boundary hits: 47
+Point right-boundary hits: 61
+CR left-boundary contacts: 2293
+CR right-boundary contacts: 2445
+Full-A CRs: 721
+CR-length range: 0 to 4
+
+BC penalties generated: 500 (expected 500)
+All penalty-reuse checks: TRUE
+All exact truth mappings: TRUE
+All exact power mappings: TRUE
+
+Checkpoint/restart rule:
+set.seed(20260818) deterministically creates 50 distinct replication seeds.
+Each replication resets to its assigned seed and writes one atomic RDS checkpoint.
+A resumed/parallel run validates and skips completed checkpoints, so worker order
+and interruption cannot alter any replication's random draws or duplicate results.
+
+Coverage ranges by estimator (50-replication pilot only):
+ estimator  min_coverage max_coverage
+ DML-IVQR   0.50         1.00        
+ Full-GMM   0.36         0.98        
+ Oracle-GMM 0.76         0.98        
+
+Median CR length and full-A proportions across kappa (median over n/tau cells):
+ estimator  kappa median_CR_length proportion_CR_all_A
+ DML-IVQR   0.10  3.93750          0.45               
+ Full-GMM   0.10  3.85000          0.22               
+ Oracle-GMM 0.10  3.95000          0.44               
+ DML-IVQR   0.25  3.21875          0.16               
+ Full-GMM   0.25  3.41875          0.06               
+ Oracle-GMM 0.25  3.33125          0.13               
+ DML-IVQR   0.50  1.23750          0.00               
+ Full-GMM   0.50  1.83750          0.00               
+ Oracle-GMM 0.50  1.13750          0.00               
+ DML-IVQR   1.00  0.47500          0.00               
+ Full-GMM   1.00  0.77500          0.00               
+ Oracle-GMM 1.00  0.37500          0.00               
+
+Mean cell-level power across kappa and delta (averaged over n/tau; diagnostic):
+ estimator  kappa delta power
+ DML-IVQR   0.10  -0.50 0.126
+ Full-GMM   0.10  -0.50 0.078
+ Oracle-GMM 0.10  -0.50 0.084
+ DML-IVQR   0.25  -0.50 0.228
+ Full-GMM   0.25  -0.50 0.166
+ Oracle-GMM 0.25  -0.50 0.230
+ DML-IVQR   0.50  -0.50 0.514
+ Full-GMM   0.50  -0.50 0.362
+ Oracle-GMM 0.50  -0.50 0.566
+ DML-IVQR   1.00  -0.50 0.842
+ Full-GMM   1.00  -0.50 0.696
+ Oracle-GMM 1.00  -0.50 0.886
+ DML-IVQR   0.10  -0.25 0.074
+ Full-GMM   0.10  -0.25 0.074
+ Oracle-GMM 0.10  -0.25 0.074
+ DML-IVQR   0.25  -0.25 0.096
+ Full-GMM   0.25  -0.25 0.092
+ Oracle-GMM 0.25  -0.25 0.136
+ DML-IVQR   0.50  -0.25 0.170
+ Full-GMM   0.50  -0.25 0.218
+ Oracle-GMM 0.50  -0.25 0.322
+ DML-IVQR   1.00  -0.25 0.414
+ Full-GMM   1.00  -0.25 0.504
+ Oracle-GMM 1.00  -0.25 0.678
+ DML-IVQR   0.10   0.25 0.052
+ Full-GMM   0.10   0.25 0.060
+ Oracle-GMM 0.10   0.25 0.072
+ DML-IVQR   0.25   0.25 0.098
+ Full-GMM   0.25   0.25 0.076
+ Oracle-GMM 0.25   0.25 0.108
+ DML-IVQR   0.50   0.25 0.302
+ Full-GMM   0.50   0.25 0.192
+ Oracle-GMM 0.50   0.25 0.278
+ DML-IVQR   1.00   0.25 0.676
+ Full-GMM   1.00   0.25 0.472
+ Oracle-GMM 1.00   0.25 0.692
+ DML-IVQR   0.10   0.50 0.088
+ Full-GMM   0.10   0.50 0.058
+ Oracle-GMM 0.10   0.50 0.086
+ DML-IVQR   0.25   0.50 0.178
+ Full-GMM   0.25   0.50 0.128
+ Oracle-GMM 0.25   0.50 0.226
+ DML-IVQR   0.50   0.50 0.524
+ Full-GMM   0.50   0.50 0.360
+ Oracle-GMM 0.50   0.50 0.628
+ DML-IVQR   1.00   0.50 0.842
+ Full-GMM   1.00   0.50 0.702
+ Oracle-GMM 1.00   0.50 0.936
+
+Point-boundary rates across kappa (mean over n/tau cells):
+ estimator  kappa point_left_boundary_rate point_right_boundary_rate
+ DML-IVQR   0.10  0.014                    0.036                    
+ Full-GMM   0.10  0.028                    0.022                    
+ Oracle-GMM 0.10  0.024                    0.026                    
+ DML-IVQR   0.25  0.004                    0.016                    
+ Full-GMM   0.25  0.012                    0.010                    
+ Oracle-GMM 0.25  0.008                    0.004                    
+ DML-IVQR   0.50  0.000                    0.006                    
+ Full-GMM   0.50  0.000                    0.002                    
+ Oracle-GMM 0.50  0.004                    0.000                    
+ DML-IVQR   1.00  0.000                    0.000                    
+ Full-GMM   1.00  0.000                    0.000                    
+ Oracle-GMM 1.00  0.000                    0.000                    
+
+All sanity checks: TRUE
+This 50-replication pilot is not the final thesis Monte Carlo. Non-monotone
+finite-sample patterns were retained and no frozen choice was tuned.

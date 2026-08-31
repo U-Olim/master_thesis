@@ -1,0 +1,1160 @@
+% !TEX program = pdflatex
+% !BIB program = biber
+% !TEX spellcheck = en-us
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Important notes
+
+% For compiling this document without any changes, a *complete* (and up-to-date) TeX distribution is required. Options include MacTeX, MiKTeX, and TeX Live.
+
+% For MiKTeX, please choose the “Net Installer” to install the complete MiKTeX distribution, rather than the “Basic Installer.”
+
+% Compilation via https://overleaf-en.astro.uni-bonn.de works in general.  Use “Shibboleth login” to log in with your Uni ID. Unfortunately, compiling the entire document may fail. Try compiling a shorted version (e.g., remove the appendices).
+
+% Compilation via https://uni-bonn.sciebo.de/apps/overleaf_nextcloud/launcher/launch also works in general. Here, compiling the entire document from scratch may lead to a time-out. Compiling the document again (and again) can help. So does compiling a shortened version (which can then be extended step by step).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  AUTHOR INFORMATION  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\studentfullname}{TODO}
+\newcommand{\studentemail}{TODO}  % Only relevant for term papers, ignored for bachelor's and master's theses
+\newcommand{\studentID}{TODO}
+
+\newcommand{\manuscripttitle}{TODO}
+
+\newcommand{\manuscriptdate}{TODO}  % TODO: use ISO format yyyy-mm-dd
+\newcommand{\formattedmanuscriptdate}{%
+	\ifthenelse{\equal{\manuscriptdate}{TODO}}{TODO}{\printdate{\manuscriptdate}}%
+}
+
+\newcommand{\manuscriptlanguage}{EN}  % DE for German, otherwise (US) English
+
+\newcommand{\manuscripttype}{TP}  % Term paper by default
+% Enable one when writing a thesis:
+%\renewcommand{\manuscripttype}{BA-2F}  % Bachelor of Arts, 2-Fach-Modell (double-major program)
+%\renewcommand{\manuscripttype}{BSc-ECS}  % Bachelor of Science in Economics and Computer Science
+%\renewcommand{\manuscripttype}{BSc-VWL}  % Bachelor of Science in Volkswirtschaftslehre (Economics)
+\renewcommand{\manuscripttype}{MSc-Econ}  % Master of Science in Economics
+
+\RequirePackage{ifthen}
+% Only relevant for BA-2F: 2nd major in the double-major bachelor’s program
+\ifthenelse{%
+	\equal{\manuscriptlanguage}{DE}%
+}{% German
+	\newcommand{\secondmajor}{TODO}
+}{% English
+	\newcommand{\secondmajor}{\textit{\foreignlanguage{ngerman}{TODO}}}
+}
+
+\newcommand{\seminartitle}{TODO}  % Only relevant for term papers, ignored for bachelor’s and master’s theses
+\newcommand{\advisorname}{TODO}
+\newcommand{\advisorgender}{TODO}  % TODO: f, m, or nonbinary; relevant to German output
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+%%  DOCUMENT CLASS  %%
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\documentclass[12pt, a4paper, oneside]{article}
+	% In line with the old (2014) guidelines for master’s theses of the Department of Economics at the University of Bonn:
+	% https://www.econ.uni-bonn.de/examinations/en/information/master-economics/master-thesis
+\documentclass[11pt, a4paper, oneside]{article}
+	% 11pt font size
+	% In line with the 2026 guidelines for bachelor’s theses of the Department of Economics at the University of Bonn:
+	% https://www.econ.uni-bonn.de/examinations/de/informationen/bachelor/bachelorarbeit
+	% Page margins are configured below such that approximately the same amount of text fits on a page as per the 2014 guidelines
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  FUNDAMENTAL PACKAGES  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[LGR, T1]{fontenc}  % LGR for Greek letters in text mode
+
+\newboolean{manuscriptisbachelor}
+\newboolean{manuscriptismaster}
+\ifthenelse{%
+	\equal{\manuscripttype}{BA-2F} \OR
+	\equal{\manuscripttype}{BSc-ECS} \OR
+	\equal{\manuscripttype}{BSc-VWL}%
+}{%
+	\setboolean{manuscriptisbachelor}{true}%
+}{%
+	\setboolean{manuscriptisbachelor}{false}%
+}
+\ifthenelse{%
+	\equal{\manuscripttype}{MSc-Econ}%
+}{%
+	\setboolean{manuscriptismaster}{true}%
+}{%
+	\setboolean{manuscriptismaster}{false}%
+}
+\ifthenelse{%
+	\equal{\manuscriptlanguage}{DE}%
+}{% German
+	\usepackage[USenglish, ngerman]{babel}
+}{% English
+	\usepackage[ngerman, english]{babel}
+}
+
+\usepackage{xpatch}
+\usepackage{etoolbox}
+\usepackage{calc}  % Enables addition, subtraction, etc. of lengths
+
+\usepackage{graphicx}
+\usepackage[svgnames, x11names]{xcolor}
+\definecolor{UBonnBlue}{RGB}{0, 78, 159}  % #004e9f  % was 7/82/154 before 2022
+\definecolor{UBonnBlueTinted}{RGB}{0, 73, 143}  % darker header on uni-bonn.de pages  % or (6, 73, 138), as the darker footer on uni-bonn.de pages
+\definecolor{UBonnBlueDark}{RGB}{5, 61, 115}  % https://confluence.team.uni-bonn.de/spaces/UNISERVICEPORT/pages/187724137/Design+Gestalten+Corporate+Identity#Design%2CGestalten%26CorporateIdentity-PowerpointVorlagen(PPT%2Cbarrierefrei)
+\definecolor{UBonnGray}{RGB}{144, 144, 133}
+\definecolor{UBonnYellow}{RGB}{252, 186, 0}
+\colorlet{UBonnGrey}{UBonnGray}
+
+\usepackage{amsmath, mathtools}
+\usepackage{amsthm}
+\renewcommand{\qedsymbol}{\ensuremath{\blacksquare}}
+
+\usepackage[ngerman, UKenglish, USenglish, cleanlook]{isodate}
+
+\usepackage[bottom, multiple, splitrule, stable]{footmisc}
+\let \footnoteruleOrig \footnoterule
+\renewcommand{\footnoterule}{\footnoteruleOrig\vskip 1.5ex}
+\renewcommand{\multfootsep}{,\,}
+\makeatletter
+\patchcmd{\@footnotetext}{#1}{\strut\ignorespaces #1}{}{}
+\makeatother
+
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[unicode]{hyperref}
+\hypersetup{
+	allcolors = UBonnBlueDark,  % alternatively, use UBonnBlue (brighter) or UBonnBlueDark (darker)
+	colorlinks = true,
+	pdftitle  = {\manuscripttitle},
+	pdfauthor = {\studentfullname},
+	bookmarksnumbered = true,
+}
+
+\newcommand*{\Appendixautorefname}{Appendix}
+	% See https://tex.stackexchange.com/questions/207744/no-autoref-name-for-appendix
+
+\usepackage{titlecaps}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%  PAGE LAYOUT  %%
+%%%%%%%%%%%%%%%%%%%
+
+
+\flushbottom
+
+% Adjust font sizes and page margins based on class option 11pt/12pt
+% such that same amount of text fits per page for 11pt and 12pt
+\newlength{\baselinedist}
+\newlength{\smalllinespacing}
+\newlength{\footnotelinespacing}
+\newlength{\fsLarge}
+\newlength{\fslarge}
+\newlength{\fsnormal}
+\newlength{\fssmall}
+\newlength{\fsfootnote}
+\let \LargeOrig \Large
+\let \largeOrig \large
+\let \normalsizeOrig \normalsize
+\let \smallOrig \small
+\let \footnotesizeOrig \footnotesize
+\makeatletter
+\ifdim \f@size pt < 11.5pt
+	\usepackage[
+		bottom = 2.8cm,
+		left = 2.5cm,
+		right = 4cm,
+		top = 2.8cm,
+		headheight = 15pt,  % Numerous warning messages otherwise
+		headsep = 22.5pt,
+		marginpar = 3.25cm,
+		footnotesep = 19.5pt plus 39pt,
+	]{geometry}
+	\setlength{\baselinedist}{19.5pt}
+	\setlength{\skip\footins}{19.5pt plus 58.5pt}
+	\setlength{\smalllinespacing}{15pt}
+	\setlength{\footnotelinespacing}{13.5pt}
+	\setlength{\fsLarge}{14pt}
+	\setlength{\fslarge}{12pt}
+	\setlength{\fsnormal}{11pt}
+	\setlength{\fssmall}{10pt}
+	\setlength{\fsfootnote}{9pt}
+	% Adapted from size11.clo:
+	\def\normalsize{%
+		\normalsizeOrig%
+		\fontsize{\fsnormal}{\baselinedist}\selectfont%
+		\abovedisplayskip 13.5pt plus 6.75pt minus 3.375pt%
+		\belowdisplayskip \abovedisplayskip%
+		\abovedisplayshortskip 6.75pt plus 3.375pt minus 1.6875pt%
+		\belowdisplayshortskip 6.75pt plus 3.375pt minus 1.6875pt%
+	}
+\else
+	\usepackage[
+		bottom = 2cm,
+		left = 3cm,
+		right = 2cm,
+		top = 2cm,
+		headheight = 16.5pt,  % Numerous warning messages otherwise
+		headsep = 16.5pt,
+		marginpar = 1.5cm,
+		footnotesep = 20.7pt plus 41.4pt,
+	]{geometry}
+	\setlength{\baselinedist}{20.7pt}
+	\setlength{\skip\footins}{20.7pt plus 62.1pt}
+	\setlength{\smalllinespacing}{16.5pt}
+	\setlength{\footnotelinespacing}{15pt}
+	\setlength{\fsLarge}{16.5pt}
+	\setlength{\fslarge}{14pt}
+	\setlength{\fsnormal}{12pt}
+	\setlength{\fssmall}{11pt}
+	\setlength{\fsfootnote}{10pt}
+	% Adapted from size12.clo:
+	\def\normalsize{%
+		\normalsizeOrig%
+		\fontsize{\fsnormal}{\baselinedist}\selectfont%
+		\abovedisplayskip 15pt plus 7.5pt minus 3.75pt%
+		\belowdisplayskip \abovedisplayskip%
+		\abovedisplayshortskip 7.5pt plus 3.75pt minus 1.775pt%
+		\belowdisplayshortskip 7.5pt plus 3.75pt minus 1.775pt%
+	}
+\fi
+\makeatother
+\normalsize
+
+\renewcommand{\Large}{\LargeOrig\fontsize{\fsLarge}{\baselinedist}\selectfont}
+\renewcommand{\large}{\largeOrig\fontsize{\fslarge}{\baselinedist}\selectfont}
+\renewcommand{\small}{\smallOrig\fontsize{\fssmall}{\smalllinespacing}\selectfont}
+\renewcommand{\footnotesize}{\footnotesizeOrig\fontsize{\fsfootnote}{\footnotelinespacing}\selectfont}
+
+\setlength{\textheight}{35\baselinedist}  % Permit exactly 35 lines of text per page
+
+\usepackage{ragged2e}  % For ragged right/left text with hyphenation enabled
+\usepackage[all]{nowidow}  % Prevent orphans and widows
+
+\renewenvironment{quote}{%
+	\par\list{}{%
+		\baselineskip = \smalllinespacing% 15pt%
+		\leftmargin = \baselineskip%
+		\rightmargin = \leftmargin%
+		\topsep = 0.5\baselinedist plus 3ex
+	}
+	\item\relax%
+}{%
+	\endlist%
+}
+\renewenvironment{quotation}{%
+	\list{}{%
+		\baselineskip = \smalllinespacing% 15pt
+		\leftmargin = \baselineskip%
+		\rightmargin = \leftmargin%
+		\listparindent = \smalllinespacing%
+		%\itemindent = \listparindent%
+		\parsep = 0pt%
+		\topsep = 0.5\baselinedist plus 3ex
+	}%
+	\item\relax%
+}{%
+	\endlist%
+}
+
+\AtBeginDocument{%
+	\setlength{\baselineskip}{\baselinedist}%
+	\setlength{\topskip}{\baselineskip}%
+	\setlength{\parindent}{\baselineskip}%
+	\setlength{\parskip}{0pt}%
+	\frenchspacing% Reduce amount of white space after a period
+	\let \nonfrenchspacing=\frenchspacing% because babel's \selectlanguage{...} resets \frenchspacing
+	\sloppy% Prevent overfull hboxes (at the expense of more uneven whitespace)
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\sffamily\small\relscale{0.95}\strut\studentfullname: \textit{\manuscripttitle}}
+\fancyhead[R]{\sffamily\small\relscale{0.95}\strut\thepage}
+
+
+
+
+%%%%%%%%%%%%%%%%%%
+%%  COVER PAGE  %%
+%%%%%%%%%%%%%%%%%%
+
+
+\makeatletter
+\newcommand*{\maketitleEN}{%
+	\thispagestyle{empty}
+	\pdfbookmark[1]{\manuscripttitle}{coverpage}
+	\begin{center}
+		\selectlanguage{USenglish}
+		\Large
+		\null\vfill
+		{\fontsize{27.5pt}{32pt}\bfseries\manuscripttitle\par}
+		\vfill\vfill
+		{\huge\ifthenelse{\boolean{manuscriptisbachelor}}{Bachelor's Thesis}{%
+			\ifthenelse{\boolean{manuscriptismaster}}{Master's Thesis}{Term Paper}%
+		}\par}
+		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{%
+			\vspace{1.75\baselineskip}
+			Presented to the \\
+			Department of Economics at the \\
+			Rheinische Friedrich-Wilhelms-Universit\"at Bonn \par
+			\vspace{1.25\baselineskip}
+		}{%
+			\vspace{1.25\baselineskip}
+			for the Seminar \par
+			\vspace{1.25\baselineskip}
+		}
+		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{%
+			in partial fulfillment of the requirements for the degree of \\[\baselineskip]
+			\ifthenelse{\equal{\manuscripttype}{BA-2F}}{%
+				Bachelor of Arts (B.A.) \\
+				in the double-major program \textit{\foreignlanguage{ngerman}{Wirtschaftswissenschaften}} and \secondmajor \\
+				(\textit{\foreignlanguage{ngerman}{F\"acher im Zwei-Fach-Modell}})%
+			}{%
+				\ifthenelse{\equal{\manuscripttype}{BSc-ECS}}{%
+					Bachelor of Science (B.Sc.) \\
+					in Economics and Computer Science%
+				}{%
+					\ifthenelse{\equal{\manuscripttype}{BSc-VWL}}{%
+						Bachelor of Science (B.Sc.) \\
+						in \textit{\foreignlanguage{ngerman}{Volkswirtschaftslehre}}%
+					}{%
+						\ifthenelse{\boolean{manuscriptisbachelor}}{%
+							Bachelor of Science (B.Sc.) \\
+							in Economics%
+						}{%
+							Master of Science (M.Sc.) \\
+							in Economics%
+						}%
+					}%
+				}%
+			}%
+		}{
+			``\seminartitle''
+		}
+		\par
+		\vfill\vfill%\vspace{2\baselineskip}
+		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{Supervisor}{Instructor}: \\
+		\advisorname
+		\vfill\vfill%\vfill
+		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{%
+			Submitted in \printdayoff\formattedmanuscriptdate%
+		}{%
+			Submitted on \formattedmanuscriptdate%
+		}
+		by \\[1.5\baselineskip]
+		{\LARGE \@author} \\[1.5\baselineskip]
+		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{}{%
+			E-Mail: \href{mailto:\studentemail}{\studentemail}\\%
+		}
+		Matriculation Number: \studentID
+		\vfill
+	\end{center}
+}
+\newcommand*{\maketitleDE}{%
+	\thispagestyle{empty}
+	\pdfbookmark[1]{\manuscripttitle}{Titelseite}
+	\begin{center}
+		\selectlanguage{ngerman}
+		\Large
+		\null\vfill
+		{\fontsize{27.5pt}{32pt}\bfseries\manuscripttitle\par}
+		\vfill\vfill
+		{\huge\ifthenelse{\boolean{manuscriptisbachelor}}{Bachelorarbeit}{%
+			\ifthenelse{\boolean{manuscriptismaster}}{Masterarbeit}{Hausarbeit}%
+		}\par}
+		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{%
+			\vspace{1.75\baselineskip}
+			zur Erlangung des Grades \\[\baselineskip]
+			\ifthenelse{\equal{\manuscripttype}{BA-2F}}{%
+				Bachelor of Arts (B.\,A.) \\
+				in den Teilstudieng\"angen Wirtschaftswissenschaften und \secondmajor \\
+				(F\"acher im Zwei-Fach-Modell)%
+			}{%
+				\ifthenelse{\equal{\manuscripttype}{BSc-ECS}}{%
+					Bachelor of Science (B.\,Sc.) \\
+					im Studiengang \textit{\foreignlanguage{USenglish}{Economics and Computer Science}}%
+				}{%
+					\ifthenelse{\boolean{manuscriptisbachelor}}{%
+						Bachelor of Science (B.\,Sc.) \\
+						im Studiengang Volkswirtschaftslehre%
+					}{%
+						Master of Science (M.\,Sc.) \\
+						im Studiengang \textit{\foreignlanguage{USenglish}{Economics}}%
+					}%
+				}%
+			}%
+			\\[\baselineskip]
+			an der \\
+			Rheinischen Friedrich-Wilhelms-Universit\"at Bonn%
+		}{%
+			\vspace{1.25\baselineskip}
+			zum Seminar \par
+			\vspace{1.25\baselineskip}
+			\quotedblbase\seminartitle\textquotedblleft
+		}
+		\par
+		\vfill\vfill%\vspace{2\baselineskip}
+		Themensteller\ifthenelse{\equal{\advisorgender}{f}}{in}{\ifthenelse{\equal{\advisorgender}{m}}{}{*in}}: \\
+		\advisorname
+		\vfill\vfill%\vfill
+		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{%
+			Vorgelegt im \datengerman\printdayoff\formattedmanuscriptdate%
+		}{
+			Vorgelegt am \datengerman\formattedmanuscriptdate%
+		}
+		von \\[1.5\baselineskip]
+		{\LARGE \@author} \\[1.5\baselineskip]
+		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{}{%
+			E-Mail: \href{mailto:\studentemail}{\studentemail}\\%
+		}
+		Matrikelnummer: \studentID
+		\vfill
+	\end{center}
+}
+\makeatother
+
+\ifthenelse{%
+	\equal{\manuscriptlanguage}{DE}%
+}{% German
+	\AtBeginDocument{\selectlanguage{ngerman}}
+	\renewcommand*{\maketitle}{\maketitleDE}
+}{% English
+	\AtBeginDocument{\selectlanguage{USenglish}}
+	\renewcommand*{\maketitle}{\maketitleEN}
+}%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  FORMATTING OF THE TABLE OF CONTENTS  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\let \tableofcontentsOrig \tableofcontents
+
+% If you would like to increase the horizontal spacing in the table of contents
+%\makeatletter
+%\patchcmd{\l@section}{1.5em}{2em}{}{}  % \l@section is defined in article.cls
+%%\newcommand*\l@subsection{\@dottedtocline{2}{1.5em}{2.3em}}  % definition in article.cls
+%\renewcommand*{\l@subsection}{\@dottedtocline{2}{2em}{3em}}
+%\makeatother
+
+%\makeatletter
+%\pretocmd{\l@section}{\vspace{-1ex}}% Reduce vertical white space before section entry
+%\makeatother
+
+\makeatletter
+\renewcommand{\tableofcontents}{%
+	\begingroup  % Local changes only
+	\setlength{\baselineskip}{\smalllinespacing}%
+	\microtypesetup{protrusion = false}% Disable optical marginal alignment for TOC so that page numbers align properly
+	\pdfbookmark[1]{\contentsname}{toc}% Add bookmark for TOC to PDF file
+	\setcounter{tocdepth}{2}%
+	\renewcommand{\@dotsep}{200}% Remove dotted leader between subsection headings and page numbers in TOC
+	\renewcommand{\@pnumwidth}{4em}% Increase width of page numbers so that also ``A-12'' fits
+	\tableofcontentsOrig%
+	\endgroup%
+}
+\makeatother
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%  FONT SETTINGS  %%
+%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{relsize}  % Allow for fine-grained scaling of font sizes
+\renewcommand{\RSpercentTolerance}{0}  % Permit precise scaling
+
+% Times (https://en.wikipedia.org/wiki/Times_New_Roman)
+\usepackage[scale = 0.995, shrink = 0.025em, stretch = .15em]{newtxtext}  % Line breaks as similar as possible to Word
+\usepackage[scale = 0.995, slantedGreek]{newtxmath}
+
+%% Palatino (https://en.wikipedia.org/wiki/Palatino)
+%\usepackage[scale = 0.899, shrink = 0.025em, stretch = .15em]{newpxtext}  % Line breaks as similar as possible to Times
+%\usepackage[scale = 0.899, slantedGreek]{newpxmath}
+
+%% Utopia (https://en.wikipedia.org/wiki/Utopia_(typeface))
+%\usepackage[scale = 0.9485, shrink = 0.025em, stretch = .15em]{erewhon}  % Line breaks as similar as possible to Times
+%\usepackage[erewhon, scale = 0.9485, slantedGreek]{newtxmath}
+
+%% Charter (https://en.wikipedia.org/wiki/Bitstream_Charter)
+%\usepackage[scale = 0.9245]{XCharter}  % Line breaks as similar as possible to Times
+%\usepackage[xcharter, scale = 0.9245, slantedGreek]{newtxmath}
+
+%% STIX Two (https://en.wikipedia.org/wiki/STIX_Fonts_project#STIX_2.0.0)
+%\usepackage[scale = 0.957]{stickstootext}  % Line breaks as similar as possible to Times
+%\usepackage[stix2, scale = 0.957, slantedGreek]{newtxmath}
+
+%% Libertinus Serif (https://en.wikipedia.org/wiki/Libertinus)
+%\usepackage[serif, ScaleRM = 0.9875]{libertinus}  % Line breaks as similar as possible to Times
+%\usepackage[libertinus, scale = 0.9875, slantedGreek]{newtxmath}
+
+%% New Century Schoolbook (https://en.wikipedia.org/wiki/Century_type_family)
+%\usepackage[scaled = 0.875]{scholax}  % Line breaks as similar as possible to Times
+%\usepackage[scaled = 0.940625, ncf, slantedGreek]{newtxmath}
+
+% Sans-serif and monospaced font
+\usepackage[book, lining, scale = 0.85, semibold, tabular]{FiraSans}
+\usepackage[lining, scale = 0.85]{FiraMono}  % No genuine italics, but slanted replacement
+
+\usepackage[protrusion = compatibility, expansion = false]{microtype}
+
+\usepackage{bm}  % Improved bold math font support
+% Emulate "text math" fonts from the unicode-math package
+\newcommand{\mathup}[1]{\mathrm{#1}}
+\providecommand{\mathbfit}[1]{\bm{#1}}
+\newcommand{\mathbfup}[1]{\mathbf{#1}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand*{\divslash}{%
+	\mathbin{%
+		\nonscript\mskip-2mu / \nonscript\mskip-2mu%
+	}%
+}  % Emulate the \divslash glyph defined by the unicode-math package
+
+\usepackage[explicit]{titlesec}
+\setcounter{secnumdepth}{4}
+\titleformat{\section}{\normalfont\Large\bfseries}{\strut\thesection}{1em}{#1\strut}
+\titlespacing*{\section}{0pt}{2\baselinedist plus 4ex}{1\baselinedist plus 2ex}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\strut\thesubsection}{1em}{#1\strut}
+\titlespacing*{\subsection}{0pt}{1\baselinedist plus 2ex}{1\baselinedist plus 2ex}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries}{\strut\thesubsubsection}{1em}{#1\strut}
+\titlespacing*{\subsubsection}{0pt}{0.5\baselinedist plus 1ex}{0.5\baselinedist plus 1ex}
+\titleformat{\paragraph}{\normalfont\normalsize\upshape}{\strut\theparagraph}{1em}{#1\strut}
+\titlespacing*{\paragraph}{0pt}{0.5\baselinedist plus 1ex}{0pt}
+\titleformat{name = \subparagraph, numberless}[runin]{}{}{0pt}{\itshape#1}[]
+\titlespacing{\subparagraph}{\parindent}{0pt}{\wordsep}[]
+
+\usepackage{soul}
+\renewcommand{\caps}[1]{{\textscale{0.97}{\textls[50]{\MakeUppercase{#1}}}}}
+	% Redefine \caps so that it makes more sense and also works inside \ul
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  FORMATTING OF LISTS  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage[inline]{enumitem}
+% General settings:
+\setlist{
+	leftmargin = \parindent, listparindent = \parindent, itemsep = 0pt, parsep = 0pt, partopsep = 0pt
+}
+\setlist[1]{topsep = 0.5\baselinedist plus 1ex}
+\setlist[{2, 3, 4}]{topsep = 0pt}
+% Type-specific settings
+\setlist[enumerate]{leftmargin = \parindent, labelsep = *}
+	% Fine as long as the list does not include more than 9 items.
+\setlist[enumerate, 1]{label = \arabic*.}
+\setlist[enumerate, 2]{label = \alph*), align = left, labelwidth = \parindent, labelsep = 0pt}
+	% Taken from the Chicago Manual of Style (16th ed., Section 6.126)
+\setlist[enumerate, 3]{label = \roman*), align = right, widest* = 3, labelsep = 0.3\parindent}
+\setlist[itemize]{labelsep = 0.5\parindent}
+\setlist[itemize, 2]{label = --}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  FORMATTING OF FIGURES AND TABLES  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{tabularray}
+	% Modern package that comprises the functionality of (probably) all earlier table packages that you can think of: threeparttable, tabularx/tabulary/tabu, longtable, xltabular, multirow, makecell, booktabs, colortbl, ...
+\UseTblrLibrary{counter}  % To prevent incorrect numbering of equations embedded in tblr environments
+\UseTblrLibrary{booktabs, siunitx}
+\usepackage{tblr-extras}
+\UseTblrLibrary{caption}
+
+% Global default values for table formatting
+\addtolength{\heavyrulewidth}{0.1pt}%
+\addtolength{\lightrulewidth}{-0.05pt}%
+\setlength{\cmidrulewidth}{\lightrulewidth}
+\addtolength{\aboverulesep}{1pt}%
+\addtolength{\belowrulesep}{1pt}%
+\addtolength{\belowbottomsep}{\smallskipamount}  % Add vertical space below closing rule of tables
+\SetTblrInner[booktabs]{
+	hborder{1} = {abovespace = \abovetopsep, belowspace = \belowrulesep},
+	hline{1} = {\heavyrulewidth, solid},  % Draw heavy rule at the top of each table
+	hborder{2} = {abovespace = \aboverulesep, belowspace = \belowrulesep},
+	hline{2} = {\lightrulewidth, solid},  % Draw regular rule after column headings
+	hborder{Z} = {abovespace = \aboverulesep, belowspace = \belowbottomsep},
+	hline{Z} = {\heavyrulewidth, solid},  % Draw heavy rule at the bottom of each table
+	column{1} = {leftsep = 0pt},  % Make left-most column flush with horizontal rules
+	column{Z} = {rightsep = 0pt},  % Make right-most column flush with horizontal rules
+	row{1} = guard,  % Prevent siunitx formatting for first row
+	width = \textwidth,
+}
+%\AtEndEnvironment{booktabs}{\vspace{\belowbottomsep}}
+%\SetTblrStyle{caption}{halign = c, hang = 0pt, indent = 0pt}
+%\DeclareTblrTemplate{caption-sep}{default}{.~\strut}
+%\SetTblrStyle{caption-tag}{font = \small\bfseries}
+%\SetTblrStyle{caption-sep}{font = \small\bfseries}
+%\SetTblrStyle{caption-text}{font = \small}
+% Prints a colon only if \InsertTblrRemarkTag is not empty
+\newcommand{\RemarkTagMaybeColon}{%
+	\ifdefempty{\InsertTblrRemarkTag}{\hspace{\smalllinespacing}\ignorespaces}{:~\ignorespaces}%
+}
+\SetTblrStyle{remark}{halign = j, hang = 0pt, indent = 0pt}  % indent sets \parindent
+\DeclareTblrTemplate{remark-sep}{default}{\RemarkTagMaybeColon\strut}  % Set to empty to suppress the default colon
+\SetTblrStyle{remark-tag}{font = \footnotesize\itshape}
+\SetTblrStyle{remark-sep}{font = \footnotesize\itshape}
+\SetTblrStyle{remark-text}{font = \footnotesize}
+
+%\usepackage{siunitx}  % Already loaded by tabularray
+% Allows, among others, for alignment of decimal numbers in tables at the decimal point.
+\sisetup{
+	%detect-all,
+	%round-integer-to-decimal = true,
+	%group-digits             = true,
+	%group-minimum-digits     = 5,
+	%group-separator          = {\kern 1pt},
+	quantity-product         = \textup{~},
+	table-align-text-before  = false,
+	table-align-text-after   = false,
+	input-signs              = + -,
+	%input-symbols            = {*} {**} {***} \sigstar,
+	input-open-uncertainty = ,
+	input-close-uncertainty = ,
+	retain-explicit-plus,
+}
+
+\usepackage[
+	font = small,
+	justification = centering,
+	labelfont = {bf, small},
+	labelsep = period,
+	margin = 0pt,
+	%textfont = it,
+]{caption}  % Set figure captions and table headings in font size \small
+\captionsetup[figure]{position = below}  % Figure captions go below the figure.
+\captionsetup[table]{position = above}  % Table titles go above the table.
+\makeatletter
+\g@addto@macro\@floatboxreset{\vskip 0.45\baselineskip}  % Move floats down a bit, since we increase \topskip
+\g@addto@macro\@floatboxreset{\centering}  % Automatically center all figures and tables
+\g@addto@macro\@floatboxreset{\small}  % and make the font size small
+\makeatother
+
+% Copied from AEA.cls
+\newenvironment{tablenotes}[1][Note]
+	{\par\justifying\medskip\begingroup\footnotesize\noindent\strut\textit{#1:} \ignorespaces}
+	{\par\endgroup}
+\newenvironment{figurenotes}[1][Note]
+	{\par\justifying\medskip\begingroup\footnotesize\noindent\strut\textit{#1:} \ignorespaces}
+	{\par\endgroup}
+
+% Let even relatively big floats (long tables, spacious figures) be placed on text pages ==>
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+% <== See http://tex.stackexchange.com/questions/39017/how-to-influence-the-position-of-float-environments-like-figure-and-table-in-lat/39020#39020
+\setlength{\textfloatsep}{1.5\baselineskip plus 3\baselineskip minus 0.0pt}
+% originally, \textfloatsep: 20.0pt plus 2.0pt minus 4.0pt
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  FORMATTING OF THEOREMS  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newtheoremstyle{Plain}% name
+	{1\baselinedist plus 2ex}  % Space above: Use \topsep to make the space identical to the one around lists
+	{1\baselinedist plus 2ex} % Space below
+	{\itshape}  % Body font
+	{}  % Indent amount (empty = no indent, \parindent = paragraph indent)
+	{\bfseries} % Theorem head font
+	{.}  % Punctuation after theorem head
+	{\fontdimen2\font plus \fontdimen3\font}  % Space after theorem head: normal interword space
+	{\thmname{#1}\thmnumber{\:#2}\thmnote{\bfseries\upshape\ (#3)}}
+		% Theorem head spec (changed such that also the ``theorem note'' is printed in boldface)
+
+%\theoremstyle{plain}
+\theoremstyle{Plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\ifthenelse{
+	\equal{\manuscriptlanguage}{DE}
+}{% German
+	\newtheorem{conjecture}[theorem]{Vermutung}
+	\newtheorem{corollary}[theorem]{Korollar}
+	\newtheorem{proposition}[theorem]{Satz}
+}{% English
+	\newtheorem{conjecture}[theorem]{Conjecture}
+	\newtheorem{corollary}[theorem]{Corollary}
+	\newtheorem{proposition}[theorem]{Proposition}
+}
+
+\newtheoremstyle{Definition}% name
+	{1\baselinedist plus 2ex}  % Space above: Use \topsep to make the space identical to the one around lists
+	{1\baselinedist plus 2ex}  % Space below
+	{\upshape}  % Body font
+	{}  % Indent amount (empty = no indent, \parindent = paragraph indent)
+	{\bfseries} % Theorem head font
+	{.}  % Punctuation after theorem head
+	{\fontdimen2\font plus \fontdimen3\font}  % Space after theorem head: normal interword space
+	{\thmname{#1}\thmnumber{\:#2}\thmnote{\bfseries\upshape\ (#3)}}
+		% Theorem head spec (changed such that also the ``theorem note'' is printed in boldface)
+
+%\theoremstyle{definition}
+\theoremstyle{Definition}
+\newtheorem{axiom}{Axiom}
+\newtheorem{definition}{Definition}
+\newtheorem{problem}{Problem}
+\ifthenelse{
+	\equal{\manuscriptlanguage}{DE}
+}{% German
+	\newtheorem{algorithm}{Algorithmus}
+	\newtheorem{assertion}{Zusicherung}  % {Aussage}?  % {Bestätigung}?
+	\newtheorem{assumption}{Annahme}
+	\newtheorem{condition}{Bedingung}
+	\newtheorem{criterion}{Kriterium}
+	\newtheorem{example}{Beispiel}
+	\newtheorem{exercise}{\"Ubung}
+	\newtheorem{hypothesis}{Hypothese}
+	\newtheorem{question}{Frage}
+	\newtheorem{result}{Resultat}
+}{% English
+	\newtheorem{algorithm}{Algorithm}
+	\newtheorem{assertion}{Assertion}
+	\newtheorem{assumption}{Assumption}
+	\newtheorem{condition}{Condition}
+	\newtheorem{criterion}{Criterion}
+	\newtheorem{example}{Example}
+	\newtheorem{exercise}{Exercise}
+	\newtheorem{hypothesis}{Hypothesis}
+	\newtheorem{question}{Question}
+	\newtheorem{result}{Result}
+}
+
+\newtheoremstyle{Remark}% name
+	{0.5\baselinedist plus 1ex}  % Space above: Use \topsep to make the space identical to the one around lists
+	{0.5\baselinedist plus 1ex}  % Space below
+	{\upshape}  % Body font
+	{}  % Indent amount (empty = no indent, \parindent = paragraph indent)
+	{\itshape} % Theorem head font
+	{.}  % Punctuation after theorem head
+	{0.5em}  % Space after theorem head: " " = normal interword space; \newline = linebreak
+	{\thmname{#1}\thmnumber{\:#2}\thmnote{\itshape\ (#3)}}
+		% Theorem head spec (changed such that also the ``theorem note'' is printed in boldface)
+
+%\theoremstyle{remark}
+\theoremstyle{Remark}
+\ifthenelse{
+	\equal{\manuscriptlanguage}{DE}
+}{% German
+	\newtheorem{acknowledgment}{Kenntnisnahme}
+	\newtheorem{case}{Fall}
+	\newtheorem{claim}{Behauptung}
+	\newtheorem{conclusion}{Schlussfolgerung}
+	\newtheorem{notation}{Notation}
+	\newtheorem{note}{Hinweis}
+	\newtheorem{property}{Eigenschaft}
+	\newtheorem{remark}{Anmerkung}
+	\newtheorem{summary}{Zusammenfassung}
+}{% English
+	\newtheorem{acknowledgment}{Acknowledgment}
+	\newtheorem{case}{Case}
+	\newtheorem{claim}{Claim}
+	\newtheorem{conclusion}{Conclusion}
+	\newtheorem{notation}{Notation}
+	\newtheorem{note}{Note}
+	\newtheorem{property}{Property}
+	\newtheorem{remark}{Remark}
+	\newtheorem{summary}{Summary}
+}
+
+% Autoref names for theorem-like environments
+
+\providecommand*{\axiomautorefname}{Axiom}
+\providecommand*{\definitionautorefname}{Definition}
+\providecommand*{\lemmaautorefname}{Lemma}
+\providecommand*{\problemautorefname}{Problem}
+\providecommand*{\theoremautorefname}{Theorem}
+
+\ifthenelse{
+	\equal{\manuscriptlanguage}{DE}
+}{% German
+	\providecommand*{\acknowledgmentautorefname}{Kenntnisnahme}
+	\providecommand*{\algorithmautorefname}{Algorithmus}
+	\providecommand*{\assertionautorefname}{Zusicherung}
+	\providecommand*{\assumptionautorefname}{Annahme}
+	\providecommand*{\caseautorefname}{Fall}
+	\providecommand*{\claimautorefname}{Behauptung}
+	\providecommand*{\conclusionautorefname}{Schlussfolgerung}
+	\providecommand*{\conditionautorefname}{Bedingung}
+	\providecommand*{\conjectureautorefname}{Vermutung}
+	\providecommand*{\corollaryautorefname}{Korollar}
+	\providecommand*{\criterionautorefname}{Kriterium}
+	\providecommand*{\exampleautorefname}{Beispiel}
+	\providecommand*{\exerciseautorefname}{\"Ubung}
+	\providecommand*{\hypothesisautorefname}{Hypothese}
+	\providecommand*{\notationautorefname}{Notation}
+	\providecommand*{\noteautorefname}{Hinweis}
+	\providecommand*{\propertyautorefname}{Eigenschaft}
+	\providecommand*{\propositionautorefname}{Satz}
+	\providecommand*{\questionautorefname}{Frage}
+	\providecommand*{\remarkautorefname}{Anmerkung}
+	\providecommand*{\resultautorefname}{Resultat}
+	\providecommand*{\summaryautorefname}{Zusammenfassung}
+}{% English
+	\providecommand*{\acknowledgmentautorefname}{Acknowledgment}
+	\providecommand*{\algorithmautorefname}{Algorithm}
+	\providecommand*{\assertionautorefname}{Assertion}
+	\providecommand*{\assumptionautorefname}{Assumption}
+	\providecommand*{\caseautorefname}{Case}
+	\providecommand*{\claimautorefname}{Claim}
+	\providecommand*{\conclusionautorefname}{Conclusion}
+	\providecommand*{\conditionautorefname}{Condition}
+	\providecommand*{\conjectureautorefname}{Conjecture}
+	\providecommand*{\corollaryautorefname}{Corollary}
+	\providecommand*{\criterionautorefname}{Criterion}
+	\providecommand*{\exampleautorefname}{Example}
+	\providecommand*{\exerciseautorefname}{Exercise}
+	\providecommand*{\hypothesisautorefname}{Hypothesis}
+	\providecommand*{\notationautorefname}{Notation}
+	\providecommand*{\noteautorefname}{Note}
+	\providecommand*{\propertyautorefname}{Property}
+	\providecommand*{\propositionautorefname}{Proposition}
+	\providecommand*{\questionautorefname}{Question}
+	\providecommand*{\remarkautorefname}{Remark}
+	\providecommand*{\resultautorefname}{Result}
+	\providecommand*{\summaryautorefname}{Summary}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  FORMATTING OF THE BIBLIOGRAPHY  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage[
+	authordate,
+	backend = biber,
+	backref, backrefstyle = three,
+	compresspages = false,
+	dashed = false,
+	doi = only, isbn = false,
+	maxbibnames = 6,  % See https://www.chicagomanualofstyle.org/tools_citationguide/citation-guide-2.html
+	minbibnames = 3,  % See https://www.chicagomanualofstyle.org/tools_citationguide/citation-guide-2.html
+	maxcitenames = 2,  % See https://www.chicagomanualofstyle.org/tools_citationguide/citation-guide-2.html
+	mincitenames = 1,
+	natbib = true,
+	noibid,  % See https://tex.stackexchange.com/questions/129487/bug-in-the-parencite-command-of-the-biblatex-chicago-package
+	sortcites = true, sorting = ynt,  % sort the in-text citations by year of publication
+	useprefix = true,
+]{biblatex-chicago}
+
+\usepackage[babel, german = quotes]{csquotes}  % Needed for correct German quotes via BibLaTeX's \mkbibquote{...}
+
+\let \citeOrig \cite
+\let \cite \textcite
+\let \citealp \citeOrig
+
+\urlstyle{same}  % Since biblatex-chicago sets \urlstyle{rm}
+% Prevent weird line-breaking of URLs, see
+% https://tex.stackexchange.com/questions/134191/line-breaks-of-long-urls-in-biblatex-bibliography:
+\setcounter{biburllcpenalty}{10000}
+\setcounter{biburlucpenalty}{10000}
+\setcounter{biburlnumpenalty}{10000}
+\AtBeginDocument{\biburlbigskip = 0mu\relax}  % To prevent excessive whitespace in URLs and DOIs
+
+\renewcommand{\bibfont}{\small}
+\setlength{\bibitemsep}{0pt}  % No vertical space between bibliography entries
+
+\DeclareFieldFormat[report]{title}{\mkbibquote{#1}}  % Use quotation marks (instead of italic font) for titles of reports, as AER and JPE do
+\DeclareFieldFormat[report]{citetitle}{\mkbibquote{#1}}
+
+% Adjust formatting of back-references, Econometrica style
+\DefineBibliographyStrings{english}{%
+	backrefpage  = {},	% originally ``cit. on p.''
+	backrefpages = {}	% originally ``cit. on pp.''
+}
+\DefineBibliographyStrings{ngerman}{%
+	backrefpage  = {},	% originally ``Siehe Seite''
+	backrefpages = {}	% originally ``Siehe Seiten''
+}
+\renewcommand*{\finentrypunct}{}
+\renewbibmacro*{pageref}{%
+	\addperiod
+	\iflistundef{pageref}
+	{}
+	{\printtext[brackets]{%
+			\ifnumgreater{\value{pageref}}{1}
+				{\bibstring{backrefpages}}
+				{\bibstring{backrefpage}}%
+			\printlist[pageref][-\value{listtotal}]{pageref}%
+		}%
+	}%
+}
+
+\bibliography{references.bib}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  FORMATTING OF THE APPENDIX  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\usepackage[title, titletoc]{appendix}
+
+\usepackage{chngcntr}  % to innclude section numbers/letters in the figure/table/equation counters
+
+\AtBeginEnvironment{appendix}{%
+	\clearpage%
+	\small%
+	\counterwithin{equation}{section}%
+	\counterwithin{figure}{section}%
+	\counterwithin{table}{section}%
+	\counterwithin{equation}{section}%
+	\renewcommand{\thepage}{A-\arabic{page}}%
+	\setcounter{page}{1}%
+	%\pdfbookmark[0]{\appendixname}{Appendix}%
+	\titleformat{\section}{\normalfont\Large\bfseries}{\strut\appendixname~\thesection}{1em}{#1\strut}%
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  SETTINGS FOR CODE LISTINGS   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{listings}
+
+\colorlet{backgroundcolor}{UBonnGray!5}
+\definecolor{stringcolor}{RGB}{191, 0, 0}  % dark red
+\definecolor{commentcolor}{RGB}{53, 128, 0}  % green
+\definecolor{keywordcolor}{RGB}{0, 0, 153}  % dark blue
+\definecolor{digitcolor}{RGB}{0, 0, 204}  % brighter blue
+\definecolor{builtincolor}{RGB}{191, 0, 191}  % pink
+\definecolor{symbolcolor}{RGB}{102, 102, 102}  % gray
+
+\lstdefinestyle{RStudio-Xcode}{
+	backgroundcolor = \color{backgroundcolor},
+	basicstyle = \ttfamily\tiny,
+	commentstyle = \color{commentcolor},
+	extendedchars = true,  % Do not convert UTF-8 characters, since we ue \usepackage[utf8]{inputenc} anyway
+	frame = single, % Adds frame around the code
+	keywords = [1]{break, else, F, FALSE, for, function, if, in, Inf, library, NA, NA_character_, NA_complex_, NA_integer_, NA_real_, NaN, next, NULL, repeat, require, return, switch, T, TRUE, tryCatch, while},
+	keywordstyle = [1]\color{builtincolor},
+	literate =
+		{“}{{\textquotedblleft}}{1}
+		{”}{{\textquotedblright}}{1}
+		{€}{{\texteuro}}{1}
+		{β}{{\fontencoding{LGR}\selectfont b}}{1}
+		{δ}{{\fontencoding{LGR}\selectfont d}}{1}
+		{ρ}{{\fontencoding{LGR}\selectfont r}}{1}
+		{σ}{{\fontencoding{LGR}\selectfont s}}{1}
+		{Ä}{{\"A}}1
+		{Ö}{{\"O}}1
+		{Ü}{{\"U}}1
+		{ü}{{\"u}}1
+		{ä}{{\"a}}1
+		{ö}{{\"o}}1
+		{ß}{{\ss}}1
+	,  % https://stackoverflow.com/questions/1116266/listings-in-latex-with-utf-8-or-at-least-german-umlauts
+	morecomment = [l]{\#},
+	morestring = [b]{"},
+	morestring = [b]{'},
+	numbers = left,  % Position of line numbers
+	numbersep = 1.333em,  % Distance between line numbers and code
+	numberstyle = \tiny\sffamily\color{UBonnGray},  % Style of the line numbers
+	rulecolor = \color{backgroundcolor},
+	stringstyle = \color{stringcolor},     % String literal style
+}
+\lstset{style = RStudio-Xcode}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%  MISCELLANEOUS  %%
+%%%%%%%%%%%%%%%%%%%%%
+
+
+% Here, you can add further packages that you would like to use and custom commands
+
+%\usepackage[most]{tcolorbox}  % Loads tikz
+%\tcbset{
+%	after = {\par\vskip 0.25\baselinedist plus 10ex\noindent\unskip\ignorespacesafterend},
+%	after upper = \strut,
+%	arc = 0pt,
+%	before = {\par\vskip 0.75\baselinedist plus 10ex\noindent\ignorespaces},
+%	before upper = {%
+%		\fontsize{\fsnormal}{\smalllinespacing}\selectfont%
+%		\setlength{\parindent}{\smalllinespacing}%
+%		\noindent\strut%
+%	},
+%	bottom = 1.5ex, left = 2ex, right = 2ex, top = 1.5ex,
+%	breakable,
+%	boxrule = 0pt,
+%	colback = UBonnBlue!5,  % Set background color to 5% blue
+%	colframe = UBonnBlue!5,
+%}
+
+% Illustrate the baseline grid:
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\newcommand{\displaybaselinegrid}{%
+	\begin{tikzpicture}[remember picture, overlay, x = 1mm, y = \baselineskip]
+		\foreach \i in {-5,...,-1,0,1,2,...,35}{
+			\draw[magenta!50] ($(current page.north west) + (0mm, -1in-\voffset-\topmargin-\headheight-\headsep-\topskip) + (0, -\i-2)$) -- ($(current page.north east) + (0mm, -1in-\voffset-\topmargin-\headheight-\headsep-\topskip) + (0, -\i-2)$);
+		}
+		\draw[DarkOrchid2] ($(current page.north west) + (0mm, -1in-\topmargin-\headheight-\headsep)$) -- ($(current page.north east) + (0, -1in-\topmargin-\headheight-\headsep)$);
+		\draw[DarkOrchid2] ($(current page.north west) + (0mm, -1in-\topmargin-\headheight-\headsep-\textheight)$) -- ($(current page.north east) + (0mm, -1in-\topmargin-\headheight-\headsep-\textheight)$);
+	\end{tikzpicture}%
+}
+
+\usepackage{printlen}
+\uselengthunit{PT}
+\renewcommand{\unitspace}{~}
+
+\newcommand{\PDFcompiler}{%
+	\ifthenelse{\boolean{PDFTeX}}{PDFLaTeX: \\[\medskipamount] \mdseries\texttt{\pdftexbanner}}{}%
+	\ifthenelse{\boolean{LuaTeX}}{LuaLaTeX: \\[\medskipamount] \mdseries\texttt{\luatexbanner}}{}%
+	\ifthenelse{\boolean{XeTeX}}{XeLaTeX, \\[\medskipamount] \mdseries version \texttt{\number\eTeXversion\eTeXrevision-\number\XeTeXversion\XeTeXrevision}}{}%
+	\texttt{ (format version: \fmtversion)}
+}
+
+\newcommand{\beware}[1]{%
+	\begin{tikzpicture}[remember picture, overlay]
+		\node[
+			align = left,
+			anchor = north east,
+			fill = Red3!5,
+			font = \sffamily\scriptsize\bfseries\sloppy,
+			inner sep = 0.75em,
+			text = Red3,
+			text width = 4cm,
+		] at ([xshift = -0.6cm, yshift = -0.75cm] current page.north east)
+		{#1};
+	\end{tikzpicture}
+}
+
+
+
+
+%%%%%%%%%%%%
+%%  BODY  %%
+%%%%%%%%%%%%
+
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\title{\manuscripttitle}
+\author{\studentfullname}
+\date{\formattedmanuscriptdate}
+
+\maketitle
+
+\clearpage
+
+\tableofcontents
+
+\clearpage
+
+\pagenumbering{arabic}
+
+\selectlanguage{USenglish}
+
+\input{sections/01_introduction}
+\input{sections/02_background_literature}
+\input{sections/03_methodology}
+\input{sections/04_simulation_design}
+\input{sections/05_results}
+\input{sections/06_discussion}
+\input{sections/07_conclusion}
+
+\clearpage
+\phantomsection
+\begin{refcontext}[sorting=nyt]
+	\selectlanguage{USenglish}
+	\section*{References}
+	\addcontentsline{toc}{section}{References}
+	\printbibliography[heading=none]
+\end{refcontext}
+
+\begin{appendix}
+
+\input{appendix/appendix_full_results}
+\input{appendix/appendix_power}
+\input{appendix/appendix_boundary}
+\input{appendix/appendix_coverage}
+\input{appendix/appendix_profiles}
+\input{appendix/appendix_reproducibility}
+
+\clearpage  % Necessary for the last page in the appendix to display the correct page number
+
+\end{appendix}
+
+\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{%
+	\renewcommand{\thepage}{}
+	\ifthenelse{%
+		\equal{\manuscriptlanguage}{DE}%
+	}{% German
+		\selectlanguage{ngerman}
+		\section*{Selbstständigkeitserklärung}
+		% Taken from
+		% https://www.econ.uni-bonn.de/examinations/de/informationen/bachelor/bachelorarbeit/dokumente/merkblatt-abschlussarbeiten-ba-ma-2026-06-02.pdf
+		\pdfbookmark[1]{Selbstständigkeitserklärung}{declaration}
+		Ich versichere hiermit, dass ich die vorstehende Abschlussarbeit selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe, dass die vorgelegte Arbeit noch an keiner anderen Hochschule zur Prüfung vorgelegt wurde und dass sie weder ganz noch in Teilen bereits veröffentlicht wurde. Wörtliche Zitate und Stellen, die anderen Werken dem Sinn nach entnommen sind, habe ich in jedem einzelnen Fall kenntlich gemacht. \par
+		\vspace{\baselineskip}
+		\noindent\datengerman\formattedmanuscriptdate \par
+	}{% English
+		\selectlanguage{USenglish}
+		\section*{Declaration}
+		% Taken from
+		% https://www.econ.uni-bonn.de/examinations/en/information/master-economics/master-thesis/documents/ma-master-thesis-style-guide-2014-06-10.pdf
+		\pdfbookmark[1]{Declaration}{declaration}
+		I~hereby declare that I~have written the present thesis independently and have used no other sources and aids than those indicated, that the submitted work has not been previously presented for examination at another university, and that it has not been published either in whole or in part. I~have identified all direct quotes and paraphrased ideas taken from other works in each individual case. \par
+		\vspace{\baselineskip}
+		\noindent\formattedmanuscriptdate \par
+	}
+	\vspace{3\baselineskip} \par
+	\noindent\studentfullname%
+}{}
+
+
+\end{document}

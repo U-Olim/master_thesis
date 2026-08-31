@@ -1,0 +1,2 @@
+"rep_id","rep_seed","estimator","n","tau","kappa","alpha","status"
+123,20260943,"DML-IVQR",500,0.1,0.5,1.3,"ERROR: Error info =  101 in stepy2: singular design"

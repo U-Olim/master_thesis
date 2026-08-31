@@ -1,0 +1,20 @@
+R version 3.4.3 (2017-11-30)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 26200)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=Russian_Russia.1251  LC_CTYPE=Russian_Russia.1251   
+[3] LC_MONETARY=Russian_Russia.1251 LC_NUMERIC=C                   
+[5] LC_TIME=Russian_Russia.1251    
+
+attached base packages:
+[1] methods   stats     graphics  grDevices utils     datasets  base     
+
+other attached packages:
+[1] mvtnorm_1.0-6 hdm_0.2.0     quantreg_5.34 SparseM_1.77 
+
+loaded via a namespace (and not attached):
+[1] compiler_3.4.3     Matrix_1.2-12      parallel_3.4.3     tools_3.4.3       
+[5] MatrixModels_0.4-1 grid_3.4.3         Formula_1.2-2      lattice_0.20-35   

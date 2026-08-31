@@ -1,0 +1,7 @@
+"comparison","n_datasets","n_pass","n_fail","maximum_D_difference","maximum_W_difference","maximum_alpha_hat_difference","exact_alpha_hat_match_rate","number_identical","number_different","mean_absolute_alpha_hat_difference","maximum_absolute_alpha_hat_difference","status"
+"DGP_KAPPA1",10,10,0,0,NA,NA,NA,NA,NA,NA,NA,"PASS"
+"ORACLE_TABLE2",10,10,0,NA,0,0,1,NA,NA,NA,NA,"PASS"
+"FULL_TABLE2",10,10,0,NA,0,0,1,NA,NA,NA,NA,"PASS"
+"DML_TABLE2_CV",10,10,0,NA,0,0,1,NA,NA,NA,NA,"PASS"
+"DML_BC_CONDITIONAL",10,10,0,NA,0,0,1,NA,NA,NA,NA,"PASS"
+"DML_CV_VS_BC_EXPECTED_DIFFERENCE",10,NA,NA,NA,NA,NA,NA,3,7,0.1,0.2,"EXPECTED METHOD DIFFERENCE"

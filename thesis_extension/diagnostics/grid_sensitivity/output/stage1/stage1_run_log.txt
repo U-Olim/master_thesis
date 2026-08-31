@@ -1,0 +1,12 @@
+RUN_STATUS=COMPLETE
+Git SHA: 03adacf6037c522155477914bbab0c9572f3d050
+Start time: 2026-08-31 11:00:25
+End time: 2026-08-31 21:09:58
+Wall-clock seconds: 36572.6673321724
+Profile rows: 364500
+Range metric rows: 9000
+Expansion rows: 4500
+Failures: 1
+Warnings: none
+STAGE2_TRIGGER = TRUE
+Stage 2 was not started automatically.

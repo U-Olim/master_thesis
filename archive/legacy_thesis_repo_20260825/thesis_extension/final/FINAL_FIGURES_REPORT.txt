@@ -1,0 +1,114 @@
+FINAL FIGURES POST-PROCESSING AUDIT REPORT
+==========================================
+
+1. Git commit used for plotting: ed4b39ec9b44b2d17a21043516c4de2eef2583eb
+   Saved n=500 run commit: 3e4fee63d89502c60c7ab8804bbfd521e9306868
+   Saved n=1000 run commit: 3e4fee63d89502c60c7ab8804bbfd521e9306868
+
+2-3. Exact source files:
+n=500:
+  C:/Users/User/thesis/thesis_extension/final/output/n500/final_raw.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n500/final_power.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n500/final_summary.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n500/final_power_summary.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n500/final_diagnostics.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n500/final_manifest.txt
+  C:/Users/User/thesis/thesis_extension/final/output/n500/final_sessionInfo.txt
+n=1000:
+  C:/Users/User/thesis/thesis_extension/final/output/n1000/final_raw.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n1000/final_power.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n1000/final_summary.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n1000/final_power_summary.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n1000/final_diagnostics.csv
+  C:/Users/User/thesis/thesis_extension/final/output/n1000/final_manifest.txt
+  C:/Users/User/thesis/thesis_extension/final/output/n1000/final_sessionInfo.txt
+
+4. Integrity checks:
+   PASS: exactly one complete output set was found for each n=500 and n=1000.
+   PASS: per-n summary/power-summary row counts are 60/240; raw/power rows are 30000/120000.
+   PASS: expected n, tau, kappa, estimator, and Delta grids are exact, complete, and duplicate-free.
+   PASS: saved summaries contain no NA or non-finite numeric values.
+   PASS: raw design-cell denominators are 500 and replication/design keys are unique.
+   PASS: power data and power summaries record no numerical failures.
+   PASS: diagnostics contain exactly one n=500 failure and zero n=1000 failures.
+   PASS: both manifests record 500 replications, the expected row counts, and all_sanity_checks=TRUE.
+   PASS: differing n=500/n=1000 source/config MD5 entries are fully explained by LF versus CRLF line endings; normalized file contents are identical.
+
+5. Combined row counts: final_summary_combined=120; final_power_summary_combined=480.
+
+6. Numerical-failure cell:
+   n=500, tau=.10, kappa=.50, estimator=DML-IVQR, rep_id=123, rep_seed=20260943, alpha=1.3.
+   Diagnostic: ERROR: Error info =  101 in stepy2: singular design
+   Raw status: ERROR: Error info =  101 in stepy2: singular design | ERROR: missing required CR-grid W evaluation
+   Saved-summary handling: successful_replications=499, failed_replications=1, numerical_failure_rate=0.002.
+   The failed profile is excluded from every saved statistic in that summary cell; the reported values match the 499 status-OK profiles.
+   No repair, replacement, rerun, or imputation was performed. n=1000 has zero numerical failures.
+
+7. Exact column mappings:
+   RMSE -> RMSE
+   MAE -> MAE
+   bias -> Bias (authors' convention alpha_true - alpha_hat; verified as -mean_signed_error)
+   coverage -> coverage
+   median accepted-set measure -> median_accepted_set_measure_A
+   full-grid acceptance -> full_A_acceptance_rate (all 81 evaluated CR-grid points in A=[-1,3])
+   power -> rejection_probability
+   MCSE -> MCSE (saved final_power_summary value; not recomputed)
+
+8. Nominal coverage Monte Carlo reference band (R_MC=500): [0.930896283084174, 0.969103716915826].
+   This is a Monte Carlo sampling reference around nominal 95% coverage, not a confidence interval for an estimator.
+
+9-10. Plotting environment: R 4.6.1; ggplot2 4.0.3
+   Full R version: R version 4.6.1 (2026-06-24 ucrt)
+   Platform: x86_64-w64-mingw32
+
+11. Generated figure files:
+   thesis_extension/final/figures/main/fig1_rmse_vs_kappa.pdf
+   thesis_extension/final/figures/main/fig1_rmse_vs_kappa.png
+   thesis_extension/final/figures/main/fig2_coverage_vs_kappa.pdf
+   thesis_extension/final/figures/main/fig2_coverage_vs_kappa.png
+   thesis_extension/final/figures/main/fig3_median_accepted_measure_vs_kappa.pdf
+   thesis_extension/final/figures/main/fig3_median_accepted_measure_vs_kappa.png
+   thesis_extension/final/figures/main/fig4_dml_power_vs_kappa.pdf
+   thesis_extension/final/figures/main/fig4_dml_power_vs_kappa.png
+   thesis_extension/final/figures/main/fig5_full_grid_acceptance_vs_kappa.pdf
+   thesis_extension/final/figures/main/fig5_full_grid_acceptance_vs_kappa.png
+   thesis_extension/final/figures/appendix/appendix_figA1_mae_vs_kappa.pdf
+   thesis_extension/final/figures/appendix/appendix_figA1_mae_vs_kappa.png
+   thesis_extension/final/figures/appendix/appendix_figA2_bias_vs_kappa.pdf
+   thesis_extension/final/figures/appendix/appendix_figA2_bias_vs_kappa.png
+   thesis_extension/final/figures/appendix/appendix_figA3a_power_delta_m050.pdf
+   thesis_extension/final/figures/appendix/appendix_figA3a_power_delta_m050.png
+   thesis_extension/final/figures/appendix/appendix_figA3b_power_delta_m025.pdf
+   thesis_extension/final/figures/appendix/appendix_figA3b_power_delta_m025.png
+   thesis_extension/final/figures/appendix/appendix_figA3c_power_delta_p025.pdf
+   thesis_extension/final/figures/appendix/appendix_figA3c_power_delta_p025.png
+   thesis_extension/final/figures/appendix/appendix_figA3d_power_delta_p050.pdf
+   thesis_extension/final/figures/appendix/appendix_figA3d_power_delta_p050.png
+
+12. Generated figure-data CSVs:
+   thesis_extension/final/figure_data/fig1_rmse_vs_kappa.csv
+   thesis_extension/final/figure_data/fig2_coverage_vs_kappa.csv
+   thesis_extension/final/figure_data/fig3_median_accepted_measure_vs_kappa.csv
+   thesis_extension/final/figure_data/fig4_dml_power_vs_kappa.csv
+   thesis_extension/final/figure_data/fig5_full_grid_acceptance_vs_kappa.csv
+   thesis_extension/final/figure_data/appendix_figA1_mae_vs_kappa.csv
+   thesis_extension/final/figure_data/appendix_figA2_bias_vs_kappa.csv
+   thesis_extension/final/figure_data/appendix_figA3a_power_delta_m050.csv
+   thesis_extension/final/figure_data/appendix_figA3b_power_delta_m025.csv
+   thesis_extension/final/figure_data/appendix_figA3c_power_delta_p025.csv
+   thesis_extension/final/figure_data/appendix_figA3d_power_delta_p050.csv
+
+13. CONFIRMED: no simulation code was executed.
+14. CONFIRMED: original final outputs were not modified (before/after MD5 hashes identical).
+15. CONFIRMED: no author source, thesis simulation source, or frozen config file was modified (before/after MD5 hashes identical).
+16. Visual-quality audit: PASS. All 11 PNGs were opened and inspected after generation; panel/axis labels and legends are readable; no clipping or overlap was observed; kappa runs 1.00, .50, .25, .10 from left to right; estimator mappings are consistent; the coverage line/band is visible; and required y-axis limits are applied.
+
+Suggested factual thesis captions
+---------------------------------
+Figure 1. Root mean squared error by instrument-strength design for Oracle-GMM, Full-GMM, and DML-IVQR, shown by sample size and quantile.
+Figure 2. Empirical coverage by instrument-strength design. The horizontal line marks 0.95; the shaded band is the nominal 95% Monte Carlo reference band for 500 replications.
+Figure 3. Median grid-based accepted-set measure within the prespecified parameter space A=[-1,3], by instrument-strength design, sample size, quantile, and estimator.
+Figure 4. DML-IVQR rejection probability under four directional alternatives, by instrument-strength design, sample size, and quantile.
+Figure 5. Rate at which all 81 evaluated CR-grid points in A=[-1,3] are accepted, by instrument-strength design, sample size, quantile, and estimator.
+
+POST-PROCESSING STATUS: ALL ASSERTIONS PASSED

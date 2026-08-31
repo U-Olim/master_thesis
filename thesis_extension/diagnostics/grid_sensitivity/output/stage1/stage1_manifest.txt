@@ -1,0 +1,8 @@
+stage=stage1
+Git SHA: 03adacf6037c522155477914bbab0c9572f3d050
+C:/Users/User/master_thesis/thesis_extension/diagnostics/grid_sensitivity/grid_sensitivity_config.R | 69a654241e352cb2ba15008f70ad3fb4
+C:/Users/User/master_thesis/thesis_extension/diagnostics/grid_sensitivity/grid_sensitivity_functions.R | f1d3c39ed71019147c5fe846b50b9f31
+C:/Users/User/master_thesis/thesis_extension/diagnostics/grid_sensitivity/run_grid_sensitivity.R | 4edf9cebe56ae7dbb80b0195574d9d9d
+primitive_hash_algorithm=MD5
+primitive_count=100
+Existing author code and final-run code were not modified.

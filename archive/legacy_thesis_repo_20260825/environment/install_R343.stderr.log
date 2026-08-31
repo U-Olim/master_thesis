@@ -1,0 +1,117 @@
+Already installed: backports 1.1.1
+Already installed: checkmate 1.8.5
+Already installed: colorspace 1.3-2
+Already installed: digest 0.6.12
+Already installed: iterators 1.0.8
+Already installed: foreach 1.4.3
+Already installed: Formula 1.2-2
+Already installed: gtable 0.2.0
+Already installed: labeling 0.3
+Already installed: lazyeval 0.2.1
+Already installed: magrittr 1.5
+Already installed: R6 2.2.2
+Already installed: RColorBrewer 1.1-2
+Already installed: Rcpp 0.12.14
+Already installed: rlang 0.1.4
+Already installed: munsell 0.4.3
+Already installed: plyr 1.8.4
+Already installed: stringi 1.1.6
+Already installed: stringr 1.2.0
+Already installed: reshape2 1.4.2
+Already installed: tibble 1.3.4
+Already installed: dichromat 2.0-0
+Already installed: viridisLite 0.2.0
+Already installed: scales 0.5.0
+Already installed: ggplot2 2.2.1
+Already installed: glmnet 2.0-13
+Already installed: MatrixModels 0.4-1
+Already installed: SparseM 1.77
+Already installed: snow 0.4-2
+Already installed: quantreg 5.34
+Installing hqreg 1.4 from C:/Users/User/thesis/environment/cran-source/hqreg_1.4.tar.gz
+* installing *source* package 'hqreg' ...
+** пакет 'hqreg' удачно распакован, MD5 sums проверены
+** libs
+
+*** arch - i386
+installing to C:/Users/User/thesis/environment/legacy_R343_library/hqreg/libs/i386
+
+*** arch - x64
+installing to C:/Users/User/thesis/environment/legacy_R343_library/hqreg/libs/x64
+** R
+** preparing package for lazy loading
+** help
+*** installing help indices
+    finding HTML links ... готово
+** building package indices
+** testing if installed package can be loaded
+*** arch - i386
+*** arch - x64
+* DONE (hqreg)
+In R CMD INSTALL
+Installing mvtnorm 1.0-6 from C:/Users/User/thesis/environment/cran-source/mvtnorm_1.0-6.tar.gz
+* installing *source* package 'mvtnorm' ...
+** пакет 'mvtnorm' удачно распакован, MD5 sums проверены
+** libs
+
+*** arch - i386
+installing to C:/Users/User/thesis/environment/legacy_R343_library/mvtnorm/libs/i386
+
+*** arch - x64
+installing to C:/Users/User/thesis/environment/legacy_R343_library/mvtnorm/libs/x64
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+    finding HTML links ... готово
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+*** arch - i386
+*** arch - x64
+* DONE (mvtnorm)
+In R CMD INSTALL
+Installing doSNOW 1.0.16 from C:/Users/User/thesis/environment/cran-source/doSNOW_1.0.16.tar.gz
+* installing *source* package 'doSNOW' ...
+** пакет 'doSNOW' удачно распакован, MD5 sums проверены
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+    finding HTML links ... готово
+** building package indices
+** testing if installed package can be loaded
+*** arch - i386
+*** arch - x64
+* DONE (doSNOW)
+In R CMD INSTALL
+Installing hdm 0.2.0 from C:/Users/User/thesis/environment/cran-source/hdm_0.2.0.tar.gz
+* installing *source* package 'hdm' ...
+** пакет 'hdm' удачно распакован, MD5 sums проверены
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+    finding HTML links ... готово
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+*** arch - i386
+*** arch - x64
+* DONE (hdm)
+In R CMD INSTALL
+ѕредупреждени€:
+1: ¬ packageDescription(package, lib.loc = legacy_lib, fields = "Version") :
+  no package 'hqreg' was found
+2: ¬ packageDescription(package, lib.loc = legacy_lib, fields = "Version") :
+  no package 'mvtnorm' was found
+3: ¬ packageDescription(package, lib.loc = legacy_lib, fields = "Version") :
+  no package 'doSNOW' was found
+4: ¬ packageDescription(package, lib.loc = legacy_lib, fields = "Version") :
+  no package 'hdm' was found
+All pinned packages installed successfully in C:/Users/User/thesis/environment/legacy_R343_library
