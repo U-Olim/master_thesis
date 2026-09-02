@@ -22,4 +22,4 @@ Final execution is additionally guarded by `environment/check_author_environment
 
 `powershell.exe -NoProfile -ExecutionPolicy Bypass -File thesis_extension/environment/run_R343_validations.ps1`
 
-The authoritative historical artifacts are written to `validation/R343/`; modern-environment validation artifacts remain separate.
+The canonical final pre-run historical validation artifacts are under `validation/R343_final_audit/`; earlier historical and modern-environment validation artifacts remain separate.

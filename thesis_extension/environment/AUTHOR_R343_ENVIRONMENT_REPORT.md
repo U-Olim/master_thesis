@@ -65,7 +65,7 @@ The final runner now calls this assertion before reading config, calling `set.se
 
 ## Authoritative R 3.4.3 validation
 
-All outputs are isolated under `validation/R343/`; the earlier R 4.6.1 files were not overwritten.
+The canonical final pre-run outputs are isolated under `validation/R343_final_audit/`; the earlier R 3.4.3 and R 4.6.1 validation files were not overwritten.
 
 - Kappa=1: maximum latent-treatment and transformed-treatment differences were exactly `0`.
 - Oracle: maximum difference over the 41-point W profile was `0`.

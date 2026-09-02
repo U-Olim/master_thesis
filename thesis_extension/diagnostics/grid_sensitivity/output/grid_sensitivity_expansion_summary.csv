@@ -1,7 +1,0 @@
-"n","tau","kappa","estimator","total_replications","median_added_measure_A1_to_A2","mean_added_measure_A1_to_A2","median_added_measure_A2_to_A3","mean_added_measure_A2_to_A3","median_accepted_share_A1","mean_accepted_share_A1","median_accepted_share_A2","mean_accepted_share_A2","median_accepted_share_A3","mean_accepted_share_A3","boundary_acceptance_rate_A1","boundary_acceptance_rate_A2","boundary_acceptance_rate_A3","all_grid_acceptance_rate_A1","all_grid_acceptance_rate_A2","all_grid_acceptance_rate_A3"
-1000,0.5,0.1,"DML-IVQR-BC",1,4,4,4,4,1,1,1,1,1,1,1,1,1,1,1,1
-1000,0.5,0.1,"Full-GMM",1,4,4,4,4,1,1,1,1,1,1,1,1,1,1,1,1
-1000,0.5,0.1,"Oracle-GMM",1,4,4,4,4,1,1,1,1,1,1,1,1,1,1,1,1
-1000,0.5,1,"DML-IVQR-BC",1,0,0,0,0,0.0487804878048781,0.0487804878048781,0.0246913580246914,0.0246913580246914,0.0165289256198347,0.0165289256198347,0,0,0,0,0,0
-1000,0.5,1,"Full-GMM",1,0,0,0,0,0.121951219512195,0.121951219512195,0.0617283950617284,0.0617283950617284,0.0413223140495868,0.0413223140495868,0,0,0,0,0,0
-1000,0.5,1,"Oracle-GMM",1,0,0,0,0,0.0731707317073171,0.0731707317073171,0.037037037037037,0.037037037037037,0.0247933884297521,0.0247933884297521,0,0,0,0,0,0

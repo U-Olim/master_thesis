@@ -29,3 +29,14 @@ thesis_extension/figures/*
 .DS_Store
 Thumbs.db
 .vscode/settings.json
+
+# Generated LaTeX build artifacts for the canonical manuscript
+thesis/*.aux
+thesis/*.bbl
+thesis/*.bcf
+thesis/*.blg
+thesis/*.log
+thesis/*.out
+thesis/*.run.xml
+thesis/*.toc
+thesis/*.synctex.gz
