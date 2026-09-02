@@ -1,0 +1,55 @@
+\babel@toc {english}{}\relax 
+\babel@toc {english}{}\relax 
+\babel@toc {USenglish}{}\relax 
+\babel@toc {USenglish}{}\relax 
+\babel@toc {USenglish}{}\relax 
+\babel@toc {USenglish}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Motivation and Research Problem}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Research Question and Contribution}{1}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Structure of the Thesis}{1}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Econometric Background and Related Literature}{1}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Quantile Treatment Effects and Endogeneity}{1}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Instrumental Variable Quantile Regression}{1}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Identification and Weak Identification in IVQR}{1}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Weak-Identification-Robust Inference}{1}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}High-Dimensional Nuisance Estimation and Double Machine Learning}{1}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}DML-IVQR and the Research Gap}{1}{subsection.2.6}%
+\contentsline {section}{\numberline {3}DML-IVQR Methodology}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Structural Quantile Model}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Profiled Nuisance Parameters}{2}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Neyman-Orthogonal Score}{2}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Nuisance Estimation and Regularization}{2}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Oracle-GMM, Full-GMM, and DML-IVQR}{2}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}GMM Criterion, Point Estimation, and Robust Inference}{2}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Monte Carlo Design}{2}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Baseline Data-Generating Process}{2}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Instrument-Strength Extension}{2}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Simulation Design}{2}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Performance Measures}{3}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Confidence-Region Construction and Numerical Grid}{3}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Post-Main Numerical Diagnostics}{3}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Monte Carlo Results}{3}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Instrument-Strength Calibration}{3}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Point-Estimation Performance}{3}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Confidence-Region Informativeness}{3}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Power}{3}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Coverage and Size}{3}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Heterogeneity Across Quantiles}{3}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Synthesis Across Estimators}{3}{subsection.5.7}%
+\contentsline {section}{\numberline {6}Discussion}{4}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Main Findings and Weak Identification}{4}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Inferential Validity versus Informativeness}{4}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}What DML Can and Cannot Address}{4}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Limitations}{4}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Conclusion}{4}{section.7}%
+\babel@toc {USenglish}{}\relax 
+\contentsline {section}{References}{5}{section*.1}%
+\babel@toc {USenglish}{}\relax 
+\contentsline {section}{\numberline {A}Full Monte Carlo Results}{A-1}{appendix.A}%
+\contentsline {section}{\numberline {B}Detailed Power Results}{A-1}{appendix.B}%
+\contentsline {section}{\numberline {C}Boundary and Grid-Domain Diagnostic}{A-1}{appendix.C}%
+\contentsline {section}{\numberline {D}Coverage Forensic Audit}{A-1}{appendix.D}%
+\contentsline {section}{\numberline {E}Additional $W_N(a)$ Profiles}{A-1}{appendix.E}%
+\contentsline {section}{\numberline {F}Implementation and Reproducibility}{A-1}{appendix.F}%
+\babel@toc {USenglish}{}\relax 

@@ -5,7 +5,7 @@ getwd()
 source('fun_callback.R')
 library(doSNOW)
 iter=500
-sample_size=500
+sample_size=1000
 NumberOfCluster <-8
 cl <- makeCluster(NumberOfCluster)
 registerDoSNOW(cl)
@@ -61,6 +61,7 @@ sample500 <-foreach(i = 1:iter, .combine = "rbind") %dopar%{
 stopCluster(cl)
 proc.time() - ptm
 
+write.csv(sample500, paste0("raw_draws_sample", sample_size, ".csv"), row.names = FALSE)
 
 quntile=c(0.1,0.25,0.5,0.75,0.9)
 name=c(10,25,50,75,90)
