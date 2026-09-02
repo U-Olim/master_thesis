@@ -599,6 +599,40 @@
 \usepackage{tblr-extras}
 \UseTblrLibrary{caption}
 
+% Keep continued long-table captions visible without creating duplicate
+% Hyperref destinations. The firsthead template remains unchanged and owns
+% the table's real anchor; only middle and final continuation heads are local.
+\ExplSyntaxOn
+\DefTblrTemplate{middlehead}{default}{
+	\IfBoolTF \l__tblr_table_no_label_bool
+		{ \UseTblrTemplate{conthead}{default} \vspace{4pt} }
+		{
+		\IfBoolTF \l__tblrextras_table_title_below_bool
+			{ \UseTblrTemplate{conthead}{default} \vspace{4pt} }
+			{
+			\begin{NoHyper}
+				\captionsetup{type*=table}
+				\caption*{\textbf{\tablename~\thetable.}~\InsertTblrText{caption}~\UseTblrTemplate{conthead-text}{default}}
+			\end{NoHyper}
+			}
+		}
+}
+\DefTblrTemplate{lasthead}{default}{
+	\IfBoolTF \l__tblr_table_no_label_bool
+		{ \UseTblrTemplate{conthead}{default} \vspace{4pt} }
+		{
+		\IfBoolTF \l__tblrextras_table_title_below_bool
+			{ \UseTblrTemplate{conthead}{default} \vspace{4pt} }
+			{
+			\begin{NoHyper}
+				\captionsetup{type*=table}
+				\caption*{\textbf{\tablename~\thetable.}~\InsertTblrText{caption}~\UseTblrTemplate{conthead-text}{default}}
+			\end{NoHyper}
+			}
+		}
+}
+\ExplSyntaxOff
+
 % Global default values for table formatting
 \addtolength{\heavyrulewidth}{0.1pt}%
 \addtolength{\lightrulewidth}{-0.05pt}%

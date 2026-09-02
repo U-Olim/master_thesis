@@ -1,0 +1,21 @@
+\begin{table}[tbp]
+  \caption{Instrument-strength calibration}
+  \label{tab:strength-calibration}
+  \begin{booktabs}{
+    colspec = {Q[c] Q[c] Q[r] Q[c] Q[r] Q[c]},
+    row{1} = {font = \bfseries}
+  }
+$n$ & $\kappa$ & Median $F$ & $F$: p10--p90 & Median partial $R^2$ & Partial $R^2$: p10--p90 \\
+500 & 1.00 & 101.17 & 85.93--126.68 & 0.294 & 0.261--0.342 \\
+500 & 0.50 & 18.71 & 11.99--27.95 & 0.071 & 0.047--0.103 \\
+500 & 0.25 & 4.74 & 1.74--8.65 & 0.019 & 0.007--0.034 \\
+500 & 0.10 & 1.22 & 0.24--3.65 & 0.005 & 0.001--0.015 \\
+1000 & 1.00 & 212.82 & 185.34--239.50 & 0.301 & 0.273--0.327 \\
+1000 & 0.50 & 38.65 & 30.13--53.60 & 0.073 & 0.058--0.098 \\
+1000 & 0.25 & 9.85 & 5.34--16.15 & 0.020 & 0.011--0.032 \\
+1000 & 0.10 & 2.04 & 0.38--5.42 & 0.004 & 0.001--0.011 \\
+  \end{booktabs}
+  \begin{tablenotes}[Note]
+    Descriptive Monte Carlo strength diagnostics from the preserved 100-replication calibration. The reported dispersion ranges are the 10th and 90th percentiles. These statistics are not formal weak-instrument classification thresholds.
+  \end{tablenotes}
+\end{table}

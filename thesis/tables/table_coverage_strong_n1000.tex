@@ -1,0 +1,28 @@
+\begin{table}[tbp]
+  \caption{Finite-sample coverage under the strongest instrument design}
+  \label{tab:coverage-strong-n1000}
+  \begin{booktabs}{
+    colspec = {Q[c] X[l] Q[r] Q[r] Q[r] Q[r]},
+    row{1} = {font = \bfseries}
+  }
+$\tau$ & Estimator & Coverage & Size & MCSE & $q_{.95}(W_{\mathrm{true}})$ \\
+0.10 & Oracle-GMM & 0.860 & 0.140 & 0.016 & 9.723 \\
+0.10 & Full-GMM & 0.502 & 0.498 & 0.022 & 21.090 \\
+0.10 & DML-IVQR-BC & 0.968 & 0.032 & 0.008 & 5.256 \\
+0.25 & Oracle-GMM & 0.874 & 0.126 & 0.015 & 8.300 \\
+0.25 & Full-GMM & 0.790 & 0.210 & 0.018 & 10.940 \\
+0.25 & DML-IVQR-BC & 0.894 & 0.106 & 0.014 & 7.811 \\
+0.50 & Oracle-GMM & 0.872 & 0.128 & 0.015 & 8.511 \\
+0.50 & Full-GMM & 0.896 & 0.104 & 0.014 & 7.524 \\
+0.50 & DML-IVQR-BC & 0.776 & 0.224 & 0.019 & 11.157 \\
+0.75 & Oracle-GMM & 0.860 & 0.140 & 0.016 & 8.763 \\
+0.75 & Full-GMM & 0.790 & 0.210 & 0.018 & 12.489 \\
+0.75 & DML-IVQR-BC & 0.632 & 0.368 & 0.022 & 16.034 \\
+0.90 & Oracle-GMM & 0.904 & 0.096 & 0.013 & 7.395 \\
+0.90 & Full-GMM & 0.530 & 0.470 & 0.022 & 20.072 \\
+0.90 & DML-IVQR-BC & 0.498 & 0.502 & 0.022 & 18.682 \\
+  \end{booktabs}
+  \begin{tablenotes}[Note]
+    Results use $n=1000$, $\kappa=1$, and 500 Monte Carlo replications. The unchanged 95\% reference cutoff is $q_{\chi^2_2}(.95)=5.991$.
+  \end{tablenotes}
+\end{table}
