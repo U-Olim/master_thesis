@@ -1,5 +1,7 @@
 # Author-faithful DML-IVQR kappa extension
 
+> **CURRENT STATUS NOTE — 2026-09-02:** This document records an earlier project stage. The final R=500 simulation, grid-domain diagnostic Stages 1 and 2, and coverage/size forensic audit have since been completed. Current status is maintained in [`PROJECT_STATUS.md`](../PROJECT_STATUS.md).
+
 This directory is an isolated thesis extension. No file in the authors' `simulation/` directory is sourced and modified at runtime; the estimator logic is copied into explicit wrappers so the original repository stays immutable.
 
 The sole structural DGP change is

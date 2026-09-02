@@ -1,5 +1,7 @@
 # Authors' R 3.4.3 environment reconstruction report
 
+> **CURRENT STATUS NOTE — 2026-09-02:** This document records an earlier project stage. The final R=500 simulation, grid-domain diagnostic Stages 1 and 2, and coverage/size forensic audit have since been completed. Current status is maintained in [`PROJECT_STATUS.md`](../../PROJECT_STATUS.md).
+
 ## Source of truth and paths
 
 The authors' `simulation/Readme.md` documents R 3.4.3, quantreg 5.34, hdm 0.2.0, hqreg 1.4, mvtnorm `1.0.6`, and doSNOW 1.0.16. The executable used here is:

@@ -979,8 +979,6 @@
 	\counterwithin{figure}{section}%
 	\counterwithin{table}{section}%
 	\counterwithin{equation}{section}%
-	\renewcommand{\thepage}{A-\arabic{page}}%
-	\setcounter{page}{1}%
 	%\pdfbookmark[0]{\appendixname}{Appendix}%
 	\titleformat{\section}{\normalfont\Large\bfseries}{\strut\appendixname~\thesection}{1em}{#1\strut}%
 }
@@ -1164,7 +1162,6 @@
 \end{appendix}
 
 \ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{%
-	\renewcommand{\thepage}{}
 	\ifthenelse{%
 		\equal{\manuscriptlanguage}{DE}%
 	}{% German
@@ -1182,7 +1179,7 @@
 		% Taken from
 		% https://www.econ.uni-bonn.de/examinations/en/information/master-economics/master-thesis/documents/ma-master-thesis-style-guide-2014-06-10.pdf
 		\pdfbookmark[1]{Declaration}{declaration}
-		I~hereby declare that I~have written the present thesis independently and have used no other sources and aids than those indicated, that the submitted work has not been previously presented for examination at another university, and that it has not been published either in whole or in part. I~have identified all direct quotes and paraphrased ideas taken from other works in each individual case. \par
+		I hereby affirm that I have written the above thesis independently and have used no sources or aids other than those indicated; that the submitted work has not previously been submitted for examination at any other university; and that it has not been published, either in whole or in part. I have clearly indicated all direct quotations and passages paraphrased from other works as such. \par
 		\vspace{\baselineskip}
 		\noindent\formattedmanuscriptdate \par
 	}
