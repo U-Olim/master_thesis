@@ -1,14 +1,148 @@
 \section{DML-IVQR Methodology}
 
-\leavevmode\par  % Empty skeleton paragraph; remove when substantive content is added.
-
 \subsection{Structural Quantile Model}
 
-\leavevmode\par  % Empty skeleton paragraph; remove when substantive content is added.
+Following the instrumental-variable quantile regression (IVQR) framework of \textcite{chernozhukov_hansen_2005} and \textcite{chernozhukov_hansen_2008}, let $Y_i$ denote a scalar outcome, $D_i$ an endogenous treatment or vector of endogenous variables, $X_i$ a vector of observed controls, and $Z_i$ a vector of instruments. For each potential treatment state $d$, the potential outcome satisfies
+\begin{equation}
+    Y_{di} = q(U_{di},d,X_i),
+    \qquad
+    U_{di} \mid X_i \sim \operatorname{Uniform}(0,1),
+    \label{eq:ivqr-potential-outcomes}
+\end{equation}
+where $U_{di}$ is the treatment-state-specific structural rank and $q(u,d,x)$ is strictly increasing in $u$. Thus, $q(\tau,d,x)$ is the conditional $\tau$-quantile of the potential outcome $Y_d$ given $X=x$, and hence the structural quantile obtained by fixing treatment at $d$. The IVQR assumptions combine conditional instrument exogeneity for the potential-outcome ranks, a treatment-selection mechanism, and rank similarity across treatment states. Define the realized structural rank as $U_i:=U_{D_i i}$. Rank similarity does not impose the stronger special case of rank invariance, under which $U_{di}=U_{d'i}$ for all treatment states $d$ and $d'$. A central implication of these assumptions is the observed-data representation
+\begin{equation}
+    Y_i = q(U_i,D_i,X_i),
+    \qquad
+    U_i \mid X_i,Z_i \sim \operatorname{Uniform}(0,1).
+    \label{eq:structural-ivqr}
+\end{equation}
+Accordingly, $U_{di}$ indexes the rank associated with potential treatment state $d$, whereas $U_i$ is the rank realized under the observed treatment $D_i$; the model does not require an individual to retain an identical rank under every treatment state.
+
+Endogeneity permits $D_i$ to be statistically dependent on $U_i$. Consequently, the observed conditional quantile $Q_{Y\mid D,X}(\tau\mid d,x)$ generally differs from the structural quantile $q(\tau,d,x)$: the former reflects selection into the realized treatment, whereas the latter holds treatment fixed. Conditioning directly on $D_i=d$ can change the distribution of latent ranks represented among observations and thus need not recover the corresponding potential-outcome quantile. For two treatment states $d_1$ and $d_0$, the structural quantile treatment effect at controls $x$ is $q(\tau,d_1,x)-q(\tau,d_0,x)$. The contrast compares the $\tau$-quantiles of the two conditional potential-outcome distributions at common controls. The distinction between observed and structural quantiles is fundamental to IVQR.
+
+For a fixed $\tau\in(0,1)$, the DML-IVQR procedure of \textcite{chen_huang_tien_2021} adopts the linear-in-parameters structural quantile specification
+\begin{equation}
+    q(\tau,D_i,X_i)
+    = D_i^{\prime}\alpha_0(\tau)
+      + X_i^{\prime}\beta_0(\tau).
+    \label{eq:linear-structural-quantile}
+\end{equation}
+Here $\alpha_0(\tau)$ is the low-dimensional structural parameter of interest, while $\beta_0(\tau)$ contains quantile-specific coefficients on the controls. In the high-dimensional setting, $\beta_0(\tau)$ may have many components and is treated as a nuisance parameter. The dimension of $\alpha_0(\tau)$ equals the number of endogenous variables but is assumed small relative to the potentially large control dimension. If $D_i$ is scalar, $\alpha_0(\tau)$ is the quantile-specific structural treatment effect per unit change in $D_i$ under this linear specification.
+
+Strict monotonicity in the rank gives $\{Y_i\leq q(\tau,D_i,X_i)\}=\{U_i\leq\tau\}$. Together with the conditional uniformity in \eqref{eq:structural-ivqr}, this yields the key restriction at the true structural parameters,
+\begin{equation}
+    \Pr\!\left[
+        Y_i \leq D_i^{\prime}\alpha_0(\tau)
+        + X_i^{\prime}\beta_0(\tau)
+        \mid X_i,Z_i
+    \right]
+    = \tau.
+    \label{eq:ivqr-conditional-restriction}
+\end{equation}
+Equivalently, the model implies the conditional moment
+\begin{equation}
+    \operatorname{E}\!\left[
+        \tau
+        - \mathbb{1}\!\left\{
+            Y_i \leq D_i^{\prime}\alpha_0(\tau)
+            + X_i^{\prime}\beta_0(\tau)
+        \right\}
+        \mathrel{\big|} X_i,Z_i
+    \right]
+    = 0.
+    \label{eq:ivqr-conditional-moment}
+\end{equation}
+Thus, despite the endogeneity of $D_i$, the rank and instrument-exogeneity structure supplies a conditional quantile restriction for the structural coefficients: at their true values, the probability of a nonpositive structural residual is $\tau$ within cells defined by $(X_i,Z_i)$. This restriction defines the population condition on which the later procedure is based. Directly estimating the low-dimensional target $\alpha_0(\tau)$ jointly with the high-dimensional nuisance $\beta_0(\tau)$ is difficult; the next subsection therefore profiles the nuisance coefficient for each candidate treatment parameter.
 
 \subsection{Profiled Nuisance Parameters}
 
-\leavevmode\par  % Empty skeleton paragraph; remove when substantive content is added.
+Fix $\tau\in(0,1)$ and let $a$ denote a candidate value for the low-dimensional structural coefficient $\alpha_0(\tau)$. Profiling temporarily treats $a$ as fixed. After subtracting $D_i^{\prime}a$ from $Y_i$, the control coefficient is chosen so that $X_i^{\prime}b$ fits the $\tau$-quantile of the remaining outcome according to the quantile check loss
+\begin{equation}
+    \rho_{\tau}(u)
+    = u\bigl[\tau-\mathbb{1}\{u<0\}\bigr].
+    \label{eq:check-loss}
+\end{equation}
+The loss gives asymmetric linear weights to positive and negative residuals, with the asymmetry determined by $\tau$. Following \textcite{chen_huang_tien_2021}, the candidate-specific profiled coefficient is
+\begin{equation}
+    \beta(a)
+    = \operatorname*{arg\,min}_{b}
+      \operatorname{E}\!\left[
+          \rho_{\tau}\!\left(Y_i-D_i^{\prime}a-X_i^{\prime}b\right)
+      \right].
+    \label{eq:profile-beta}
+\end{equation}
+Thus, $\beta(a)$ is the population control coefficient for the adjusted outcome $Y_i-D_i^{\prime}a$. Because this outcome changes with $a$, $\beta(a)$ generally changes as well. Under the usual quantile-regression regularity conditions, it has the population moment characterization
+\begin{equation}
+    \operatorname{E}\!\left[
+        \left\{
+            \tau-\mathbb{1}\!\left[
+                Y_i\leq D_i^{\prime}a+X_i^{\prime}\beta(a)
+            \right]
+        \right\}X_i
+    \right]
+    =0.
+    \label{eq:profile-beta-moment}
+\end{equation}
+This condition says that, at $\beta(a)$, the quantile-score term has zero population moment with each control. It is the population condition defining the control coefficient associated with candidate $a$. At $a=\alpha_0(\tau)$, the maintained model and uniqueness conditions imply $\beta(\alpha_0(\tau))=\beta_0(\tau)$. For $a\neq\alpha_0(\tau)$, however, $\beta(a)$ is only a candidate-specific profile nuisance and is not the true structural control coefficient.
+
+The associated profile residual is
+\begin{equation}
+    \epsilon_i(a)
+    =Y_i-D_i^{\prime}a-X_i^{\prime}\beta(a).
+    \label{eq:profile-residual}
+\end{equation}
+Let $f_{\epsilon(a)}(0\mid X_i,Z_i)$ denote its conditional density evaluated at zero. Residuals below zero lie on one side of the fitted candidate quantile, while residuals above zero lie on the other. A small change in $\beta(a)$ can move observations with residuals close to zero from one side to the other. The density near zero therefore determines how sensitive the quantile moment is to a small change in the control coefficient.
+
+To characterize this sensitivity, suppose $Z_i\in\mathbb{R}^{d_z}$ and $X_i\in\mathbb{R}^{p}$ and define
+\begin{equation}
+    \begin{aligned}
+        M(a)
+        &=\operatorname{E}\!\left[
+            Z_iX_i^{\prime}f_{\epsilon(a)}(0\mid X_i,Z_i)
+        \right],
+        & M(a)&\in\mathbb{R}^{d_z\times p},\\
+        J(a)
+        &=\operatorname{E}\!\left[
+            X_iX_i^{\prime}f_{\epsilon(a)}(0\mid X_i,Z_i)
+        \right],
+        & J(a)&\in\mathbb{R}^{p\times p}.
+    \end{aligned}
+    \label{eq:profile-MJ}
+\end{equation}
+The matrices summarize how the quantile moment changes when $\beta(a)$ moves slightly. The matrix $J(a)$ describes this relationship using the controls themselves, whereas $M(a)$ describes the corresponding relationship between the instruments and the controls. Both are weighted by the residual density at zero because observations near the fitted quantile are most likely to change sides after a small movement in $\beta(a)$. Assuming that $J(a)$ is nonsingular at the population level, set
+\begin{equation}
+    \delta(a)=M(a)J(a)^{-1},
+    \qquad
+    \delta(a)\in\mathbb{R}^{d_z\times p},
+    \label{eq:profile-delta}
+\end{equation}
+and define the corresponding population residualized instrument as
+\begin{equation}
+    \Psi_i(a)=Z_i-\delta(a)X_i.
+    \label{eq:profile-residualized-instrument}
+\end{equation}
+The matrix $\delta(a)$ determines how much of each instrument is associated with the controls under the density weighting. Hence, $\Psi_i(a)$ is the part of the instrument left after removing that weighted control-related component. By construction, $\operatorname{E}[(Z_i-\delta(a)X_i)X_i^{\prime}f_{\epsilon(a)}(0\mid X_i,Z_i)]=0$. Because the weighting gives more importance to observations near the candidate quantile boundary, $\Psi_i(a)$ is not an ordinary unweighted regression residual, and $\delta(a)$ is not a conventional first-stage coefficient.
+
+Collect the candidate-specific nuisance quantities as
+\begin{equation}
+    \eta(a)
+    =
+    \begin{pmatrix}
+        \beta(a)\\
+        \operatorname{vec}\{\delta(a)\}
+    \end{pmatrix},
+    \qquad
+    \eta_0
+    =
+    \eta\!\left(\alpha_0(\tau)\right)
+    =
+    \begin{pmatrix}
+        \beta_0(\tau)\\
+        \operatorname{vec}\{\delta(\alpha_0(\tau))\}
+    \end{pmatrix}.
+    \label{eq:profile-eta}
+\end{equation}
+Here $\operatorname{vec}\{\delta(a)\}$ stacks the entries of the matrix $\delta(a)$ into one vector. Vectorization changes only how the matrix nuisance is stored; it does not alter the residualization itself. These objects are nuisance quantities because the inferential target remains $\alpha_0(\tau)$. Candidate-specific $\beta(a)$ handles the high-dimensional structural control component, while $\delta(a)$ removes the density-weighted component of the instruments associated with $X_i$. Section~3.3 combines these objects with the IVQR quantile residual to construct a Neyman-orthogonal moment for $\alpha_0(\tau)$.
 
 \subsection{Neyman-Orthogonal Score}
 
