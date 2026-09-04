@@ -122,11 +122,11 @@ The matrices summarize how the quantile moment changes when the fitted intercept
     \delta(a)\in\mathbb{R}^{d_z\times(p+1)},
     \label{eq:profile-delta}
 \end{equation}
-Partition this matrix as $\delta(a)=[d_0(a),\Delta(a)]$, where $d_0(a)\in\mathbb{R}^{d_z}$ contains the residualization intercepts and $\Delta(a)\in\mathbb{R}^{d_z\times p}$ contains the slopes on the nonconstant controls. The corresponding population residualized instrument is
+Partition this matrix as $\delta(a)=[d_0(a),\Gamma(a)]$, where $d_0(a)\in\mathbb{R}^{d_z}$ contains the residualization intercepts and $\Gamma(a)\in\mathbb{R}^{d_z\times p}$ contains the slopes on the nonconstant controls. The corresponding population residualized instrument is
 \begin{equation}
     \Psi_i(a)
     =Z_i-\delta(a)\widetilde X_i
-    =Z_i-d_0(a)-\Delta(a)X_i.
+    =Z_i-d_0(a)-\Gamma(a)X_i.
     \label{eq:profile-residualized-instrument}
 \end{equation}
 The matrix $\delta(a)$ determines how much of each instrument is associated with the intercept and controls under the density weighting. Hence, $\Psi_i(a)$ is the part of the instrument left after removing that weighted component. By construction, $\operatorname{E}[(Z_i-\delta(a)\widetilde X_i)\widetilde X_i^{\prime}f_{\epsilon(a)}(0\mid X_i,Z_i)]=0$. Because the weighting gives more importance to observations near the candidate quantile boundary, $\Psi_i(a)$ is not an ordinary unweighted regression residual, and $\delta(a)$ is not a conventional first-stage coefficient.
@@ -152,7 +152,7 @@ Collect the candidate-specific nuisance quantities as
     \end{pmatrix}.
     \label{eq:profile-eta}
 \end{equation}
-Here $\operatorname{vec}\{\delta(a)\}$ stacks the entries of the matrix $\delta(a)$ into one vector. Vectorization changes only how the matrix nuisance is stored; it does not alter the residualization itself. These objects are nuisance quantities because the inferential target remains $\alpha_0(\tau)$. Candidate-specific $c(a)$ and $\beta(a)$ handle the structural intercept and high-dimensional control component, while $\delta(a)$ removes the density-weighted component of the instruments associated with $\widetilde X_i$. Section~3.3 combines these objects with the IVQR quantile residual to construct a Neyman-orthogonal moment for $\alpha_0(\tau)$.
+Here $\operatorname{vec}\{\delta(a)\}$ stacks the entries of the matrix $\delta(a)$ into one vector. Vectorization changes only how the matrix nuisance is stored; it does not alter the residualization itself. These objects are nuisance quantities because the inferential target remains $\alpha_0(\tau)$. Candidate-specific $c(a)$ and $\beta(a)$ handle the structural intercept and high-dimensional control component, while $\delta(a)$ removes the density-weighted component of the instruments associated with $\widetilde X_i$. Sections~3.2--3.3 describe the theoretical augmented Neyman-orthogonal construction. Section~3.3 combines these objects with the IVQR quantile residual to construct its moment for $\alpha_0(\tau)$.
 
 \subsection{Neyman-Orthogonal Score}
 
@@ -263,9 +263,9 @@ Orthogonality protects the score against small nuisance-parameter errors, but it
 
 \subsection{Nuisance Estimation and Regularization}
 
-Sections~3.2--3.3 defined $c(a)$, $\beta(a)$, and $\delta(a)$ as population quantities. Their sample counterparts can be difficult to estimate when the number of controls is large relative to the sample size $N$. Estimating every coefficient without restrictions may then be noisy or unstable. The DML-IVQR procedure therefore uses $\ell_1$ regularization. This approach is suited to approximate sparsity: many controls may be available, but only a relatively small group has a large predictive role, while many other coefficients are zero or small. Approximate sparsity does not require every weak or irrelevant coefficient to be exactly zero.
+Sections~3.2--3.3 defined $c(a)$, $\beta(a)$, and $\delta(a)$ as population quantities in the theoretical augmented construction. Estimating the related nuisance components can be difficult when the number of controls is large relative to the sample size $N$. Estimating every coefficient without restrictions may then be noisy or unstable. The DML-IVQR procedure therefore uses $\ell_1$ regularization. This approach is suited to approximate sparsity: many controls may be available, but only a relatively small group has a large predictive role, while many other coefficients are zero or small. Approximate sparsity does not require every weak or irrelevant coefficient to be exactly zero.
 
-Fix $\tau$ and a candidate value $a$. Nuisance estimation is repeated whenever a relevant candidate is evaluated. In the executable implementation used here, the response for the first nuisance step is $Y_i-D_i^{\prime}a$. The formula adds an intercept, so let $b_0$ denote that intercept and let $b=(b_1,\ldots,b_p)^{\prime}$ contain only the slopes on $X_i$. Thus, $(\widehat b_0(a),\widehat\beta(a))$ estimates $(c(a),\beta(a))$, while the later pair $(\widehat d_0(a),\widehat\delta(a))$ corresponds to the intercept-and-slope partition $[d_0(a),\Delta(a)]$ of the population residualization matrix. The candidate-specific quantile-Lasso estimates are
+Fix $\tau$ and a candidate value $a$. Nuisance estimation is repeated whenever a relevant candidate is evaluated. In the executable implementation used here, the response for the first nuisance step is $Y_i-D_i^{\prime}a$. The formula adds an intercept, so let $b_0$ denote that intercept and let $b=(b_1,\ldots,b_p)^{\prime}$ contain only the slopes on $X_i$. Thus, $(\widehat b_0(a),\widehat\beta(a))$ estimates $(c(a),\beta(a))$. The implementation-specific notation for the later instrument regression is defined below and is kept distinct from the full population matrix $\delta(a)=[d_0(a),\Gamma(a)]$. The candidate-specific quantile-Lasso estimates are
 \begin{equation}
     \begin{pmatrix}
         \widehat b_0(a)\\
@@ -327,40 +327,42 @@ The fitted quantile regression produces the candidate residual and density weigh
 \end{equation}
 where $\phi(e;\mu,\sigma)$ is the normal density with mean $\mu$ and standard deviation $\sigma$. Thus, the executable simulation forms the weights by evaluating a fitted normal density at the candidate residuals.\footnote{The literal preserved call is \texttt{dnorm(e, mean(e), var(e))}. Its third argument is interpreted as a standard deviation, although the code supplies the residual sample variance.} This fitted-normal quantity is an implementation-specific proxy for the theoretical conditional density $f_{\epsilon(a)}(0\mid X_i,Z_i)$ from Section~3.2; it is not a direct conditional-density estimate at zero. Zero remains the fitted quantile boundary, and the theoretical reason for density weighting is that observations near this boundary determine local changes in the quantile moment. These proxy weights are then used in the instrument-residualization step, where they play the role assigned to density weights in the theoretical construction.
 
-For each instrument component $j$, the implementation next fits a separate square-root-density-weighted Lasso. Let $\widehat d_{j0}(a)$ denote its intercept and let $\widehat\delta_j(a)$ contain only the slopes on the transformed controls. Its transformed regression is
+For each instrument component $j$, the implementation next fits a separate square-root-density-weighted Lasso. Let $\widehat r_{j0}(a)$ denote its retained ordinary intercept and let $\widehat\Gamma_{\mathrm{imp},j}(a)$ contain only the slopes on the transformed controls. Its transformed regression is
 \begin{equation}
     \begin{pmatrix}
-        \widehat d_{j0}(a)\\
-        \widehat\delta_j(a)
+        \widehat r_{j0}(a)\\
+        \widehat\Gamma_{\mathrm{imp},j}(a)
     \end{pmatrix}
     =
-    \operatorname*{arg\,min}_{(d_{j0},d_j)}
+    \operatorname*{arg\,min}_{(r_{j0},\gamma_j)}
     \left\{
         \sum_{i=1}^{N}
         \left[
             \sqrt{\widehat f_i(a)}Z_{ji}
-            -d_{j0}
-            -\sqrt{\widehat f_i(a)}X_i^{\prime}d_j
+            -r_{j0}
+            -\sqrt{\widehat f_i(a)}X_i^{\prime}\gamma_j
         \right]^2
-        +\mathcal{P}_{j,a}(d_j)
+        +\mathcal{P}_{j,a}(\gamma_j)
     \right\}.
-    \label{eq:delta-hat-dml}
+    \label{eq:dml-residualization-implementation}
 \end{equation}
-Here $\mathcal{P}_{j,a}(d_j)=\sum_{k=1}^{p}\lambda^{\delta}_{jk}(a)|d_{jk}|$ is the coefficient-specific $\ell_1$ penalty produced by the instrument-regression routine's default iterative heteroskedastic loadings. The intercept is included but not penalized, the same controls are used as in the first nuisance step, and no post-Lasso refit is performed. After fitting the transformed regression, the code retains both the intercept and the slopes. Define $\widehat d_0(a)=(\widehat d_{10}(a),\ldots,\widehat d_{d_z0}(a))^{\prime}$ and stack the slope rows in $\widehat\delta(a)$. The residualized instrument used in the score is
+Here $\mathcal{P}_{j,a}(\gamma_j)=\sum_{k=1}^{p}\lambda^{\Gamma}_{jk}(a)|\gamma_{jk}|$ is the coefficient-specific $\ell_1$ penalty produced by the instrument-regression routine's default iterative heteroskedastic loadings. The intercept is included but not penalized, the same controls are used as in the first nuisance step, and no post-Lasso refit is performed. After fitting the transformed regression, the code retains both the intercept and the slopes. Define $\widehat r_0(a)=(\widehat r_{10}(a),\ldots,\widehat r_{d_z0}(a))^{\prime}$ and stack the slope rows in $\widehat\Gamma_{\mathrm{imp}}(a)$. The residualized instrument used in the score is
 \begin{equation}
     \begin{aligned}
         \widehat\Psi_{ji}(a)
         &=
-        Z_{ji}-\widehat d_{j0}(a)-X_i^{\prime}\widehat\delta_j(a),\\
+        Z_{ji}-\widehat r_{j0}(a)-X_i^{\prime}\widehat\Gamma_{\mathrm{imp},j}(a),\\
         \widehat\Psi_i(a)
         &=
-        Z_i-\widehat d_0(a)-\widehat\delta(a)X_i.
+        Z_i-\widehat r_0(a)-\widehat\Gamma_{\mathrm{imp}}(a)X_i.
     \end{aligned}
     \label{eq:estimated-residualized-instrument}
 \end{equation}
-Thus, the score residualizes the original, untransformed instrument. The calculation subtracts the retained intercept and the fitted contribution of the original controls. It does not divide by $\sqrt{\widehat f_i(a)}$ or use the transformed regression residual directly.
+Thus, the score residualizes the original, untransformed instrument. The calculation subtracts the retained intercept and the fitted contribution of the original controls. It does not divide the retained intercept by $\sqrt{\widehat f_i(a)}$ or use the transformed regression residual directly.
 
-The $\ell_1$ penalties place a cost on large collections of nonzero coefficients. Weak coefficients can consequently be shrunk strongly, often to zero, which can stabilize both nuisance steps in a high-dimensional sample. This regularization also creates shrinkage error; the orthogonal construction in Section~3.3 is designed to limit its first-order effect on the target moment, as in the general framework of \textcite{chernozhukov_et_al_2018}. The implementation estimates the nuisance parameters and evaluates the score on the same sample; it does not use sample splitting or cross-fitting. General DML procedures often use cross-fitting, but this specific implementation instead relies on the orthogonal score together with its high-dimensional sparsity and rate conditions.
+The intercept retained by the frozen transformed regression is an implementation-specific quantity. Because it enters the transformed regression as an ordinary constant rather than as $\sqrt{\widehat f_i(a)}$ times a constant regressor, $\widehat r_0(a)$ is not the literal sample counterpart of $d_0(a)$ in the augmented population projection of Section~3.2. The exact derivative cancellation established in Section~3.3 applies to the theoretical augmented score. The preserved executable score follows the same density-weighted residualization logic for the slope component but differs in its treatment of the residualization intercept. The Monte Carlo results therefore characterize the preserved executable DML-IVQR implementation rather than a literal sample implementation of every component of the augmented theoretical orthogonal score.
+
+The $\ell_1$ penalties place a cost on large collections of nonzero coefficients. Weak coefficients can consequently be shrunk strongly, often to zero, which can stabilize both nuisance steps in a high-dimensional sample. This regularization also creates shrinkage error; the theoretical orthogonal construction in Section~3.3 is designed to limit its first-order effect on the target moment, as in the general framework of \textcite{chernozhukov_et_al_2018}. The implementation estimates the nuisance parameters and evaluates the score on the same sample; it does not use sample splitting or cross-fitting. General DML procedures often use cross-fitting, whereas this preserved implementation uses same-sample evaluation with its high-dimensional sparsity and rate conditions.
 
 \subsection{Oracle-GMM, Full-GMM, and DML-IVQR}
 
@@ -416,7 +418,7 @@ Oracle-GMM and Full-GMM use the same unregularized instrument-residualization ca
 \end{equation}
 This is a direct matrix inversion, not a penalized regression. The residualization includes no intercept, even though the preceding quantile regression does. This is an implementation-specific feature of the frozen benchmark estimators; it differs from the augmented population residualization used to describe the orthogonal DML score in Sections~3.2--3.3. Accordingly, the benchmark moments do not implement the full augmented orthogonality calculation. The calculation also uses the original $Z_i$ in the final residual. The implementation has no ridge adjustment or generalized inverse: if $\widehat J_e(a)$ is singular, the direct solve fails and the outer evaluation records a numerical failure. Each benchmark then multiplies $\widehat\Psi_{e,i}(a)$ by its candidate quantile score.
 
-DML-IVQR instead uses the full high-dimensional control set and regularizes both nuisance-estimation steps, as described in Section~3.4. It estimates the control coefficients by quantile Lasso, forms the density proxy, and estimates the instrument residualization through regularized weighted regressions. These nuisance estimates are then used in the score described in Section~3.3. The implemented version, DML-IVQR-BC, uses the pivotal penalty in \eqref{eq:bc-pivotal-penalty}. Oracle-GMM and Full-GMM also use residualized IVQR moments, but their nuisance parameters are estimated without $\ell_1$ regularization. Unlike the benchmark matrix calculation, the DML instrument regression retains an intercept. The comparison therefore covers three cases: the oracle control set is known and estimated without regularization; the full control set is estimated without regularization; or the full control set is handled with regularized nuisance estimation. It does not perfectly separate every source of finite-sample error, but it keeps the structural model, target, and instruments common. Once the estimator-specific moment is constructed, Section~3.6 applies the common criterion and inference procedure.
+DML-IVQR instead uses the full high-dimensional control set and regularizes both nuisance-estimation steps, as described in Section~3.4. It estimates the control coefficients by quantile Lasso, forms the density proxy, and estimates the instrument residualization through regularized weighted regressions. The DML implementation follows the quantile-score and density-weighted residualization structure motivated by the Neyman-orthogonal construction in Section~3.3, with the implementation-specific intercept treatment documented in Section~3.4. The implemented version, DML-IVQR-BC, uses the pivotal penalty in \eqref{eq:bc-pivotal-penalty}. Oracle-GMM and Full-GMM also use residualized IVQR moments, but their nuisance parameters are estimated without $\ell_1$ regularization. Unlike the benchmark matrix calculation, the DML instrument regression retains an intercept. The comparison therefore covers three cases: the oracle control set is known and estimated without regularization; the full control set is estimated without regularization; or the full control set is handled with regularized nuisance estimation. It does not perfectly separate every source of finite-sample error, but it keeps the structural model, target, and instruments common. Once the estimator-specific moment is constructed, Section~3.6 applies the common criterion and inference procedure.
 
 \subsection{GMM Criterion, Point Estimation, and Robust Inference}
 
@@ -463,15 +465,15 @@ Point estimation and robust inference use the profile differently. Point estimat
     \qquad d_z=\dim(Z_i).
     \label{eq:weak-id-null-distribution}
 \end{equation}
-The degrees of freedom equal the number of instrument components and therefore the number of moment components. Following \textcite{chernozhukov_hansen_2008}, this test evaluates the moments directly at the hypothesized value instead of relying on a conventional normal approximation for $\widehat\alpha_e(\tau)$. For significance level $q\in(0,1)$, let $c_{1-q,d_z}$ be the $(1-q)$ quantile of $\chi^2_{d_z}$. The candidate is rejected when $W_{e,N}(a)>c_{1-q,d_z}$ and is not rejected when the weak inequality holds.
+The degrees of freedom equal the number of instrument components and therefore the number of moment components. Following \textcite{chernozhukov_hansen_2008}, this test evaluates the moments directly at the hypothesized value instead of relying on a conventional normal approximation for $\widehat\alpha_e(\tau)$. For significance level $\gamma\in(0,1)$, let $c_{1-\gamma,d_z}$ be the $(1-\gamma)$ quantile of $\chi^2_{d_z}$. The candidate is rejected when $W_{e,N}(a)>c_{1-\gamma,d_z}$ and is not rejected when the weak inequality holds.
 
 Inverting these candidate-specific tests gives
 \begin{equation}
-    \mathcal C_{e,1-q}(\tau)
+    \mathcal C_{e,1-\gamma}(\tau)
     =
     \left\{
         a\in\mathcal A:
-        W_{e,N}(a)\leq c_{1-q,d_z}
+        W_{e,N}(a)\leq c_{1-\gamma,d_z}
     \right\}.
     \label{eq:robust-confidence-region}
 \end{equation}

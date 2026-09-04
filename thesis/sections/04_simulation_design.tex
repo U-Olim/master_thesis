@@ -1,5 +1,7 @@
 \section{Monte Carlo Design}
 
+Chapter~3 uses $N$ as generic sample-size notation; the simulation chapters use $n$ for the design sample size.
+
 \subsection{Baseline Data-Generating Process}
 
 The Monte Carlo experiment builds on the high-dimensional simulation design of \textcite{chen_huang_tien_2021}, with $p=100$ observed controls. For each observation $i$, the structural disturbances satisfy
@@ -132,7 +134,7 @@ The completed Monte Carlo experiment uses the design dimensions
 \end{equation}
 The two sample sizes characterize finite-sample behavior at different values of $n$, while the five quantile indices cover the center and both tails of the structural outcome distribution. The instrument-loading values span the executable baseline at $\kappa=1$ and progressively lower degrees of excluded-instrument relevance; their empirical calibration is presented later. The Cartesian product contains $2\times5\times4=40$ distinct $(n,\tau,\kappa)$ designs, with $R=500$ Monte Carlo replications in each design cell.
 
-Each design is evaluated using Oracle-GMM, Full-GMM, and DML-IVQR. Oracle-GMM uses the known low-dimensional set of controls relevant to the DGP and serves as an infeasible benchmark. Full-GMM instead uses the complete high-dimensional control set without the DML regularization strategy. DML-IVQR applies the authors' high-dimensional regularized procedure with an orthogonal score. Chapter~3 provides the formal estimator definitions. Combining the 40 designs with the three estimators yields $40\times3=120$ design-estimator cells, each containing 500 replications. For every quantile index, the true parameter used in the Monte Carlo evaluation is the value from Equation~\eqref{eq:dgp-alpha-true}, $\alpha_0(\tau)=1+\Phi^{-1}(\tau)$.
+Each design is evaluated using Oracle-GMM, Full-GMM, and DML-IVQR. Oracle-GMM uses the known low-dimensional set of controls relevant to the DGP and serves as an infeasible benchmark. Full-GMM instead uses the complete high-dimensional control set without the DML regularization strategy. DML-IVQR applies the authors' high-dimensional regularized procedure based on the theoretical Neyman-orthogonal construction. Chapter~3 provides the formal estimator definitions and documents the implementation-specific residualization intercept. Combining the 40 designs with the three estimators yields $40\times3=120$ design-estimator cells, each containing 500 replications. For every quantile index, the true parameter used in the Monte Carlo evaluation is the value from Equation~\eqref{eq:dgp-alpha-true}, $\alpha_0(\tau)=1+\Phi^{-1}(\tau)$.
 
 Within a given replication and $(n,\tau,\kappa)$ design, the runner evaluates all three estimators on the same generated sample, thereby holding the simulated data fixed across estimator comparisons. The implemented DML-IVQR estimator uses the BC pivotal-penalty and same-sample nuisance-estimation procedure described in Section~3.4.
 
