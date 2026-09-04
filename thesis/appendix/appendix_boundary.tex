@@ -1,5 +1,6 @@
-\section{Boundary and Grid-Domain Diagnostic}
+\section{Numerical and Domain Diagnostics}
+\label{app:numerical-domain-diagnostics}
 
-Tables~C.1--C.5 report, respectively, accepted-set measures, added accepted measure across domain expansions, boundary and full-grid acceptance, profile counts and numerical errors, and stabilization classifications within the investigated domains. In particular, Table~C.4 records the numerical failure information used to distinguish incomplete profiles from substantive accepted-set behavior.
+The post-main diagnostic expands the candidate domain from $A_0=[-1,3]$ to $A_1=[-3,5]$ and then to $A_2=[-5,7]$. At $\kappa=1$, the accepted-set measure changes little across these domains, supporting numerical localization within the investigated range. At $\kappa=0.25$, expansion adds material accepted measure in some profiles. At $\kappa=0.10$, the aggregate measure does not stabilize within $A_2$. These findings concern only the finite domains investigated and do not establish global unboundedness. Figure~\ref{fig:grid-domain} provides the compact graphical summary, while the complete machine-readable diagnostic outputs remain preserved with the artifacts documented in Appendix~\ref{app:implementation-reproducibility}.
 
-\input{tables/generated/appendix_grid_diagnostic}
+The diagnostic recorded one Stage~1 numerical failure: replication 35 at $\tau=0.90$, $\kappa=0.10$, for DML-IVQR-BC at candidate $a=-2.1$, with a singular-design error. Stage~2 recorded no new evaluation errors. The affected profile was treated as incomplete, and its aggregate accepted-set measures were not calculated from partial information.

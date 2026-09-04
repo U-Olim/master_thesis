@@ -2,7 +2,7 @@
 
 Chapter~3 uses $N$ as generic sample-size notation; the simulation chapters use $n$ for the design sample size.
 
-\subsection{Baseline Data-Generating Process}
+\subsection{Data-Generating Process and Instrument-Relevance Extension}
 
 The Monte Carlo experiment builds on the high-dimensional simulation design of \textcite{chen_huang_tien_2021}, with $p=100$ observed controls. For each observation $i$, the structural disturbances satisfy
 \begin{equation}
@@ -28,13 +28,13 @@ The remaining primitives are mutually independent and independent of the disturb
   \overset{\mathrm{ind}}{\sim}\mathcal{N}(0,1).
   \label{eq:dgp-primitives}
 \end{equation}
-Observations are generated independently across $i$. The observed controls are transformations of the latent Gaussian draws:
+Observations are independent across $i$. The observed controls are
 \begin{equation}
   X_{ji}=\Phi(x_{ji}),
   \qquad j=1,\ldots,100,
   \label{eq:dgp-controls}
 \end{equation}
-where $\Phi$ denotes the standard-normal cumulative distribution function. By the probability integral transform, $X_{ji}\sim\mathcal{U}(0,1)$. These transformations preserve independence across controls and map the latent Gaussian draws monotonically onto the unit interval.
+where $\Phi$ is the standard-normal cumulative distribution function, so $X_{ji}\sim\mathcal{U}(0,1)$ independently across controls.
 
 The executable design constructs two instruments as\footnote{The displayed Monte Carlo equations in \textcite{chen_huang_tien_2021} write the corresponding control terms as $x_j$. The released simulation code instead uses the transformed controls $X_j=\Phi(x_j)$. The simulations in this thesis follow that executable implementation.}
 \begin{equation}
@@ -45,40 +45,38 @@ The executable design constructs two instruments as\footnote{The displayed Monte
   Z_{2i}=z_{2i}+v_{2i}+X_{7i}+X_{8i}+X_{9i}+X_{10i}.
   \label{eq:dgp-instrument2}
 \end{equation}
-Here, $z_{1i}$ and $z_{2i}$ are the components of the observed instruments that enter the treatment index directly, while the included $X$ components induce dependence between the instruments and observed controls and $v_{1i}$ and $v_{2i}$ add independent noise. The original baseline treatment equation is
+The $z$ components enter the treatment index directly, the included controls induce dependence between instruments and controls, and the $v$ components add independent noise. The executable baseline treatment is
 \begin{equation}
   D_i=\Phi(z_{1i}+z_{2i}+\epsilon_i).
   \label{eq:dgp-treatment-baseline}
 \end{equation}
-The treatment is continuous and lies in $(0,1)$. The next subsection introduces the instrument-strength extension by modifying this treatment equation while leaving the remaining structural DGP unchanged.
+The treatment is continuous and lies in $(0,1)$.
 
 The structural outcome is generated according to
 \begin{equation}
   Y_i=1+D_i+5\sum_{j=1}^{7}X_{ji}+D_i u_i.
   \label{eq:dgp-outcome}
 \end{equation}
-Only $X_{1i},\ldots,X_{7i}$ enter the structural outcome directly, while $X_{8i},\ldots,X_{10i}$ additionally enter the instrument construction. The union of the controls appearing in the outcome and instrument equations therefore gives $X_{1i},\ldots,X_{10i}$ as the ten controls relevant to the complete DGP. For a treatment level $d\in(0,1)$, Equation~\eqref{eq:dgp-outcome} implies the potential outcome
+The outcome contains $X_{1i},\ldots,X_{7i}$; together with the controls in the instruments, $X_{1i},\ldots,X_{10i}$ form the ten-control oracle set. For $d\in(0,1)$, Equation~\eqref{eq:dgp-outcome} implies
 \begin{equation}
   Y_i(d)=1+5\sum_{j=1}^{7}X_{ji}+d(1+u_i).
   \label{eq:dgp-potential-outcome}
 \end{equation}
-Conditional on $X_i$, treatment-effect heterogeneity is governed by $1+u_i$. Because $u_i$ is independent of $X_i$ and standard normal,
+Because $u_i$ is independent of $X_i$ and standard normal,
 \begin{equation}
   Q_{Y_i(d)\mid X_i}(\tau)
   =1+5\sum_{j=1}^{7}X_{ji}
   +d\left[1+\Phi^{-1}(\tau)\right].
   \label{eq:dgp-structural-quantile}
 \end{equation}
-The coefficient on $d$ in the structural $\tau$-quantile is therefore
+The structural quantile treatment effect is therefore
 \begin{equation}
   \alpha_0(\tau)=1+\Phi^{-1}(\tau).
   \label{eq:dgp-alpha-true}
 \end{equation}
-In particular, the median structural quantile treatment effect equals $\alpha_0(0.50)=1$.
+In particular, $\alpha_0(0.50)=1$.
 
-\subsection{Instrument-Strength Extension}
-
-The thesis-specific extension varies excluded-instrument relevance through a single parameter $\kappa\in[0,1]$ while holding the remaining structural DGP fixed. It adds one primitive, $w_i\sim\mathcal{N}(0,1)$, which is independent of all primitives defined in Section~4.1. The latent treatment index and treatment are
+The extension varies excluded-instrument relevance through $\kappa\in[0,1]$. Let $w_i\sim\mathcal{N}(0,1)$ be independent of all preceding primitives. The latent index and treatment are
 \begin{equation}
   d_i^*(\kappa)
   =\kappa(z_{1i}+z_{2i})
@@ -90,20 +88,20 @@ The thesis-specific extension varies excluded-instrument relevance through a sin
   D_i(\kappa)=\Phi\!\left(d_i^*(\kappa)\right).
   \label{eq:dgp-treatment-kappa}
 \end{equation}
-The common loading $\kappa$ enters symmetrically on $z_{1i}$ and $z_{2i}$, so excluded-instrument relevance remains a one-dimensional experimental factor. This treatment equation is the sole structural modification relative to the executable baseline.
+This symmetric loading is the sole structural modification to the executable baseline.
 
-At $\kappa=1$, the coefficient on $w_i$ is $\sqrt{2(1-\kappa^2)}=0$, and hence
+At $\kappa=1$, the coefficient on $w_i$ is zero and
 \begin{equation}
   D_i(1)=\Phi(z_{1i}+z_{2i}+\epsilon_i),
   \label{eq:dgp-kappa-baseline}
 \end{equation}
-which exactly reproduces Equation~\eqref{eq:dgp-treatment-baseline}. The scaling of $w_i$ preserves the variance of the latent treatment index. Independence and the unit variances of $z_{1i}$, $z_{2i}$, $w_i$, and $\epsilon_i$ imply
+which reproduces Equation~\eqref{eq:dgp-treatment-baseline}. Independence and unit variances imply
 \begin{equation}
   \operatorname{Var}\!\left[d_i^*(\kappa)\right]
   =2\kappa^2+2(1-\kappa^2)+1=3.
   \label{eq:dgp-kappa-variance}
 \end{equation}
-The excluded-instrument component contributes $2\kappa^2$, the added $w_i$ component contributes $2(1-\kappa^2)$, and $\epsilon_i$ contributes one. Thus, $d_i^*(\kappa)\sim\mathcal{N}(0,3)$ for every $\kappa$, making the marginal distribution of $D_i(\kappa)$ invariant across designs. This distribution is not uniform because $\Phi$ is applied to a normal index with variance three rather than one. The added term therefore prevents a mechanical change in overall treatment-index dispersion when the excluded-instrument loading is reduced.
+Thus $d_i^*(\kappa)\sim\mathcal{N}(0,3)$ for every $\kappa$, preserving the marginal distribution of $D_i(\kappa)$. This distribution is not uniform because $\Phi$ is applied to an index with variance three.
 
 Instrument relevance changes because
 \begin{equation}
@@ -112,15 +110,15 @@ Instrument relevance changes because
   =\kappa.
   \label{eq:dgp-kappa-relevance}
 \end{equation}
-By Equations~\eqref{eq:dgp-instrument1} and \eqref{eq:dgp-instrument2}, the components of each observed instrument other than $z_{1i}$ or $z_{2i}$ are independent of $d_i^*(\kappa)$, whereas $\operatorname{Cov}(z_{1i},d_i^*(\kappa))=\operatorname{Cov}(z_{2i},d_i^*(\kappa))=\kappa$. Thus, as $\kappa$ declines, so does the covariance between each observed instrument and the latent treatment index. The parameter $\kappa$ is the structural loading governing instrument relevance, not a complete measure of IVQR identification. Calibration diagnostics later assess the empirical strength separation of the selected designs. At the same time, endogeneity is preserved because $u_i$ is independent of $z_{1i}$, $z_{2i}$, and $w_i$, whereas its covariance with $\epsilon_i$ remains fixed:
+All other instrument components are independent of $d_i^*(\kappa)$, so lower $\kappa$ reduces each instrument--index covariance. The parameter governs relevance but is not a complete measure of IVQR identification. Endogeneity remains fixed because $u_i$ is independent of $z_{1i}$, $z_{2i}$, and $w_i$ while its covariance with $\epsilon_i$ is unchanged:
 \begin{equation}
   \operatorname{Cov}\!\left(u_i,d_i^*(\kappa)\right)
   =\operatorname{Cov}(u_i,\epsilon_i)=0.3.
   \label{eq:dgp-kappa-endogeneity}
 \end{equation}
-Because $(u_i,d_i^*(\kappa))$ is jointly Gaussian with zero means and invariant moments $\operatorname{Var}(u_i)=1$, $\operatorname{Var}(d_i^*(\kappa))=3$, and $\operatorname{Cov}(u_i,d_i^*(\kappa))=0.3$, its joint distribution is unchanged across $\kappa$. The extension also leaves unchanged the observed instruments in Equations~\eqref{eq:dgp-instrument1} and \eqref{eq:dgp-instrument2}, the controls and their distribution, the disturbance distribution, the outcome in Equation~\eqref{eq:dgp-outcome}, and the structural quantile effect in Equation~\eqref{eq:dgp-alpha-true}. It is therefore designed to isolate weaker excluded-instrument relevance from changes in the marginal treatment distribution, the endogeneity channel, and the structural treatment-effect distribution.
+Joint normality and the invariant variance and covariance in Equations~\eqref{eq:dgp-kappa-variance} and~\eqref{eq:dgp-kappa-endogeneity} keep the joint distribution of $(u_i,d_i^*(\kappa))$ unchanged. The controls, observed-instrument construction, structural outcome equation, induced marginal outcome distribution, and structural quantile effect are also unchanged. The extension therefore isolates relevance from the marginal treatment distribution, endogeneity channel, and structural treatment-effect distribution.
 
-\subsection{Simulation Design}
+\subsection{Simulation Design and Estimator Comparison}
 
 The completed Monte Carlo experiment uses the design dimensions
 \begin{equation}
@@ -132,13 +130,13 @@ The completed Monte Carlo experiment uses the design dimensions
   \end{aligned}
   \label{eq:simulation-design}
 \end{equation}
-The two sample sizes characterize finite-sample behavior at different values of $n$, while the five quantile indices cover the center and both tails of the structural outcome distribution. The instrument-loading values span the executable baseline at $\kappa=1$ and progressively lower degrees of excluded-instrument relevance; their empirical calibration is presented later. The Cartesian product contains $2\times5\times4=40$ distinct $(n,\tau,\kappa)$ designs, with $R=500$ Monte Carlo replications in each design cell.
+The Cartesian product contains $40$ distinct $(n,\tau,\kappa)$ designs, each with $500$ replications.
 
-Each design is evaluated using Oracle-GMM, Full-GMM, and DML-IVQR. Oracle-GMM uses the known low-dimensional set of controls relevant to the DGP and serves as an infeasible benchmark. Full-GMM instead uses the complete high-dimensional control set without the DML regularization strategy. DML-IVQR applies the authors' high-dimensional regularized procedure based on the theoretical Neyman-orthogonal construction. Chapter~3 provides the formal estimator definitions and documents the implementation-specific residualization intercept. Combining the 40 designs with the three estimators yields $40\times3=120$ design-estimator cells, each containing 500 replications. For every quantile index, the true parameter used in the Monte Carlo evaluation is the value from Equation~\eqref{eq:dgp-alpha-true}, $\alpha_0(\tau)=1+\Phi^{-1}(\tau)$.
+Oracle-GMM uses the known oracle control set; Full-GMM uses all controls without regularization; and DML-IVQR uses regularized high-dimensional nuisances and an orthogonalization-based score construction, with the implementation-specific residualization intercept described in Section~3.3. The design therefore has $120$ design--estimator cells. Every comparison uses the truth $\alpha_0(\tau)=1+\Phi^{-1}(\tau)$ from Equation~\eqref{eq:dgp-alpha-true}.
 
-Within a given replication and $(n,\tau,\kappa)$ design, the runner evaluates all three estimators on the same generated sample, thereby holding the simulated data fixed across estimator comparisons. The implemented DML-IVQR estimator uses the BC pivotal-penalty and same-sample nuisance-estimation procedure described in Section~3.4.
+All estimators use the same sample within a replication. DML-IVQR uses the BC pivotal penalty and same-sample procedure in Section~3.3. Inference is conducted at 95\%, and power uses the alternatives defined below.
 
-\subsection{Performance Measures}
+\subsection{Performance Measures and Numerical Inference}
 
 For a fixed $(n,\tau,\kappa,\text{estimator})$ cell, let $\widehat{\alpha}_r(\tau)$ denote the point estimate in replication $r$, and let $\alpha_0(\tau)$ be the true value from Equation~\eqref{eq:dgp-alpha-true}. Replications are indexed by $r=1,\ldots,R$. Suppressing an estimator superscript, point-estimation performance is summarized by
 \begin{equation}
@@ -152,9 +150,9 @@ For a fixed $(n,\tau,\kappa,\text{estimator})$ cell, let $\widehat{\alpha}_r(\ta
   \end{aligned}
   \label{eq:performance-point}
 \end{equation}
-Every measure is computed separately for each estimator and design cell; aggregation never pools distinct design cells. Under the frozen reporting convention, positive Bias means that estimates lie below the true parameter on average, while negative Bias means that they lie above it. Bias captures signed systematic deviation, MAE measures absolute error, and RMSE places greater weight on large errors.
+Measures are computed separately by estimator and design cell. Positive Bias means estimates lie below the truth on average; MAE records absolute error, and RMSE gives greater weight to large errors.
 
-Coverage is determined by evaluating the test statistic directly at the exact true parameter. With $c_{0.95}$ denoting the critical value defined in Section~4.5, define
+Coverage is determined by evaluating the test statistic directly at the exact true parameter. With $c_{0.95}$ denoting the critical value defined below, define
 \begin{equation}
   C_r(\tau)
     =\mathbf{1}\!\left\{W_{N,r}\!\left(\alpha_0(\tau)\right)\leq c_{0.95}\right\},
@@ -163,7 +161,7 @@ Coverage is determined by evaluating the test statistic directly at the exact tr
     =\frac{1}{R}\sum_{r=1}^{R}C_r(\tau).
   \label{eq:performance-coverage}
 \end{equation}
-Nominal coverage is $0.95$. Crucially, coverage evaluates $W_{N,r}$ at $\alpha_0(\tau)$ itself; it is not inferred from whether a numerical confidence-region grid contains the true value and is therefore independent of whether the truth is a grid point. Empirical size is the rejection frequency at the true parameter:
+Coverage evaluates $W_{N,r}$ directly at $\alpha_0(\tau)$ and is therefore independent of the numerical grid. Empirical size is
 \begin{equation}
   \widehat{\operatorname{Size}}(\tau)
     =\frac{1}{R}\sum_{r=1}^{R}
@@ -171,7 +169,7 @@ Nominal coverage is $0.95$. Crucially, coverage evaluates $W_{N,r}$ at $\alpha_0
     =1-\widehat{\operatorname{Coverage}}(\tau).
   \label{eq:performance-size}
 \end{equation}
-The final equality follows exactly from the implemented rejection rule.
+The equality follows from the implemented rejection rule.
 
 Power is evaluated at deliberately false treatment-effect values
 \begin{equation}
@@ -187,18 +185,14 @@ For each offset, empirical power is
       \mathbf{1}\!\left\{W_{N,r}\!\left(a_{\Delta}(\tau)\right)>c_{0.95}\right\}.
   \label{eq:performance-power}
 \end{equation}
-The offset $\Delta=0$ is excluded because rejection at the true value measures size rather than power. As with coverage, the statistic is evaluated directly at $a_{\Delta}(\tau)$, so power does not depend on whether that false value lies on the numerical confidence-region grid.
+The statistic is evaluated directly at each false value, independently of the confidence-region grid; $\Delta=0$ is size, not power.
 
-Inferential informativeness is summarized by the grid-based accepted-set measure within the prespecified primary computational domain. In each replication, candidate values satisfying $W_{N,r}(a)\leq c_{0.95}$ are accepted by the inverted test. The measure totals all accepted components inside the finite domain, including disconnected components; it is neither the distance between the minimum and maximum accepted values nor a claim about the unrestricted theoretical confidence region. Section~4.5 defines the exact numerical grid and trapezoidal construction. The Monte Carlo summary reports the median accepted-set measure across replications. It also reports the all-grid-points acceptance rate, the fraction of replications in which every candidate point in the prespecified primary grid is accepted; this is not acceptance of the entire parameter space. Coverage and size assess empirical calibration at the true parameter, whereas the accepted-set measure and power assess informativeness and discrimination against other parameter values.
-
-\subsection{Confidence-Region Construction and Numerical Grid}
-
-The Monte Carlo implementation uses the candidate-specific statistic $W_N(a)$ and the uncentered score second-moment matrix defined in Section~3.6. Because the DGP has $d_z=2$ instrument components, the 95\% cutoff is
+The accepted-set measure totals all accepted components inside the primary computational domain, including disconnected components. It is neither the span between extreme accepted values nor an unrestricted confidence-region length. Because $d_z=2$, the 95\% cutoff for the statistic in Section~3.4 is
 \begin{equation}
   c_{0.95}=\chi^2_{2,0.95}=5.991464547\ldots.
   \label{eq:wn-critical-value}
 \end{equation}
-As in Section~3.6, a candidate is accepted when $W_N(a)\leq c_{0.95}$. This asymptotic cutoff is not an exact finite-sample guarantee; finite-sample calibration is evaluated empirically in Chapter~5. The main simulation evaluates the accepted set on the prespecified primary grid
+A candidate is accepted when $W_N(a)\leq c_{0.95}$. This asymptotic cutoff is not an exact finite-sample guarantee. The primary grid is
 \begin{equation}
   \begin{aligned}
     A_0&=[-1,3],
@@ -208,7 +202,9 @@ As in Section~3.6, a candidate is accepted when $W_N(a)\leq c_{0.95}$. This asym
   \end{aligned}
   \label{eq:primary-grid}
 \end{equation}
-The same grid is used across sample sizes, quantiles, instrument-loading values, estimators, and replications. The interval $A_0$ is solely a computational domain, not the asserted theoretical parameter space. Reaching a boundary of $A_0$ therefore establishes neither global boundedness nor global unboundedness of the conceptual confidence set.
+The same grid is used throughout. $A_0$ is a computational domain, not an asserted parameter space, so reaching its boundary establishes neither global boundedness nor unboundedness.
+
+The initial numerical design considered reporting total confidence-region length after adaptive domain expansion. Numerical grid diagnostics showed that, under weak relevance, accepted sets could remain non-localized over increasingly wide numerical domains. The final design therefore reports a fixed-domain accepted-set measure and treats domain expansion as a separate numerical diagnostic rather than assigning an artificial finite confidence-region length.
 
 For replication $r$, define the binary grid-acceptance indicator, accepted grid, and all-grid-points indicator by
 \begin{equation}
@@ -229,19 +225,13 @@ The frozen implementation computes the grid-based accepted-set measure within $A
     \left[I_r(a_j)+I_r(a_{j+1})\right].
   \label{eq:accepted-measure}
 \end{equation}
-This quantity approximates the total measure of accepted values inside $A_0$. Separated accepted regions contribute through their respective local grid intervals, while rejected stretches reduce the measure rather than being filled in by the span between the smallest and largest accepted values. The calculation uses the grid indicators without interpolating critical-value crossings. It lies between zero and four and equals four when all 41 grid points are accepted. It is a finite-domain numerical summary, not an unrestricted confidence-region length. The Monte Carlo mean of $F_r$ is the all-grid-points acceptance rate, which records how often every tested candidate in $G_0$ is accepted; it does not imply acceptance of the real line or global unboundedness.
+The trapezoidal sum includes separated accepted components without filling rejected gaps and does not interpolate critical-value crossings. It ranges from zero to four. The Monte Carlo mean of $F_r$ is the frequency with which all tested grid points are accepted, not acceptance of the real line.
 
-The grid supports point-profile evaluation, the accepted-set measure, and the all-grid-points indicator. Coverage and power in Section~4.4 instead evaluate $W_N$ directly at exact true or false candidate values and remain independent of membership in $G_0$.
-
-\subsection{Post-Main Numerical Diagnostics}
-
-After the main Monte Carlo design had been frozen and completed, a numerical-domain diagnostic examined whether confidence-set informativeness within the primary domain $A_0$ was sensitive to its finite endpoints. A finite grid cannot reveal what occurs beyond those endpoints, so acceptance near or at a boundary may cause the measured accepted set to reflect numerical truncation. The investigated domains were
+Coverage and power remain direct evaluations outside this grid construction. A post-main diagnostic examines sensitivity to the finite endpoints using
 \begin{equation}
   A_0=[-1,3],\qquad A_1=[-3,5],\qquad A_2=[-5,7].
   \label{eq:grid-diagnostic-domains}
 \end{equation}
-The diagnostic used $n=1000$, $R=100$ diagnostic replications and primitive samples, $\tau\in\{0.10,0.25,0.50,0.75,0.90\}$, and Oracle-GMM, Full-GMM, and DML-IVQR-BC. It used $\kappa\in\{1,0.25,0.10\}$, a subset selected to represent different levels of instrument relevance. Stage~1 evaluated $W_N(a)$ on the 81-point grid for $A_1$ with spacing $0.1$; its 41-point $A_0$ summary came from the same profile. Thus, each replication held the primitive sample fixed across domains.
+It uses $n=1000$, 100 saved primitive samples, all five quantiles and estimators, $\kappa\in\{1,0.25,0.10\}$, and spacing $0.1$. Stage~1 evaluates $A_1$ and its nested $A_0$ profile; Stage~2 reloads the same samples and adds only the tails needed for $A_2$. Domain comparisons therefore change candidates, not samples. The outputs record accepted measure, grid share and count, boundary acceptance, all-grid acceptance, and incremental measure.
 
-Stage~2 extended the investigated domain to $A_2$. It reloaded the 100 saved Stage~1 primitive samples, retained the 81 profile values on $A_1$, and evaluated only the 40 added tail points in $[-5,-3.1]\cup[5.1,7]$. The resulting $A_2$ profile contained 121 points at the unchanged spacing of $0.1$. Comparisons across domains therefore reflect additional candidate values rather than different Monte Carlo samples. For each domain, the implementation records the grid-based accepted-set measure, the accepted-grid share and count, acceptance at the left, right, either, and both boundaries, and whether all grid points are accepted. It also computes the change in accepted-set measure from $A_0$ to $A_1$ and from $A_1$ to $A_2$.
-
-These diagnostics distinguish an accepted set numerically localized within a domain from one whose relevant portions continue beyond it. If acceptance reaches a numerical boundary, the warranted conclusion is only that the accepted set is not bounded within the domain examined. It does not establish that the theoretical confidence region is globally unbounded, that the entire real line is accepted, or that identification is completely absent. The diagnostic ended after Stage~2 at $A_2$; no Stage~3 or open-ended expansion was used. This keeps the exercise bounded rather than repeatedly enlarging the domain until a particular pattern emerges. Main Monte Carlo summaries continue to use $A_0$. The expansions diagnose the numerical interpretation of accepted-set informativeness, while coverage and power remain direct evaluations at their target values under Section~4.4. Substantive diagnostic findings are reported in Chapter~5.
+Boundary acceptance shows only a lack of localization within the examined domain; it does not establish global unboundedness, acceptance of the real line, or failed identification. The bounded diagnostic ends at $A_2$, while main summaries retain $A_0$ and direct coverage and power remain unchanged.

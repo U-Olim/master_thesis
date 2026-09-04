@@ -1,4 +1,5 @@
 \section{Implementation and Reproducibility}
+\label{app:implementation-reproducibility}
 
 This appendix records the repository materials needed to understand and reproduce the computational workflow. All paths are relative to the repository root. The archived outputs and manifests permit verification of the reported evidence, but the material is not described as bit-for-bit reproducible across arbitrary systems.
 
@@ -40,7 +41,7 @@ The canonical main-run summaries record zero numerical failures, as confirmed by
 
 \subsection{Theory and Code Correspondence}
 
-The preserved DML implementation estimates nuisance quantities and evaluates scores on the same sample; it does not use sample splitting or cross-fitting. It uses the BC pivotal penalty and the fitted-normal density proxy documented in Section~3.4. The literal density call is \texttt{dnorm(e, mean(e), var(e))}, so the residual sample variance is supplied to the argument that R interprets as a standard deviation. Instrument residualization regresses $\sqrt{\widehat f_i}Z_{ji}$ on transformed controls with an ordinary unpenalized intercept. The score subtracts that retained intercept and the fitted slopes from the untransformed instrument, without dividing the intercept by $\sqrt{\widehat f_i}$. As explained in Section~3.4, this intercept is implementation specific and is not the literal sample counterpart of the intercept in the augmented population projection.
+The preserved DML implementation estimates nuisance quantities and evaluates scores on the same sample; it does not use sample splitting or cross-fitting. It uses the BC pivotal penalty and the fitted-normal density proxy documented in Section~3.3. The literal density call is \texttt{dnorm(e, mean(e), var(e))}, so the residual sample variance is supplied to the argument that R interprets as a standard deviation. Instrument residualization regresses $\sqrt{\widehat f_i}Z_{ji}$ on transformed controls with an ordinary unpenalized intercept. The score subtracts that retained intercept and the fitted slopes from the untransformed instrument, without dividing the intercept by $\sqrt{\widehat f_i}$. As explained in Section~3.3, this intercept is implementation specific and is not the literal sample counterpart of the intercept in the augmented population projection.
 
 \subsection{Provenance and Verification Records}
 

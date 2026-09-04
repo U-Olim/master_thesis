@@ -1,3 +1,6 @@
 \section{Coverage Forensic Audit}
+\label{app:coverage-forensic-audit}
 
-\input{tables/generated/appendix_coverage}
+The coverage audit evaluates each estimator directly at the exact true value $\alpha_0(\tau)$ rather than inferring coverage from the finite confidence-region grid. It contains 60,000 direct evaluations: 500 replications for each of 120 sample-size, quantile, instrument-strength, and estimator cells. Consequently, the reported coverage results do not depend on whether the true value lies on the numerical candidate grid.
+
+Empirical coverage ranges from $0.442$ to $0.976$. Wilson 95\% Monte Carlo intervals exclude nominal $0.95$ coverage in 54 of the 120 cells. The audit finds no missing or nonfinite true-parameter evaluations, so numerical failure or missing-value handling does not explain the documented undercoverage. The complete machine-readable audit outputs and their manifest remain preserved with the artifacts documented in Appendix~\ref{app:implementation-reproducibility}.

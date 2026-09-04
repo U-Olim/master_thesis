@@ -196,12 +196,12 @@ prepare_plot_data <- function(specification) {
 
 render_plot <- function(specification, plot_data) {
   output_path <- file.path(output_dir, specification$filename)
-  png(output_path, width = 2400, height = 1450, res = 300,
-      pointsize = 16, bg = "white")
+  png(output_path, width = 2700, height = 1650, res = 300,
+      pointsize = 20, bg = "white")
   par(mfrow = c(3, 2), mar = c(3.3, 2.8, 2.1, 0.7),
       oma = c(0.1, 3.2, 1.5, 0.1), mgp = c(2.05, 0.58, 0),
-      tcl = -0.25, cex.axis = 1.00, cex.lab = 1.05,
-      cex.main = 1.05)
+      tcl = -0.25, cex.axis = 1.05, cex.lab = 1.10,
+      cex.main = 1.10)
 
   for (tau_value in tau_order) {
     panel <- plot_data[abs(as.numeric(plot_data$tau) - tau_value) < tolerance,
@@ -226,13 +226,13 @@ render_plot <- function(specification, plot_data) {
       }
       y_values <- as.numeric(series[[specification$metric]][positions])
       lines(1:4, y_values, type = "b", lty = line_types[estimator_index],
-            pch = plot_symbols[estimator_index], lwd = 1.4, cex = 1.0)
+            pch = plot_symbols[estimator_index], lwd = 1.8, cex = 1.2)
     }
   }
 
   plot.new()
   legend("center", legend = estimator_order, lty = line_types,
-         pch = plot_symbols, lwd = 1.4, bty = "n", cex = 1.0,
+         pch = plot_symbols, lwd = 1.8, bty = "n", cex = 1.05,
          seg.len = 2.6, xpd = NA)
   outer_title <- paste0("n=", specification$n)
   if (!is.null(specification$delta)) {
@@ -240,9 +240,9 @@ render_plot <- function(specification, plot_data) {
                           sprintf("%+.2f", specification$delta))
   }
   mtext(outer_title, outer = TRUE, side = 3, line = 0.15,
-        font = 2, cex = 1.05)
+        font = 2, cex = 1.10)
   mtext(specification$ylab, outer = TRUE, side = 2, line = 1.55,
-        cex = 1.05)
+        cex = 1.10)
   dev.off()
   if (!file.exists(output_path) || file.info(output_path)$size <= 0) {
     stop_cleanly("PNG was not created correctly: ", output_path)
