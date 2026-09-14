@@ -1,0 +1,12 @@
+\section{Coverage and Reproducibility Diagnostics}
+\label{app:coverage-reproducibility}
+
+\subsection{Coverage forensic audit}
+The coverage audit evaluates each estimator directly at the exact true value $\alpha_0(\tau)$ rather than inferring coverage from the finite confidence-region grid. It checks 60,000 direct truth evaluations: 500 replications in each of 120 sample-size, quantile, instrument-strength, and estimator cells. The evaluations do not depend on whether the truth lies on the plotting or search grid.
+
+Wilson 95\% Monte Carlo intervals exclude nominal $0.95$ coverage in 54 of the 120 cells. The audit finds no missing or nonfinite true-parameter statistics, so missing-value handling and numerical failures do not explain the result. The saved audit report and its manifest are preserved in \path{thesis_extension/diagnostics/coverage_audit/}.
+
+\subsection{Reproducibility}
+The preserved reproduction environment is R~3.4.3 on 64-bit Windows, with package versions recorded in \path{thesis_extension/environment/sessionInfo_R343.txt}. The main simulation uses seed 675 and $R=500$ replications per design, as specified in \path{thesis_extension/config/extension_config.R}. The grid-domain diagnostic also uses seed 675; its second stage reuses saved first-stage primitives. The separate instrument-strength calibration uses seed 20260813 and 100 replications. These seeds document the frozen workflow rather than guaranteeing identical results across arbitrary systems.
+
+The original authors' code remains preserved separately from the thesis extension. The frozen reporting pipeline, \path{thesis_extension/reporting/build_thesis_results.R}, reads archived simulation, calibration, and diagnostic outputs without rerunning estimation. Its input and output manifests record source hashes, and the reporting consistency checks connect these inputs to the numerical tables. The figure-data check in \path{thesis/figures/THESIS_FIGURE_DATA_CHECK.csv} verifies all 480 plotted values against the frozen reporting CSVs. The accompanying figure manifest records the source and final-image hashes. Figure styling changes are purely presentational; they do not alter those values.

@@ -300,7 +300,7 @@ Fix $\tau$ and a candidate value $a$. Nuisance estimation is repeated whenever a
     \right\}.
     \label{eq:beta-hat-dml}
 \end{equation}
-The first term measures fit at quantile $\tau$. The second places a separate penalty on each coefficient, including the intercept; there is no post-Lasso refit. The loss is an unscaled sum because this is the scaling used by the fitted quantile-regression routine. Following the pivotal route described by \textcite{chen_huang_tien_2021}, let $s_k=(N^{-1}\sum_iX_{ik}^2)^{1/2}$ and, for $r=1,\ldots,1000$, draw independent $U_{ir}\sim\operatorname{Uniform}(0,1)$. The implemented penalty is
+The first term measures fit at quantile $\tau$. The second places a separate penalty on each coefficient, including the intercept; there is no post-Lasso refit. The loss is an unscaled sum because this is the scaling used by the fitted quantile-regression routine. The implementation uses the pivotal quantile-Lasso calibration developed by \textcite{belloni_chernozhukov_2011}, following the executable route preserved by \textcite{chen_huang_tien_2021}. Let $s_k=(N^{-1}\sum_iX_{ik}^2)^{1/2}$ and, for $r=1,\ldots,1000$, draw independent $U_{ir}\sim\operatorname{Uniform}(0,1)$. The implemented penalty is
 \begin{equation}
     \begin{aligned}
         T_r
@@ -341,7 +341,7 @@ The fitted quantile regression produces the candidate residual and density weigh
     \end{aligned}
     \label{eq:estimated-profile-residual}
 \end{equation}
-Here $\overline{\widehat{\epsilon}}(a)$ denotes the sample mean of the $N$ candidate residuals and $s_{\widehat{\epsilon}(a)}^{2}$ denotes their sample variance. where $\phi(e;\mu,\sigma)$ is the normal density with mean $\mu$ and standard deviation $\sigma$. Thus, the executable simulation forms the weights by evaluating a fitted normal density at the candidate residuals.\footnote{The literal preserved call is \texttt{dnorm(e, mean(e), var(e))}. Its third argument is interpreted as a standard deviation, although the code supplies the residual sample variance.} This fitted-normal quantity is an implementation-specific proxy for the theoretical conditional density $f_{\epsilon(a)}(0\mid X_i,Z_i)$ from Section~3.2; it is not a direct conditional-density estimate at zero. Zero remains the fitted quantile boundary, and the theoretical reason for density weighting is that observations near this boundary determine local changes in the quantile moment. These proxy weights are then used in the instrument-residualization step, where they play the role assigned to density weights in the theoretical construction.
+Here $\overline{\widehat{\epsilon}}(a)$ denotes the sample mean of the $N$ candidate residuals, $s_{\widehat{\epsilon}(a)}^{2}$ denotes their sample variance, and $\phi(e;\mu,\sigma)$ is the normal density with mean $\mu$ and standard deviation $\sigma$. Thus, the executable simulation forms the weights by evaluating a fitted normal density at the candidate residuals.\footnote{The literal preserved call is \texttt{dnorm(e, mean(e), var(e))}. Its third argument is interpreted as a standard deviation, although the code supplies the residual sample variance.} This fitted-normal quantity is an implementation-specific proxy for the theoretical conditional density $f_{\epsilon(a)}(0\mid X_i,Z_i)$ from Section~3.2; it is not a direct conditional-density estimate at zero. Zero remains the fitted quantile boundary, and the theoretical reason for density weighting is that observations near this boundary determine local changes in the quantile moment. These proxy weights are then used in the instrument-residualization step, where they play the role assigned to density weights in the theoretical construction.
 
 For each instrument component $j=1,\ldots,d_z$, the implementation next fits a separate square-root-density-weighted Lasso. Let $\widehat r_{j0}(a)$ denote its retained ordinary intercept and let $\widehat\Gamma_{\mathrm{imp},j}(a)$ contain only the slopes on the transformed controls. Its transformed regression is
 \begin{equation}
@@ -498,7 +498,7 @@ The underlying Chernozhukov--Hansen test-inversion approach can retain asymptoti
 \subsection{Monte Carlo Design and Instrument-Relevance Extension}
 \label{sec:monte-carlo-design}
 
-Chapter~3 uses $N$ as generic sample-size notation; the simulation chapters use $n$ for the design sample size.
+Sections~3.1--3.4 use $N$ as generic sample-size notation, while Sections~3.5--3.7 and Chapter~4 use $n$ for the Monte Carlo design sample size.
 
 
 The Monte Carlo experiment builds on the high-dimensional simulation design of \textcite{chen_huang_tien_2021}, with $p=100$ observed controls. For each observation $i$, the structural disturbances satisfy

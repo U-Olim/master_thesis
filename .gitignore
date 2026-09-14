@@ -40,3 +40,6 @@ thesis/*.out
 thesis/*.run.xml
 thesis/*.toc
 thesis/*.synctex.gz
+
+thesis/*.fdb_latexmk
+thesis/*.fls

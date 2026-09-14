@@ -1,0 +1,6 @@
+\section{Reproducibility Note}
+\label{app:reproducibility}
+
+The preserved author-replication and main-extension environment is R~3.4.3 on 64-bit Windows. The main Monte Carlo uses $R=500$ replications per design and seed 675. The grid-domain diagnostic also uses seed 675 and reuses saved primitives in its second stage. The separate instrument-strength calibration uses seed 20260813. These settings document the frozen runs, without asserting identical results across arbitrary systems.
+
+The reporting layer reads frozen simulation, calibration, and diagnostic outputs without re-estimating models. Reporting consistency checks and source/output hash manifests connect those records to the numerical tables. Figure-data checks verify all 480 plotted values against the frozen reporting CSVs, while the figure manifest records source and final-image hashes. Full supplementary tables, RMSE figures, detailed diagnostics, configuration files, and environment records remain in the repository even where they are not printed in the current PDF.
