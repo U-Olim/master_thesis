@@ -34,7 +34,7 @@ Observations are independent across $i$. The observed controls are
   \qquad j=1,\ldots,100,
   \label{eq:dgp-controls}
 \end{equation}
-where $\Phi$ is the standard-normal cumulative distribution function, so $X_{ji}\sim\mathcal{U}(0,1)$ independently across controls.
+The observed control vector is $X_i=(X_{1i},\ldots,X_{100i})^{\prime}$. Here $\Phi$ is the standard-normal cumulative distribution function, so $X_{ji}\sim\mathcal{U}(0,1)$ independently across controls.
 
 The executable design constructs two instruments as\footnote{The displayed Monte Carlo equations in \textcite{chen_huang_tien_2021} write the corresponding control terms as $x_j$. The released simulation code instead uses the transformed controls $X_j=\Phi(x_j)$. The simulations in this thesis follow that executable implementation.}
 \begin{equation}
@@ -45,7 +45,7 @@ The executable design constructs two instruments as\footnote{The displayed Monte
   Z_{2i}=z_{2i}+v_{2i}+X_{7i}+X_{8i}+X_{9i}+X_{10i}.
   \label{eq:dgp-instrument2}
 \end{equation}
-The $z$ components enter the treatment index directly, the included controls induce dependence between instruments and controls, and the $v$ components add independent noise. The executable baseline treatment is
+Thus $Z_i=(Z_{1i},Z_{2i})^{\prime}$, so the number of instrument components is $d_z=2$. The $z$ components enter the treatment index directly, the included controls induce dependence between instruments and controls, and the $v$ components add independent noise. The executable baseline treatment is
 \begin{equation}
   D_i=\Phi(z_{1i}+z_{2i}+\epsilon_i).
   \label{eq:dgp-treatment-baseline}
@@ -69,7 +69,7 @@ Because $u_i$ is independent of $X_i$ and standard normal,
   +d\left[1+\Phi^{-1}(\tau)\right].
   \label{eq:dgp-structural-quantile}
 \end{equation}
-The structural quantile treatment effect is therefore
+Here $\Phi^{-1}$ denotes the standard-normal quantile function, i.e. the inverse of the standard-normal cumulative distribution function $\Phi$. The structural quantile treatment effect is therefore
 \begin{equation}
   \alpha_0(\tau)=1+\Phi^{-1}(\tau).
   \label{eq:dgp-alpha-true}
@@ -130,7 +130,7 @@ The completed Monte Carlo experiment uses the design dimensions
   \end{aligned}
   \label{eq:simulation-design}
 \end{equation}
-The Cartesian product contains $40$ distinct $(n,\tau,\kappa)$ designs, each with $500$ replications.
+Here $n$ is the Monte Carlo sample size, $\tau$ is the quantile index, $\kappa$ is the instrument-relevance design parameter, and $R=500$ is the number of Monte Carlo replications in each $(n,\tau,\kappa)$ design. The Cartesian product contains $40$ distinct $(n,\tau,\kappa)$ designs, each with $500$ replications.
 
 Oracle-GMM uses the known oracle control set; Full-GMM uses all controls without regularization; and DML-IVQR uses regularized high-dimensional nuisances and an orthogonalization-based score construction, with the implementation-specific residualization intercept described in Section~3.3. The design therefore has $120$ design--estimator cells. Every comparison uses the truth $\alpha_0(\tau)=1+\Phi^{-1}(\tau)$ from Equation~\eqref{eq:dgp-alpha-true}.
 
@@ -152,7 +152,7 @@ For a fixed $(n,\tau,\kappa,\text{estimator})$ cell, let $\widehat{\alpha}_r(\ta
 \end{equation}
 Measures are computed separately by estimator and design cell. Positive Bias means estimates lie below the truth on average; MAE records absolute error, and RMSE gives greater weight to large errors.
 
-Coverage is determined by evaluating the test statistic directly at the exact true parameter. With $c_{0.95}$ denoting the critical value defined below, define
+When the generic statistic $W_N$ from Chapter 3 is evaluated in the Monte Carlo experiment, $N$ equals the design sample size $n$; the additional subscript $r$ identifies the Monte Carlo replication. With $c_{0.95}$ denoting the critical value defined below, define
 \begin{equation}
   C_r(\tau)
     =\mathbf{1}\!\left\{W_{N,r}\!\left(\alpha_0(\tau)\right)\leq c_{0.95}\right\},
@@ -202,7 +202,7 @@ A candidate is accepted when $W_N(a)\leq c_{0.95}$. This asymptotic cutoff is no
   \end{aligned}
   \label{eq:primary-grid}
 \end{equation}
-The same grid is used throughout. $A_0$ is a computational domain, not an asserted parameter space, so reaching its boundary establishes neither global boundedness nor unboundedness.
+Here $A_0=[-1,3]$ is the fixed primary computational domain, $h=0.1$ is the distance between adjacent grid points, $j$ is the grid-point index, and $a_j$ denotes the $j$-th candidate treatment-effect value. The set $G_0$ contains all 41 candidate values. There are 41 points because the four-unit interval from $-1$ to $3$, evaluated in increments of $0.1$ and including both endpoints, contains $4/0.1+1=41$ grid points. The same grid is used throughout. $A_0$ is a computational domain, not an asserted parameter space, so reaching its boundary establishes neither global boundedness nor unboundedness.
 
 The initial numerical design considered reporting total confidence-region length after adaptive domain expansion. Numerical grid diagnostics showed that, under weak relevance, accepted sets could remain non-localized over increasingly wide numerical domains. The final design therefore reports a fixed-domain accepted-set measure and treats domain expansion as a separate numerical diagnostic rather than assigning an artificial finite confidence-region length.
 
@@ -218,6 +218,21 @@ For replication $r$, define the binary grid-acceptance indicator, accepted grid,
   \end{aligned}
   \label{eq:grid-acceptance}
 \end{equation}
+For the primary domain $A_0$, define left-boundary, right-boundary, and either-boundary acceptance in replication $r$ by
+\begin{equation}
+  B_r^{L}=I_r(a_1),\qquad
+  B_r^{R}=I_r(a_{41}),\qquad
+  B_r^{E}=\mathbf{1}\{B_r^{L}=1\ \text{or}\ B_r^{R}=1\}.
+  \label{eq:boundary-acceptance}
+\end{equation}
+The corresponding either-boundary acceptance rate over $R$ Monte Carlo replications is
+\begin{equation}
+  \widehat B^{E}
+  =\frac{1}{R}\sum_{r=1}^{R}B_r^{E}.
+  \label{eq:boundary-acceptance-rate}
+\end{equation}
+The same definition is used for an expanded diagnostic domain, with its own left and right endpoints. A boundary is accepted when the candidate-specific test does not reject the endpoint of the finite numerical search interval. A high boundary-acceptance rate therefore means that accepted components frequently reach the edge of the examined domain and are not localized inside it. It does not show that the population confidence region is globally unbounded, that every value outside the domain would be accepted, or that identification has failed. Conversely, if boundary acceptance disappears after the domain is widened, the accepted component is numerically localized within the wider range. Persistent boundary acceptance as successively wider finite domains are examined indicates continued lack of numerical localization over those investigated ranges.
+
 The frozen implementation computes the grid-based accepted-set measure within $A_0$ as the trapezoidal integral of this binary indicator:
 \begin{equation}
   M_r(A_0)
@@ -225,7 +240,7 @@ The frozen implementation computes the grid-based accepted-set measure within $A
     \left[I_r(a_j)+I_r(a_{j+1})\right].
   \label{eq:accepted-measure}
 \end{equation}
-The trapezoidal sum includes separated accepted components without filling rejected gaps and does not interpolate critical-value crossings. It ranges from zero to four. The Monte Carlo mean of $F_r$ is the frequency with which all tested grid points are accepted, not acceptance of the real line.
+The sum runs from $j=1$ to $40$ because the 41 grid points in $G_0$ define 40 adjacent grid intervals $[a_j,a_{j+1}]$. The trapezoidal sum includes separated accepted components without filling rejected gaps and does not interpolate critical-value crossings. It ranges from zero to four. The Monte Carlo mean of $F_r$ is the frequency with which all tested grid points are accepted, not acceptance of the real line.
 
 Coverage and power remain direct evaluations outside this grid construction. A post-main diagnostic examines sensitivity to the finite endpoints using
 \begin{equation}
@@ -234,4 +249,4 @@ Coverage and power remain direct evaluations outside this grid construction. A p
 \end{equation}
 It uses $n=1000$, 100 saved primitive samples, all five quantiles and estimators, $\kappa\in\{1,0.25,0.10\}$, and spacing $0.1$. Stage~1 evaluates $A_1$ and its nested $A_0$ profile; Stage~2 reloads the same samples and adds only the tails needed for $A_2$. Domain comparisons therefore change candidates, not samples. The outputs record accepted measure, grid share and count, boundary acceptance, all-grid acceptance, and incremental measure.
 
-Boundary acceptance shows only a lack of localization within the examined domain; it does not establish global unboundedness, acceptance of the real line, or failed identification. The bounded diagnostic ends at $A_2$, while main summaries retain $A_0$ and direct coverage and power remain unchanged.
+The boundary-acceptance diagnostic follows the finite-domain interpretation of Equations~\eqref{eq:boundary-acceptance}--\eqref{eq:boundary-acceptance-rate}. The bounded diagnostic ends at $A_2$, while main summaries retain $A_0$ and direct coverage and power remain unchanged.

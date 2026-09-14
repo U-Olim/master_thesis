@@ -58,7 +58,8 @@ tau_order <- c(0.10, 0.25, 0.50, 0.75, 0.90)
 kappa_order <- c(1.00, 0.50, 0.25, 0.10)
 estimator_order <- c("Oracle-GMM", "Full-GMM", "DML-IVQR-BC")
 line_types <- c(1, 2, 3)
-plot_symbols <- c(1, 2, 3)
+plot_symbols <- c(16, 17, 15)
+estimator_colors <- c("#0072B2", "#D55E00", "#009E73")
 tolerance <- 1e-14
 
 format_set <- function(x, digits = 2L) {
@@ -196,24 +197,37 @@ prepare_plot_data <- function(specification) {
 
 render_plot <- function(specification, plot_data) {
   output_path <- file.path(output_dir, specification$filename)
-  png(output_path, width = 2700, height = 1650, res = 300,
-      pointsize = 20, bg = "white")
-  par(mfrow = c(3, 2), mar = c(3.3, 2.8, 2.1, 0.7),
-      oma = c(0.1, 3.2, 1.5, 0.1), mgp = c(2.05, 0.58, 0),
-      tcl = -0.25, cex.axis = 1.05, cex.lab = 1.10,
-      cex.main = 1.10)
+  # Preserve the five quantile panels in their original 3-by-2 arrangement.
+  # The sixth cell of panel (b) supplies one legend for the paired main figure.
+  # RMSE assets remain independently labelled for possible appendix use.
+  show_legend <- grepl("^rmse_", specification$id) ||
+    specification$id %in% c("coverage_n1000", "accepted_measure_n1000",
+                            "power_plus050_n1000")
+  png(output_path, width = 3600, height = 2200, res = 400,
+      pointsize = 14, bg = "white", type = "cairo")
+  par(mfrow = c(3, 2), cex = 1,
+      mar = c(1.8, 3.0, 1.25, 0.65),
+      oma = c(1.5, 2.0, 1.8, 0.1), mgp = c(1.7, 0.5, 0),
+      tcl = -0.22, cex.axis = 0.98, cex.lab = 1.05,
+      cex.main = 1.05, las = 1, family = "sans",
+      col.axis = "#444444", col.lab = "#222222", col.main = "#222222")
 
   for (tau_value in tau_order) {
     panel <- plot_data[abs(as.numeric(plot_data$tau) - tau_value) < tolerance,
                        , drop = FALSE]
-    plot(1:4, rep(NA_real_, 4), type = "n", xaxt = "n",
+    plot(1:4, rep(NA_real_, 4), type = "n", axes = FALSE,
          xlim = c(0.9, 4.1), ylim = specification$ylim,
-         xlab = expression(kappa), ylab = "",
-         main = sprintf("tau=%.2f", tau_value))
-    axis(1, at = 1:4, labels = c("1", ".5", ".25", ".1"))
+         xlab = "", ylab = "",
+         main = bquote(tau == .(sprintf("%.2f", tau_value))))
+    axis(1, at = 1:4, labels = c("1.00", "0.50", "0.25", "0.10"),
+         col = "#A0A0A0", col.ticks = "#A0A0A0")
+    y_ticks <- pretty(specification$ylim, n = 2)
+    y_ticks <- y_ticks[y_ticks >= specification$ylim[1] &
+                       y_ticks <= specification$ylim[2]]
+    axis(2, at = y_ticks, col = "#A0A0A0", col.ticks = "#A0A0A0")
     if (!is.null(specification$reference)) {
-      abline(h = specification$reference, lty = 4, lwd = 1.2,
-             col = "grey40")
+      abline(h = specification$reference, lty = 2, lwd = 1.1,
+             col = "#B0B0B0")
     }
     for (estimator_index in seq_along(estimator_order)) {
       estimator_name <- estimator_order[estimator_index]
@@ -226,23 +240,29 @@ render_plot <- function(specification, plot_data) {
       }
       y_values <- as.numeric(series[[specification$metric]][positions])
       lines(1:4, y_values, type = "b", lty = line_types[estimator_index],
-            pch = plot_symbols[estimator_index], lwd = 1.8, cex = 1.2)
+            pch = plot_symbols[estimator_index], lwd = 2.1, cex = 1.0,
+            col = estimator_colors[estimator_index])
     }
   }
 
   plot.new()
-  legend("center", legend = estimator_order, lty = line_types,
-         pch = plot_symbols, lwd = 1.8, bty = "n", cex = 1.05,
-         seg.len = 2.6, xpd = NA)
-  outer_title <- paste0("n=", specification$n)
+  if (show_legend) {
+    legend("center", legend = estimator_order, lty = line_types,
+           pch = plot_symbols, col = estimator_colors,
+           lwd = 2.1, bty = "n", cex = 1.0,
+           seg.len = 2.6, y.intersp = 1.35, xpd = NA)
+  }
+  outer_title <- paste0("n = ", specification$n)
   if (!is.null(specification$delta)) {
-    outer_title <- paste0(outer_title, "; Delta=",
+    outer_title <- paste0(outer_title, "; Delta = ",
                           sprintf("%+.2f", specification$delta))
   }
   mtext(outer_title, outer = TRUE, side = 3, line = 0.15,
-        font = 2, cex = 1.10)
-  mtext(specification$ylab, outer = TRUE, side = 2, line = 1.55,
+        font = 2, cex = 1.08)
+  mtext(expression(kappa), outer = TRUE, side = 1, line = 0.25,
         cex = 1.10)
+  mtext(specification$ylab, outer = TRUE, side = 2, line = 0.55,
+        cex = 1.05, las = 0)
   dev.off()
   if (!file.exists(output_path) || file.info(output_path)$size <= 0) {
     stop_cleanly("PNG was not created correctly: ", output_path)

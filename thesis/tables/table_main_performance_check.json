@@ -1,0 +1,744 @@
+{
+  "output": "thesis/tables/table_main_performance.tex",
+  "sources": {
+    "point": {
+      "path": "thesis_extension/reporting/output/table_point_performance_full.csv",
+      "sha256": "628912c3ff0395b8c9927b1ee40783c38b53770eafa488e9d70b8e808817c2de",
+      "selected_rows": 36,
+      "duplicate_keys": 0,
+      "missing_or_nonfinite_selected_metrics": 0
+    },
+    "coverage": {
+      "path": "thesis_extension/reporting/output/table_coverage_full.csv",
+      "sha256": "f075d6c504cc67f0eb3023b3a540683d751cb4508e7385d6aa48452fc216938c",
+      "selected_rows": 36,
+      "duplicate_keys": 0,
+      "missing_or_nonfinite_selected_metrics": 0
+    },
+    "accepted": {
+      "path": "thesis_extension/reporting/output/table_cr_informativeness_full.csv",
+      "sha256": "153f90ddb02dbbc04de1476699d5aba131474a71de8ee945908ee2c106612ffa",
+      "selected_rows": 36,
+      "duplicate_keys": 0,
+      "missing_or_nonfinite_selected_metrics": 0
+    }
+  },
+  "merge_key": [
+    "n",
+    "tau",
+    "kappa",
+    "estimator"
+  ],
+  "row_count": 36,
+  "unique_keys": 36,
+  "unmatched_keys": 0,
+  "missing_values": 0,
+  "accepted_domain": "A0=[-1,3]",
+  "raw_values_identical_to_sources": true,
+  "rendered_values_verified": 180,
+  "rounding": "Decimal, three decimal places, ROUND_HALF_UP; no other numerical transformations",
+  "rows": [
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "1.00",
+      "estimator": "Oracle-GMM",
+      "Bias": "-0.0543515655446009",
+      "MAE": "0.0929551565544601",
+      "RMSE": "0.121054750741758",
+      "coverage": "0.86",
+      "median_grid_accepted_set_measure": "0.4",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.054",
+        "MAE": "0.093",
+        "RMSE": "0.121",
+        "coverage": "0.860",
+        "median_grid_accepted_set_measure": "0.400"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "1.00",
+      "estimator": "Full-GMM",
+      "Bias": "-0.329351565544601",
+      "MAE": "0.337429521319643",
+      "RMSE": "0.387049885320587",
+      "coverage": "0.502",
+      "median_grid_accepted_set_measure": "0.8",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.329",
+        "MAE": "0.337",
+        "RMSE": "0.387",
+        "coverage": "0.502",
+        "median_grid_accepted_set_measure": "0.800"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "1.00",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "-0.00495156554460087",
+      "MAE": "0.116953830531474",
+      "RMSE": "0.150123142790652",
+      "coverage": "0.968",
+      "median_grid_accepted_set_measure": "0.6",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.005",
+        "MAE": "0.117",
+        "RMSE": "0.150",
+        "coverage": "0.968",
+        "median_grid_accepted_set_measure": "0.600"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.50",
+      "estimator": "Oracle-GMM",
+      "Bias": "-0.100751565544601",
+      "MAE": "0.193964806651887",
+      "RMSE": "0.286604671908341",
+      "coverage": "0.926",
+      "median_grid_accepted_set_measure": "1",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.101",
+        "MAE": "0.194",
+        "RMSE": "0.287",
+        "coverage": "0.926",
+        "median_grid_accepted_set_measure": "1.000"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.50",
+      "estimator": "Full-GMM",
+      "Bias": "-0.407151565544601",
+      "MAE": "0.465466795686366",
+      "RMSE": "0.630013521541736",
+      "coverage": "0.804",
+      "median_grid_accepted_set_measure": "1.9",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.407",
+        "MAE": "0.465",
+        "RMSE": "0.630",
+        "coverage": "0.804",
+        "median_grid_accepted_set_measure": "1.900"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.50",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "-0.158951565544601",
+      "MAE": "0.306324125243568",
+      "RMSE": "0.482177187545284",
+      "coverage": "0.948",
+      "median_grid_accepted_set_measure": "2.225",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.159",
+        "MAE": "0.306",
+        "RMSE": "0.482",
+        "coverage": "0.948",
+        "median_grid_accepted_set_measure": "2.225"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.25",
+      "estimator": "Oracle-GMM",
+      "Bias": "-0.383551565544601",
+      "MAE": "0.566026869273671",
+      "RMSE": "0.934166903412722",
+      "coverage": "0.93",
+      "median_grid_accepted_set_measure": "3.45",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.384",
+        "MAE": "0.566",
+        "RMSE": "0.934",
+        "coverage": "0.930",
+        "median_grid_accepted_set_measure": "3.450"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.25",
+      "estimator": "Full-GMM",
+      "Bias": "-0.772951565544601",
+      "MAE": "0.914490257918441",
+      "RMSE": "1.24190183294729",
+      "coverage": "0.932",
+      "median_grid_accepted_set_measure": "3.5",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.773",
+        "MAE": "0.914",
+        "RMSE": "1.242",
+        "coverage": "0.932",
+        "median_grid_accepted_set_measure": "3.500"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.25",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "-0.681151565544601",
+      "MAE": "0.843801326022986",
+      "RMSE": "1.2286607730549",
+      "coverage": "0.95",
+      "median_grid_accepted_set_measure": "3.75",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.681",
+        "MAE": "0.844",
+        "RMSE": "1.229",
+        "coverage": "0.950",
+        "median_grid_accepted_set_measure": "3.750"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.10",
+      "estimator": "Oracle-GMM",
+      "Bias": "-0.746951565544601",
+      "MAE": "0.974517882187737",
+      "RMSE": "1.37583410383285",
+      "coverage": "0.946",
+      "median_grid_accepted_set_measure": "4",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.747",
+        "MAE": "0.975",
+        "RMSE": "1.376",
+        "coverage": "0.946",
+        "median_grid_accepted_set_measure": "4.000"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.10",
+      "estimator": "Full-GMM",
+      "Bias": "-1.0737515655446",
+      "MAE": "1.25063784539408",
+      "RMSE": "1.58175269385245",
+      "coverage": "0.942",
+      "median_grid_accepted_set_measure": "3.9",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-1.074",
+        "MAE": "1.251",
+        "RMSE": "1.582",
+        "coverage": "0.942",
+        "median_grid_accepted_set_measure": "3.900"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.10",
+      "kappa": "0.10",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "-0.932351565544601",
+      "MAE": "1.14618959490695",
+      "RMSE": "1.513994320258",
+      "coverage": "0.936",
+      "median_grid_accepted_set_measure": "4",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.932",
+        "MAE": "1.146",
+        "RMSE": "1.514",
+        "coverage": "0.936",
+        "median_grid_accepted_set_measure": "4.000"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "1.00",
+      "estimator": "Oracle-GMM",
+      "Bias": "0.00679999999999995",
+      "MAE": "0.0472",
+      "RMSE": "0.0715541752799932",
+      "coverage": "0.872",
+      "median_grid_accepted_set_measure": "0.2",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.007",
+        "MAE": "0.047",
+        "RMSE": "0.072",
+        "coverage": "0.872",
+        "median_grid_accepted_set_measure": "0.200"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "1.00",
+      "estimator": "Full-GMM",
+      "Bias": "0.00699999999999994",
+      "MAE": "0.0718",
+      "RMSE": "0.100498756211209",
+      "coverage": "0.896",
+      "median_grid_accepted_set_measure": "0.4",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.007",
+        "MAE": "0.072",
+        "RMSE": "0.100",
+        "coverage": "0.896",
+        "median_grid_accepted_set_measure": "0.400"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "1.00",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "0.0703999999999999",
+      "MAE": "0.0791999999999999",
+      "RMSE": "0.103537432844358",
+      "coverage": "0.776",
+      "median_grid_accepted_set_measure": "0.3",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.070",
+        "MAE": "0.079",
+        "RMSE": "0.104",
+        "coverage": "0.776",
+        "median_grid_accepted_set_measure": "0.300"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.50",
+      "estimator": "Oracle-GMM",
+      "Bias": "0.0149999999999999",
+      "MAE": "0.093",
+      "RMSE": "0.134089522334894",
+      "coverage": "0.936",
+      "median_grid_accepted_set_measure": "0.5",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.015",
+        "MAE": "0.093",
+        "RMSE": "0.134",
+        "coverage": "0.936",
+        "median_grid_accepted_set_measure": "0.500"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.50",
+      "estimator": "Full-GMM",
+      "Bias": "0.0135999999999999",
+      "MAE": "0.1508",
+      "RMSE": "0.198695747312317",
+      "coverage": "0.946",
+      "median_grid_accepted_set_measure": "0.8",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.014",
+        "MAE": "0.151",
+        "RMSE": "0.199",
+        "coverage": "0.946",
+        "median_grid_accepted_set_measure": "0.800"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.50",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "0.0591999999999999",
+      "MAE": "0.1188",
+      "RMSE": "0.159624559513879",
+      "coverage": "0.918",
+      "median_grid_accepted_set_measure": "0.6",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.059",
+        "MAE": "0.119",
+        "RMSE": "0.160",
+        "coverage": "0.918",
+        "median_grid_accepted_set_measure": "0.600"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.25",
+      "estimator": "Oracle-GMM",
+      "Bias": "0.0453999999999999",
+      "MAE": "0.2806",
+      "RMSE": "0.431300359378473",
+      "coverage": "0.946",
+      "median_grid_accepted_set_measure": "1.9",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.045",
+        "MAE": "0.281",
+        "RMSE": "0.431",
+        "coverage": "0.946",
+        "median_grid_accepted_set_measure": "1.900"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.25",
+      "estimator": "Full-GMM",
+      "Bias": "0.0293999999999999",
+      "MAE": "0.3718",
+      "RMSE": "0.50029991005396",
+      "coverage": "0.936",
+      "median_grid_accepted_set_measure": "2.2",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.029",
+        "MAE": "0.372",
+        "RMSE": "0.500",
+        "coverage": "0.936",
+        "median_grid_accepted_set_measure": "2.200"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.25",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "-0.00340000000000011",
+      "MAE": "0.3058",
+      "RMSE": "0.447995535692042",
+      "coverage": "0.948",
+      "median_grid_accepted_set_measure": "2.025",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.003",
+        "MAE": "0.306",
+        "RMSE": "0.448",
+        "coverage": "0.948",
+        "median_grid_accepted_set_measure": "2.025"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.10",
+      "estimator": "Oracle-GMM",
+      "Bias": "-0.0438000000000001",
+      "MAE": "0.7354",
+      "RMSE": "0.945335919131395",
+      "coverage": "0.942",
+      "median_grid_accepted_set_measure": "3.9",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.044",
+        "MAE": "0.735",
+        "RMSE": "0.945",
+        "coverage": "0.942",
+        "median_grid_accepted_set_measure": "3.900"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.10",
+      "estimator": "Full-GMM",
+      "Bias": "-0.0120000000000001",
+      "MAE": "0.8396",
+      "RMSE": "1.01841052626139",
+      "coverage": "0.948",
+      "median_grid_accepted_set_measure": "3.8",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.012",
+        "MAE": "0.840",
+        "RMSE": "1.018",
+        "coverage": "0.948",
+        "median_grid_accepted_set_measure": "3.800"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.50",
+      "kappa": "0.10",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "-0.1952",
+      "MAE": "0.7792",
+      "RMSE": "0.990858213873206",
+      "coverage": "0.942",
+      "median_grid_accepted_set_measure": "3.9",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "-0.195",
+        "MAE": "0.779",
+        "RMSE": "0.991",
+        "coverage": "0.942",
+        "median_grid_accepted_set_measure": "3.900"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "1.00",
+      "estimator": "Oracle-GMM",
+      "Bias": "0.0721515655446006",
+      "MAE": "0.109698581992883",
+      "RMSE": "0.147707441960576",
+      "coverage": "0.904",
+      "median_grid_accepted_set_measure": "0.5",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.072",
+        "MAE": "0.110",
+        "RMSE": "0.148",
+        "coverage": "0.904",
+        "median_grid_accepted_set_measure": "0.500"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "1.00",
+      "estimator": "Full-GMM",
+      "Bias": "0.386751565544601",
+      "MAE": "0.396934346368357",
+      "RMSE": "0.465434993797415",
+      "coverage": "0.53",
+      "median_grid_accepted_set_measure": "1",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.387",
+        "MAE": "0.397",
+        "RMSE": "0.465",
+        "coverage": "0.530",
+        "median_grid_accepted_set_measure": "1.000"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "1.00",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "0.183151565544601",
+      "MAE": "0.18583917141707",
+      "RMSE": "0.215364658106752",
+      "coverage": "0.498",
+      "median_grid_accepted_set_measure": "0.4",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.183",
+        "MAE": "0.186",
+        "RMSE": "0.215",
+        "coverage": "0.498",
+        "median_grid_accepted_set_measure": "0.400"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.50",
+      "estimator": "Oracle-GMM",
+      "Bias": "0.211351565544601",
+      "MAE": "0.295100663011493",
+      "RMSE": "0.539779069859284",
+      "coverage": "0.94",
+      "median_grid_accepted_set_measure": "1.575",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.211",
+        "MAE": "0.295",
+        "RMSE": "0.540",
+        "coverage": "0.940",
+        "median_grid_accepted_set_measure": "1.575"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.50",
+      "estimator": "Full-GMM",
+      "Bias": "0.583551565544601",
+      "MAE": "0.62912885830815",
+      "RMSE": "0.870912412157247",
+      "coverage": "0.834",
+      "median_grid_accepted_set_measure": "2.45",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.584",
+        "MAE": "0.629",
+        "RMSE": "0.871",
+        "coverage": "0.834",
+        "median_grid_accepted_set_measure": "2.450"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.50",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "0.225551565544601",
+      "MAE": "0.259933020345371",
+      "RMSE": "0.396405737495839",
+      "coverage": "0.844",
+      "median_grid_accepted_set_measure": "1.1",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.226",
+        "MAE": "0.260",
+        "RMSE": "0.396",
+        "coverage": "0.844",
+        "median_grid_accepted_set_measure": "1.100"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.25",
+      "estimator": "Oracle-GMM",
+      "Bias": "0.491151565544601",
+      "MAE": "0.65831031310892",
+      "RMSE": "1.03773681650836",
+      "coverage": "0.952",
+      "median_grid_accepted_set_measure": "3.65",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.491",
+        "MAE": "0.658",
+        "RMSE": "1.038",
+        "coverage": "0.952",
+        "median_grid_accepted_set_measure": "3.650"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.25",
+      "estimator": "Full-GMM",
+      "Bias": "0.900951565544601",
+      "MAE": "1.05784957651012",
+      "RMSE": "1.38852344721192",
+      "coverage": "0.92",
+      "median_grid_accepted_set_measure": "3.6",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.901",
+        "MAE": "1.058",
+        "RMSE": "1.389",
+        "coverage": "0.920",
+        "median_grid_accepted_set_measure": "3.600"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.25",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "0.417151565544601",
+      "MAE": "0.579677200779418",
+      "RMSE": "0.926859249636271",
+      "coverage": "0.922",
+      "median_grid_accepted_set_measure": "3.35",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.417",
+        "MAE": "0.580",
+        "RMSE": "0.927",
+        "coverage": "0.922",
+        "median_grid_accepted_set_measure": "3.350"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.10",
+      "estimator": "Oracle-GMM",
+      "Bias": "0.652551565544601",
+      "MAE": "0.94771031310892",
+      "RMSE": "1.35028980063345",
+      "coverage": "0.964",
+      "median_grid_accepted_set_measure": "4",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.653",
+        "MAE": "0.948",
+        "RMSE": "1.350",
+        "coverage": "0.964",
+        "median_grid_accepted_set_measure": "4.000"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.10",
+      "estimator": "Full-GMM",
+      "Bias": "1.0499515655446",
+      "MAE": "1.23634475146141",
+      "RMSE": "1.58342657865452",
+      "coverage": "0.948",
+      "median_grid_accepted_set_measure": "3.9",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "1.050",
+        "MAE": "1.236",
+        "RMSE": "1.583",
+        "coverage": "0.948",
+        "median_grid_accepted_set_measure": "3.900"
+      }
+    },
+    {
+      "n": "1000",
+      "tau": "0.90",
+      "kappa": "0.10",
+      "estimator": "DML-IVQR-BC",
+      "Bias": "0.519151565544601",
+      "MAE": "0.831417219176244",
+      "RMSE": "1.19122818469318",
+      "coverage": "0.94",
+      "median_grid_accepted_set_measure": "4",
+      "computational_domain": "A0=[-1,3]",
+      "formatted": {
+        "Bias": "0.519",
+        "MAE": "0.831",
+        "RMSE": "1.191",
+        "coverage": "0.940",
+        "median_grid_accepted_set_measure": "4.000"
+      }
+    }
+  ],
+  "latex_check": {
+    "result": "PASS",
+    "engine": "pdfLaTeX via latexmk, using the current thesis preamble in a temporary document",
+    "pages": 1,
+    "text_width_pt": 412.56497,
+    "text_height_pt": 682.5,
+    "fits_text_width": true,
+    "fits_single_portrait_page": true,
+    "overfull_boxes": 0,
+    "underfull_boxes": 0,
+    "float_too_large_warnings": 0,
+    "warnings": [
+      "Package caption Warning: Unused \\captionsetup[figure] on input line 698."
+    ],
+    "visual_check": "Grouped labels, all 36 rows, caption and note visible within page bounds.",
+    "temporary_preview": "C:\\Users\\User\\AppData\\Local\\Temp\\thesis-table2-2fjqw9yz\\table_main_performance_check.pdf"
+  },
+  "output_sha256": "a881221e2e495836ec70aae7f5bbda161bd1a2cb7a376c56c5912b54895134e6"
+}
