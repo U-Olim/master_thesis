@@ -146,7 +146,7 @@
 \PassOptionsToPackage{hyphens}{url}
 \usepackage[unicode]{hyperref}
 \hypersetup{
-	allcolors = UBonnBlueDark,  % alternatively, use UBonnBlue (brighter) or UBonnBlueDark (darker)
+	allcolors = black,
 	colorlinks = true,
 	pdftitle  = {\manuscripttitle},
 	pdfauthor = {\studentfullname},
@@ -312,10 +312,11 @@
 	\thispagestyle{empty}
 	\pdfbookmark[1]{\manuscripttitle}{coverpage}
 	\begin{center}
+		\normalfont\mdseries\color{black}
 		\selectlanguage{USenglish}
 		\Large
 		\null\vfill
-		{\fontsize{24pt}{32pt}\bfseries\manuscripttitle\par}
+		{\fontsize{20pt}{26pt}\bfseries\manuscripttitle\par}
 		\vfill\vfill
 		{\huge\ifthenelse{\boolean{manuscriptisbachelor}}{Bachelor's Thesis}{%
 			\ifthenelse{\boolean{manuscriptismaster}}{Master's Thesis}{Term Paper}%
@@ -1124,6 +1125,17 @@
 
 \clearpage
 
+\begingroup
+\let\center\flushleft
+\let\endcenter\endflushleft
+\begin{abstract}
+\normalsize\color{black}
+This thesis studies the finite-sample consequences of weakening excluded-instrument relevance in high-dimensional instrumental variable quantile regression (IVQR). Building on a preserved DML-IVQR Monte Carlo design, instrument strength is varied through $\kappa\in\{1,0.50,0.25,0.10\}$ while holding the marginal treatment distribution, endogeneity channel, structural outcome equation, and control dimension fixed. Oracle-GMM, Full-GMM, and DML-IVQR-BC are compared across five quantiles and $n\in\{500,1000\}$. As $\kappa$ falls, MAE and RMSE rise, accepted sets expand, and power against false treatment-effect values declines for all estimators, including the oracle benchmark. Coverage is also imperfectly calibrated in some finite-sample cells, even under strong relevance. DML often improves on Full-GMM but does not uniformly match Oracle-GMM. The results show that orthogonalization and regularized nuisance estimation can reduce high-dimensional estimation costs, but they cannot replace identifying information lost when instruments become weakly relevant.
+\end{abstract}
+\endgroup
+
+\clearpage
+
 \tableofcontents
 
 \clearpage
@@ -1135,7 +1147,6 @@
 \input{sections/01_introduction}
 \input{sections/02_background_literature}
 \input{sections/03_methodology}
-\input{sections/04_simulation_design}
 \input{sections/05_results}
 \input{sections/07_conclusion}
 

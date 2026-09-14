@@ -57,9 +57,9 @@ coverage_data <- read_frozen_csv(source_paths["coverage"],
 tau_order <- c(0.10, 0.25, 0.50, 0.75, 0.90)
 kappa_order <- c(1.00, 0.50, 0.25, 0.10)
 estimator_order <- c("Oracle-GMM", "Full-GMM", "DML-IVQR-BC")
-line_types <- c(1, 2, 3)
-plot_symbols <- c(16, 17, 15)
-estimator_colors <- c("#0072B2", "#D55E00", "#009E73")
+line_types <- c(1, 2, 4)
+marker_types <- c(16, 15, 17)
+estimator_colors <- c("#1F77B4", "#D62728", "#2CA02C")
 tolerance <- 1e-14
 
 format_set <- function(x, digits = 2L) {
@@ -96,13 +96,13 @@ specifications <- list(
   list(id = "accepted_measure_n500", filename = "accepted_measure_n500_thesis.png",
        source_name = "table_cr_informativeness_full.csv", data = accepted_data,
        metric = "median_grid_accepted_set_measure",
-       ylab = "Median accepted-set measure in A0", n = 500, delta = NULL,
+       ylab = expression("Median accepted-set measure in " * A[0]), n = 500, delta = NULL,
        ylim = c(0, max(accepted_data$median_grid_accepted_set_measure) * 1.05),
        reference = NULL),
   list(id = "accepted_measure_n1000", filename = "accepted_measure_n1000_thesis.png",
        source_name = "table_cr_informativeness_full.csv", data = accepted_data,
        metric = "median_grid_accepted_set_measure",
-       ylab = "Median accepted-set measure in A0", n = 1000, delta = NULL,
+       ylab = expression("Median accepted-set measure in " * A[0]), n = 1000, delta = NULL,
        ylim = c(0, max(accepted_data$median_grid_accepted_set_measure) * 1.05),
        reference = NULL),
   list(id = "power_minus050_n1000", filename = "power_minus050_n1000_thesis.png",
@@ -198,11 +198,7 @@ prepare_plot_data <- function(specification) {
 render_plot <- function(specification, plot_data) {
   output_path <- file.path(output_dir, specification$filename)
   # Preserve the five quantile panels in their original 3-by-2 arrangement.
-  # The sixth cell of panel (b) supplies one legend for the paired main figure.
-  # RMSE assets remain independently labelled for possible appendix use.
-  show_legend <- grepl("^rmse_", specification$id) ||
-    specification$id %in% c("coverage_n1000", "accepted_measure_n1000",
-                            "power_plus050_n1000")
+  # The sixth cell supplies one shared line-and-marker legend for each image.
   png(output_path, width = 3600, height = 2200, res = 400,
       pointsize = 14, bg = "white", type = "cairo")
   par(mfrow = c(3, 2), cex = 1,
@@ -210,7 +206,7 @@ render_plot <- function(specification, plot_data) {
       oma = c(1.5, 2.0, 1.8, 0.1), mgp = c(1.7, 0.5, 0),
       tcl = -0.22, cex.axis = 0.98, cex.lab = 1.05,
       cex.main = 1.05, las = 1, family = "sans",
-      col.axis = "#444444", col.lab = "#222222", col.main = "#222222")
+      col.axis = "black", col.lab = "black", col.main = "black")
 
   for (tau_value in tau_order) {
     panel <- plot_data[abs(as.numeric(plot_data$tau) - tau_value) < tolerance,
@@ -219,12 +215,12 @@ render_plot <- function(specification, plot_data) {
          xlim = c(0.9, 4.1), ylim = specification$ylim,
          xlab = "", ylab = "",
          main = bquote(tau == .(sprintf("%.2f", tau_value))))
-    axis(1, at = 1:4, labels = c("1.00", "0.50", "0.25", "0.10"),
-         col = "#A0A0A0", col.ticks = "#A0A0A0")
+    axis(1, at = 1:4, labels = c("1", "0.50", "0.25", "0.10"),
+         col = "black", col.ticks = "black")
     y_ticks <- pretty(specification$ylim, n = 2)
     y_ticks <- y_ticks[y_ticks >= specification$ylim[1] &
                        y_ticks <= specification$ylim[2]]
-    axis(2, at = y_ticks, col = "#A0A0A0", col.ticks = "#A0A0A0")
+    axis(2, at = y_ticks, col = "black", col.ticks = "black")
     if (!is.null(specification$reference)) {
       abline(h = specification$reference, lty = 2, lwd = 1.1,
              col = "#B0B0B0")
@@ -239,23 +235,20 @@ render_plot <- function(specification, plot_data) {
                      ", tau=", tau_value, ", estimator=", estimator_name)
       }
       y_values <- as.numeric(series[[specification$metric]][positions])
-      lines(1:4, y_values, type = "b", lty = line_types[estimator_index],
-            pch = plot_symbols[estimator_index], lwd = 2.1, cex = 1.0,
+      lines(1:4, y_values, type = "o", pch = marker_types[estimator_index], cex = 1.15, lty = line_types[estimator_index],
+            lwd = 2.0,
             col = estimator_colors[estimator_index])
     }
   }
 
   plot.new()
-  if (show_legend) {
-    legend("center", legend = estimator_order, lty = line_types,
-           pch = plot_symbols, col = estimator_colors,
-           lwd = 2.1, bty = "n", cex = 1.0,
-           seg.len = 2.6, y.intersp = 1.35, xpd = NA)
-  }
+  legend("center", legend = estimator_order, lty = line_types,
+         col = estimator_colors, pch = marker_types, pt.cex = 1.15, lwd = 2.0, bty = "n", cex = 1.0,
+         seg.len = 2.6, y.intersp = 1.35, xpd = NA)
   outer_title <- paste0("n = ", specification$n)
   if (!is.null(specification$delta)) {
-    outer_title <- paste0(outer_title, "; Delta = ",
-                          sprintf("%+.2f", specification$delta))
+    outer_title <- bquote(n == .(specification$n) * ", " ~
+                          Delta == .(sprintf("%+.2f", specification$delta)))
   }
   mtext(outer_title, outer = TRUE, side = 3, line = 0.15,
         font = 2, cex = 1.08)
