@@ -16,9 +16,23 @@ Table~\ref{tab:main-performance} is the central finite-sample performance table.
 
 As instrument relevance declines, MAE and RMSE generally increase for all three estimators and across the reported quantiles. At $\tau=0.50$, moving from $\kappa=1$ to $\kappa=0.10$ raises RMSE from $0.072$ to $0.945$ for Oracle, from $0.100$ to $1.018$ for Full, and from $0.104$ to $0.991$ for DML. Oracle deterioration shows that the phenomenon is not generated solely by high-dimensional nuisance estimation: knowing the relevant controls does not replace instrument information. Under the frozen convention $\mathrm{Bias}=\alpha_0-\widehat{\alpha}$, positive Bias means that estimates are below the truth on average.
 
-% Coverage is encountered first to preserve automatic figure numbering;
-% its interpretation is given in the coverage subsection below.
+\subsection{Coverage and Finite-Sample Calibration}
+
+Figure~\ref{fig:coverage-main} and the Coverage column of Table~\ref{tab:main-performance} show that empirical coverage is not uniformly close to the nominal level of $0.95$. Coverage is evaluated directly at the true structural quantile effect, independently of the numerical grid. Weak-identification robustness of the asymptotic procedure does not imply exact finite-sample coverage at the simulated sample sizes.
+
 \input{tables/figure_coverage_main}
+
+Because each reported coverage rate is based on $R=500$ Monte Carlo replications, the simulation itself introduces sampling uncertainty. For an estimated rejection or coverage probability $\widehat p$, the Monte Carlo standard error is
+\[
+\operatorname{MCSE}(\widehat p)
+=
+\sqrt{\frac{\widehat p(1-\widehat p)}{R}}.
+\]
+With $R=500$, the largest possible MCSE is approximately $0.022$, attained near $\widehat p=0.5$; at the nominal coverage probability $0.95$, the corresponding MCSE is approximately $0.010$. Consequently, very small differences between nearby coverage rates should not be given substantive weight. The large deviations emphasized here are materially larger than Monte Carlo uncertainty: coverage values around $0.50$, $0.63$, or $0.86$, for example, remain far from the nominal $0.95$ benchmark relative to their simulation standard errors.
+
+Distortions occur even at $\kappa=1$ and vary substantially by estimator and quantile. For $n=1000$, Full coverage is $0.502$ at $\tau=0.10$ and $0.530$ at $\tau=0.90$. DML coverage is $0.632$ at $\tau=0.75$ and $0.498$ at $\tau=0.90$, but $0.968$ at $\tau=0.10$. Oracle coverage is $0.860$ at both $\tau=0.10$ and $\tau=0.75$, showing that high-dimensional nuisance estimation is not the sole explanation for undercoverage.
+
+As relevance becomes very weak, the test may reject few candidates, retaining the truth frequently while accepted sets cover most of the primary domain. Such high coverage measures calibration and can coexist with very low informativeness and power.
 
 \subsection{Confidence-Set Informativeness and Power}
 
@@ -33,22 +47,6 @@ Figure~\ref{fig:power-main} reports rejection probabilities under moderate false
 \input{tables/figure_power_main}
 
 At $\tau=0.50$ and $\Delta=-0.50$, power falls from $1.000$ to $0.082$ for Oracle, from $0.998$ to $0.076$ for Full, and from $1.000$ to $0.104$ for DML as $\kappa$ falls from $1$ to $0.10$. At the positive alternative, the corresponding weakest-relevance probabilities are $0.092$, $0.098$, and $0.094$. Positive and negative alternatives need not behave symmetrically because the candidate-specific moments can distinguish equally sized departures differently across directions. The accepted-set and power results are two complementary manifestations of declining informativeness.
-
-\subsection{Coverage and Finite-Sample Calibration}
-
-Figure~\ref{fig:coverage-main} and the Coverage column of Table~\ref{tab:main-performance} show that empirical coverage is not uniformly close to the nominal level of $0.95$. Coverage is evaluated directly at the true structural quantile effect, independently of the numerical grid. Weak-identification robustness of the asymptotic procedure does not imply exact finite-sample coverage at the simulated sample sizes.
-
-Because each reported coverage rate is based on $R=500$ Monte Carlo replications, the simulation itself introduces sampling uncertainty. For an estimated rejection or coverage probability $\widehat p$, the Monte Carlo standard error is
-\[
-\operatorname{MCSE}(\widehat p)
-=
-\sqrt{\frac{\widehat p(1-\widehat p)}{R}}.
-\]
-With $R=500$, the largest possible MCSE is approximately $0.022$, attained near $\widehat p=0.5$; at the nominal coverage probability $0.95$, the corresponding MCSE is approximately $0.010$. Consequently, very small differences between nearby coverage rates should not be given substantive weight. The large deviations emphasized here are materially larger than Monte Carlo uncertainty: coverage values around $0.50$, $0.63$, or $0.86$, for example, remain far from the nominal $0.95$ benchmark relative to their simulation standard errors.
-
-Distortions occur even at $\kappa=1$ and vary substantially by estimator and quantile. For $n=1000$, Full coverage is $0.502$ at $\tau=0.10$ and $0.530$ at $\tau=0.90$. DML coverage is $0.632$ at $\tau=0.75$ and $0.498$ at $\tau=0.90$, but $0.968$ at $\tau=0.10$. Oracle coverage is $0.860$ at both $\tau=0.10$ and $\tau=0.75$, showing that high-dimensional nuisance estimation is not the sole explanation for undercoverage.
-
-As relevance becomes very weak, the test may reject few candidates, retaining the truth frequently while accepted sets cover most of the primary domain. Such high coverage measures calibration and can coexist with very low informativeness and power.
 
 \subsection{Quantile Heterogeneity and Estimator Comparison}
 

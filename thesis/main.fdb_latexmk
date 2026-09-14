@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1789385844.17713 "main.bcf" "main.bbl" "main" 1789385856.81897 0
-  "main.bcf" 1789385856 209017 a31e24db8d92aee9a1d2a537ed8414b4 "pdflatex"
+["biber main"] 1789385844.17713 "main.bcf" "main.bbl" "main" 1789387996.19539 0
+  "main.bcf" 1789387995 209017 a31e24db8d92aee9a1d2a537ed8414b4 "pdflatex"
   "references.bib" 1789384764 5754 dfa39673064d749321df6e18605a054e ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1789385851.71849 "main.tex" "main.pdf" "main" 1789385856.81978 0
+["pdflatex"] 1789387990.80529 "main.tex" "main.pdf" "main" 1789387996.1962 0
   "C:/Users/User/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1788504662 303465 f754c144d5bd3946d58bce465e6a315f ""
   "C:/Users/User/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1788497151 13372578 9db617934680ea62c3e0174b8d73a796 ""
   "C:/Users/User/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/fira/fir_fmuqgy.enc" 1570723669 3051 120b034cb9abc0a0669718bff786fd93 ""
@@ -322,17 +322,17 @@
   "figures/generated/coverage_n500_thesis.png" 1789378326 153367 4ac2bff4615fe65163712bc97e468a05 ""
   "figures/generated/power_minus050_n1000_thesis.png" 1789378325 218406 8c0c03e0706820c4f71d779187575b51 ""
   "figures/generated/power_plus050_n1000_thesis.png" 1789378325 240410 eb88022f5f5b56f15de8e853a58e0a12 ""
-  "main.aux" 1789385856 21537 da817e7b4bca7b7dfb60bc386581cc0d "pdflatex"
+  "main.aux" 1789387995 21537 4796b58504c6ed6e273f4056bb21c28e "pdflatex"
   "main.bbl" 1789385846 53650 15b2a581d95e31236a8b8024fd8a0ed1 "biber main"
-  "main.out" 1789385856 5029 b356f925c1bf1567eddeeb687de2e5b4 "pdflatex"
-  "main.run.xml" 1789385856 2604 8f4fe10bc017cd02e2052e6b900ce9b8 "pdflatex"
+  "main.out" 1789387995 5029 40f669e0ce44424e13c91b3cbb6bde15 "pdflatex"
+  "main.run.xml" 1789387995 2604 8f4fe10bc017cd02e2052e6b900ce9b8 "pdflatex"
   "main.tex" 1789373787 43899 4c3cc73125fab1e7030847ee3e37ad22 ""
-  "main.toc" 1789385856 1959 e17549c62badd2d1a339bf1ed822fded "pdflatex"
+  "main.toc" 1789387995 1959 8c2bf0a0a47a3be2a722c3727abb7850 "pdflatex"
   "sections/01_introduction.tex" 1789385614 4601 fa102fb3bffa0a1bcb019d3184997241 ""
-  "sections/02_background_literature.tex" 1789385455 9761 b2d4bb6b02dd2ff7fd0b8747234e5e0f ""
+  "sections/02_background_literature.tex" 1789387985 9762 21ac9e86f1d3ba47061a602bb9f3ac92 ""
   "sections/03_methodology.tex" 1789385639 33185 a91b0ecde5867e42c1aee5acfafe1903 ""
-  "sections/04_simulation_design.tex" 1789385455 15367 fac738df59c72a7acac1feda11910e05 ""
-  "sections/05_results.tex" 1789385455 7273 e2fc543d49366509465efea1bee4a687 ""
+  "sections/04_simulation_design.tex" 1789387985 15377 14126ad6c567427d916cb26e1ea04dda ""
+  "sections/05_results.tex" 1789387815 7137 dec5edafffc089958c9ba798ca552c99 ""
   "sections/07_conclusion.tex" 1789385558 5091 b8873c58146ca6dc65ad164f92837b35 ""
   "tables/figure_accepted_measure_main.tex" 1789378281 511 56115e69e6fd911a32c487d7420ca052 ""
   "tables/figure_coverage_main.tex" 1789378281 456 68ea63c1ad4f49f18b3716671cc16d39 ""
