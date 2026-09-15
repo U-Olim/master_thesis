@@ -296,8 +296,12 @@
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
-\fancyhead[L]{\sffamily\small\relscale{0.95}\strut\studentfullname: \textit{\manuscriptrunningtitle}}
-\fancyhead[R]{\sffamily\small\relscale{0.95}\strut\thepage}
+\fancyfoot[C]{\sffamily\small\relscale{0.95}\strut\thepage}
+\fancypagestyle{plain}{%
+	\fancyhf{}%
+	\renewcommand{\headrulewidth}{0pt}%
+	\fancyfoot[C]{\sffamily\small\relscale{0.95}\strut\thepage}%
+}
 
 
 
@@ -314,11 +318,11 @@
 	\begin{center}
 		\normalfont\mdseries\color{black}
 		\selectlanguage{USenglish}
-		\Large
+		\normalsize
 		\null\vfill
-		{\fontsize{20pt}{26pt}\bfseries\manuscripttitle\par}
+		{\Large\bfseries\manuscripttitle\par}
 		\vfill\vfill
-		{\huge\ifthenelse{\boolean{manuscriptisbachelor}}{Bachelor's Thesis}{%
+		{\ifthenelse{\boolean{manuscriptisbachelor}}{Bachelor's Thesis}{%
 			\ifthenelse{\boolean{manuscriptismaster}}{Master's Thesis}{Term Paper}%
 		}\par}
 		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{%
@@ -371,7 +375,7 @@
 			Submitted on \formattedmanuscriptdate%
 		}
 		by \\[1.5\baselineskip]
-		{\LARGE \@author} \\[1.5\baselineskip]
+		{\@author} \\[1.5\baselineskip]
 		\ifthenelse{\boolean{manuscriptisbachelor} \OR \boolean{manuscriptismaster}}{}{%
 			E-Mail: \href{mailto:\studentemail}{\studentemail}\\%
 		}
@@ -1128,11 +1132,18 @@
 \begingroup
 \let\center\flushleft
 \let\endcenter\endflushleft
+% Adjust only this Abstract's heading and first quotation paragraph.
+\patchcmd{\abstract}{\bfseries \abstractname}
+  {\hspace*{0.5cm}\Large\bfseries \abstractname}
+  {}{\PackageError{thesis}{Abstract heading patch failed}{}}
+\patchcmd{\quotation}{\listparindent = \smalllinespacing}
+  {\listparindent = \smalllinespacing\itemindent = \listparindent}
+  {}{\PackageError{thesis}{Abstract indentation patch failed}{}}
 \begin{abstract}
 \normalsize\color{black}
-\textbf{This thesis studies the finite-sample consequences of weakening excluded-instrument relevance in high-dimensional instrumental variable quantile regression (IVQR)}. Building on a preserved DML-IVQR Monte Carlo design, instrument strength is systematically varied through $\kappa \in \{1, 0.50, 0.25, 0.10\}$ while holding the marginal treatment distribution, endogeneity channel, structural outcome equation, and control dimension fixed. Three estimators---\textbf{Oracle-GMM} (an infeasible benchmark with known relevant controls), \textbf{Full-GMM} (unregularized estimation with all controls), and \textbf{DML-IVQR-BC} (regularized nuisance estimation with pivotal penalty calibration)---are compared across five quantiles ($\tau \in \{0.10, 0.25, 0.50, 0.75, 0.90\}$) and sample sizes $n \in \{500, 1000\}$.
+This thesis studies the finite-sample consequences of weakening instrument relevance in high-dimensional instrumental variable quantile regression (IVQR). Building on a preserved DML-IVQR Monte Carlo design, instrument strength is systematically varied through \(\kappa \in \{1, 0.50, 0.25, 0.10\}\) while holding the marginal treatment distribution, structural outcome equation, and control dimension fixed. Three estimators---Oracle-GMM (an infeasible benchmark with known relevant controls), Full-GMM (unregularized estimation with all controls), and DML-IVQR (regularized nuisance estimation with pivotal penalty calibration)---are compared across five quantiles, \(\tau \in \{0.10, 0.25, 0.50, 0.75, 0.90\}\), and sample sizes \(n \in \{500, 1000\}\).
 
-\textbf{The results show that as $\kappa$ falls, point-estimation errors (MAE and RMSE) rise substantially, accepted sets expand, and power against false treatment-effect values declines for all estimators, including the oracle benchmark}. Coverage is also imperfectly calibrated in some finite-sample cells, even under strong instrument relevance. DML often improves on Full-GMM but does not uniformly match Oracle-GMM across all design cells. \textbf{The main conclusion is that Neyman orthogonalization and regularized nuisance estimation can reduce high-dimensional estimation costs, but they cannot replace identifying information lost when instruments become weakly relevant}.
+The results show that as \(\kappa\) falls, point-estimation errors (MAE and RMSE) rise sharply, accepted sets expand, and power against false treatment-effect values declines for all estimators, including the oracle benchmark. Coverage is also not always well calibrated in some finite-sample cells, even under strong instrument relevance. DML often improves on Full-GMM but does not uniformly match Oracle-GMM across all design cells. The main conclusion is that Neyman orthogonalization and regularized nuisance estimation can reduce high-dimensional estimation costs, but they cannot replace identifying information lost when instruments become weakly relevant.
 \end{abstract}
 \endgroup
 

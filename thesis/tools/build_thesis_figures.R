@@ -57,6 +57,7 @@ coverage_data <- read_frozen_csv(source_paths["coverage"],
 tau_order <- c(0.10, 0.25, 0.50, 0.75, 0.90)
 kappa_order <- c(1.00, 0.50, 0.25, 0.10)
 estimator_order <- c("Oracle-GMM", "Full-GMM", "DML-IVQR-BC")
+estimator_labels <- c("Oracle-GMM", "Full-GMM", "DML-IVQR")
 line_types <- c(1, 2, 4)
 marker_types <- c(16, 15, 17)
 estimator_colors <- c("#1F77B4", "#D62728", "#2CA02C")
@@ -242,7 +243,7 @@ render_plot <- function(specification, plot_data) {
   }
 
   plot.new()
-  legend("center", legend = estimator_order, lty = line_types,
+  legend("center", legend = estimator_labels, lty = line_types,
          col = estimator_colors, pch = marker_types, pt.cex = 1.15, lwd = 2.0, bty = "n", cex = 1.0,
          seg.len = 2.6, y.intersp = 1.35, xpd = NA)
   outer_title <- paste0("n = ", specification$n)

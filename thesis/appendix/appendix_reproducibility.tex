@@ -13,7 +13,7 @@ The canonical runtime is R~3.4.3 dated 30 November 2017 on 64-bit Windows, and t
 
 \subsection{Frozen Simulation Configuration}
 
-The main design uses $n\in\{500,1000\}$, $\tau\in\{0.10,0.25,0.50,0.75,0.90\}$, $\kappa\in\{1,0.50,0.25,0.10\}$, and 500 Monte Carlo replications per design. The estimators are Oracle-GMM, Full-GMM, and DML-IVQR-BC. Power is evaluated at offsets $\Delta\in\{-1,-0.5,-0.25,0.25,0.5,1\}$. The primary candidate grid contains 41 values from $-1$ to $3$ in increments of $0.1$. Inference uses a 95\% confidence level and the 0.95 quantile of a chi-square distribution with two degrees of freedom. The DML quantile-Lasso penalty follows the BC pivotal route with 1,000 simulated draws, scale factor 2, and penalty-tail probability 0.1. These settings are recorded in \path{thesis_extension/config/extension_config.R} and summarized in \path{thesis_extension/reporting/EMPIRICAL_RESULTS_FREEZE.md}.
+The main design uses $n\in\{500,1000\}$, $\tau\in\{0.10,0.25,0.50,0.75,0.90\}$, $\kappa\in\{1,0.50,0.25,0.10\}$, and 500 Monte Carlo replications per design. The estimators are Oracle-GMM, Full-GMM, and DML-IVQR. Power is evaluated at offsets $\Delta\in\{-1,-0.5,-0.25,0.25,0.5,1\}$. The primary candidate grid contains 41 values from $-1$ to $3$ in increments of $0.1$. Inference uses a 95\% confidence level and the 0.95 quantile of a chi-square distribution with two degrees of freedom. The DML quantile-Lasso penalty follows the BC pivotal route with 1,000 simulated draws, scale factor 2, and penalty-tail probability 0.1. These settings are recorded in \path{thesis_extension/config/extension_config.R} and summarized in \path{thesis_extension/reporting/EMPIRICAL_RESULTS_FREEZE.md}.
 
 \subsection{Randomness and Seeds}
 
@@ -37,7 +37,7 @@ For the frozen reporting build, the repository must be checked out at commit \te
 
 \subsection{Failure Handling}
 
-The canonical main-run summaries record zero numerical failures, as confirmed by \path{thesis_extension/reporting/output/reporting_consistency_checks.csv}. The grid-domain diagnostic records one Stage~1 failure: replication 35, $\tau=0.90$, $\kappa=0.10$, DML-IVQR-BC, and candidate $a=-2.1$, with the message ``\texttt{Error info = 95 in stepy2: singular design}.'' Stage~2 records no new evaluation failure. Candidate evaluation is wrapped in error handling: an error or nonfinite statistic is stored with its replication, design, estimator, candidate, stage, and message; the affected statistic is set to missing. A profile containing a failed evaluation is flagged as incomplete, and its aggregate accepted-set measures are reported as missing rather than being computed from a partial profile.
+The canonical main-run summaries record zero numerical failures, as confirmed by \path{thesis_extension/reporting/output/reporting_consistency_checks.csv}. The grid-domain diagnostic records one Stage~1 failure: replication 35, $\tau=0.90$, $\kappa=0.10$, DML-IVQR, and candidate $a=-2.1$, with the message ``\texttt{Error info = 95 in stepy2: singular design}.'' Stage~2 records no new evaluation failure. Candidate evaluation is wrapped in error handling: an error or nonfinite statistic is stored with its replication, design, estimator, candidate, stage, and message; the affected statistic is set to missing. A profile containing a failed evaluation is flagged as incomplete, and its aggregate accepted-set measures are reported as missing rather than being computed from a partial profile.
 
 \subsection{Theory and Code Correspondence}
 
