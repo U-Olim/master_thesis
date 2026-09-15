@@ -149,6 +149,8 @@ Thus $J(a)$ describes density-weighted variation in the augmented controls, whil
 \end{equation}
 The vector $\Psi_i(a)$ is therefore the instrument after removing the density-weighted component associated with the intercept and controls. It is this residualized instrument, rather than the raw $Z_i$, that enters the theoretical orthogonal score. By construction, $\operatorname{E}[(Z_i-\delta(a)\widetilde X_i)\widetilde X_i^{\prime}f_{\epsilon(a)}(0\mid X_i,Z_i)]=0$; this is not an ordinary unweighted residual or a conventional first-stage coefficient.
 
+For the simulation DGP in Section~\ref{sec:monte-carlo-design}, this idealized population construction requires a qualification. At the true structural parameter, write $e_\tau=D(u-q_\tau)$, where $q_\tau=\Phi^{-1}(\tau)$ and $D=\Phi(T)$ with $T=d^*(\kappa)$. Conditional on $u=q_\tau$, $X$, and the observed instruments $Z$, $T$ is normal with variance $2.91-\kappa^2>1$ for every investigated $\kappa$. The population residual density at zero contains a term proportional to $\operatorname{E}[1/\Phi(T)\mid u=q_\tau,X,Z]$, which is not finite under these conditional normal variances. The usual finite-density-matrix regularity argument for $J(a)$ and $M(a)$ is therefore not established for this DGP. This thesis does not claim that the preserved executable implementation satisfies the complete regularity conditions underlying the idealized asymptotic orthogonality argument; the study is a finite-sample evaluation of that executable procedure. This limitation neither proves that its statistic is invalid nor establishes the cause of observed undercoverage.
+
 The candidate-specific nuisance vector collects the quantities required to construct the score.
 \begin{equation}
     \eta(a)
@@ -295,12 +297,14 @@ Fix $\tau$ and a candidate value $a$. Nuisance estimation is repeated whenever a
             Y_i-D_i^{\prime}a-b_0-X_i^{\prime}b
         \right)
         +
-        \lambda_0(a)|b_0|
-        +\sum_{k=1}^{p}\lambda_k(a)|b_k|
+        \frac{1}{2}\left[
+            \lambda_0^{rq}(a)|b_0|
+            +\sum_{k=1}^{p}\lambda_k^{rq}(a)|b_k|
+        \right]
     \right\}.
     \label{eq:beta-hat-dml}
 \end{equation}
-The first term measures fit at quantile $\tau$. The second places a separate penalty on each coefficient, including the intercept; there is no post-Lasso refit. The loss is an unscaled sum because this is the scaling used by the fitted quantile-regression routine. The implementation uses the pivotal quantile-Lasso calibration developed by \textcite{belloni_chernozhukov_2011}, following the executable route preserved by \textcite{chen_huang_tien_2021}. Let $s_k=(N^{-1}\sum_iX_{ik}^2)^{1/2}$ and, for $r=1,\ldots,1000$, draw independent $U_{ir}\sim\operatorname{Uniform}(0,1)$. The implemented penalty is
+The first term measures fit at quantile $\tau$. The second places a separate penalty on each coefficient, including the intercept; there is no post-Lasso refit. The loss is an unscaled sum. The factor $1/2$ reflects the augmented-observation implementation of \texttt{rq.fit.lasso} in the preserved \texttt{quantreg} 5.34 environment. Accordingly, $\lambda^{rq}(a)$ denotes the vector supplied to the routine rather than the coefficient multiplying the absolute-value penalty directly. The implementation uses the pivotal quantile-Lasso calibration developed by \textcite{belloni_chernozhukov_2011}, following the executable route preserved by \textcite{chen_huang_tien_2021}. Let $s_k=(N^{-1}\sum_iX_{ik}^2)^{1/2}$ and, for $r=1,\ldots,1000$, draw independent $U_{ir}\sim\operatorname{Uniform}(0,1)$. The vector supplied to the routine is
 \begin{equation}
     \begin{aligned}
         T_r
@@ -314,7 +318,7 @@ The first term measures fit at quantile $\tau$. The second places a separate pen
                 s_k\sqrt{\tau(1-\tau)}
             }
         \right|,\\
-        \lambda(a)
+        \lambda^{rq}(a)
         &=
         2\,\widehat Q_{0.9}\!\left(\{T_r\}_{r=1}^{1000}\right)
         \sqrt{\tau(1-\tau)}
@@ -322,7 +326,7 @@ The first term measures fit at quantile $\tau$. The second places a separate pen
     \end{aligned}
     \label{eq:bc-pivotal-penalty}
 \end{equation}
-Here $k=1,\ldots,p$ indexes the control variables, $r=1,\ldots,1000$ indexes the simulated pivotal draws, $T_r$ is the simulated pivotal statistic in draw $r$, and $\widehat Q_{0.9}(\{T_r\}_{r=1}^{1000})$ denotes their empirical 90th percentile. The $p+1$ entries of $\lambda(a)$ correspond respectively to the intercept and the $p$ control slopes. Artificial Uniform variables are useful because the indicator at the correct quantile has a known Bernoulli structure. The simulated statistics approximate how large random correlations between the controls and a quantile score can be without a true signal. The simulated $0.9$ quantile sets the reference level for these random correlations, while the factor $2$ scales the resulting penalty according to the implemented pivotal rule. A fresh set of Uniform draws is generated every time the penalty routine is called. Hence, candidate evaluations on the same observed sample can use different pivotal draws. This is penalty-construction randomness, not sample splitting. The frozen main simulation uses this rule rather than its older five-fold cross-validation alternative.
+Here $k=1,\ldots,p$ indexes the control variables, $r=1,\ldots,1000$ indexes the simulated pivotal draws, $T_r$ is the simulated pivotal statistic in draw $r$, and $\widehat Q_{0.9}(\{T_r\}_{r=1}^{1000})$ denotes their empirical 90th percentile. The $p+1$ entries of $\lambda^{rq}(a)$ correspond respectively to the intercept and the $p$ control slopes. Artificial Uniform variables are useful because the indicator at the correct quantile has a known Bernoulli structure. The simulated statistics approximate how large random correlations between the controls and a quantile score can be without a true signal. The simulated $0.9$ quantile sets the reference level for these random correlations, while the factor $2$ scales the resulting penalty according to the implemented pivotal rule. A fresh set of Uniform draws is generated every time the penalty routine is called. Hence, candidate evaluations on the same observed sample can use different pivotal draws. This is penalty-construction randomness, not sample splitting. The frozen main simulation uses this rule rather than its older five-fold cross-validation alternative.
 
 The fitted quantile regression produces the candidate residual and density weight
 \begin{equation}
@@ -341,7 +345,7 @@ The fitted quantile regression produces the candidate residual and density weigh
     \end{aligned}
     \label{eq:estimated-profile-residual}
 \end{equation}
-Here $\overline{\widehat{\epsilon}}(a)$ denotes the sample mean of the $N$ candidate residuals, $s_{\widehat{\epsilon}(a)}^{2}$ denotes their sample variance, and $\phi(e;\mu,\sigma)$ is the normal density with mean $\mu$ and standard deviation $\sigma$. Thus, the executable simulation forms the weights by evaluating a fitted normal density at the candidate residuals.\footnote{The literal preserved call is \texttt{dnorm(e, mean(e), var(e))}. Its third argument is interpreted as a standard deviation, although the code supplies the residual sample variance.} This fitted-normal quantity is an implementation-specific proxy for the theoretical conditional density $f_{\epsilon(a)}(0\mid X_i,Z_i)$ from Section~3.2; it is not a direct conditional-density estimate at zero. Zero remains the fitted quantile boundary, and the theoretical reason for density weighting is that observations near this boundary determine local changes in the quantile moment. These proxy weights are then used in the instrument-residualization step, where they play the role assigned to density weights in the theoretical construction.
+Here $\overline{\widehat{\epsilon}}(a)$ denotes the sample mean of the $N$ candidate residuals, $s_{\widehat{\epsilon}(a)}^{2}$ denotes their sample variance, and $\phi(e;\mu,\sigma)$ is the normal density with mean $\mu$ and standard deviation $\sigma$. Thus, the executable simulation forms the weights by evaluating a fitted normal density at the candidate residuals.\footnote{The literal preserved call is \texttt{dnorm(e, mean(e), var(e))}. Its third argument is interpreted as a standard deviation, although the code supplies the residual sample variance.} This fitted-normal quantity is an implementation-specific proxy for the theoretical conditional density $f_{\epsilon(a)}(0\mid X_i,Z_i)$ from Section~3.2; it is not a direct conditional-density estimate at zero. Preserving this proxy is part of the replication-extension design; no consistency claim is made that it recovers the ideal population density object in this DGP. Zero remains the fitted quantile boundary, and the theoretical reason for density weighting is that observations near this boundary determine local changes in the quantile moment. These proxy weights are then used in the instrument-residualization step, where they play the role assigned to density weights in the theoretical construction.
 
 For each instrument component $j=1,\ldots,d_z$, the implementation next fits a separate square-root-density-weighted Lasso. Let $\widehat r_{j0}(a)$ denote its retained ordinary intercept and let $\widehat\Gamma_{\mathrm{imp},j}(a)$ contain only the slopes on the transformed controls. Its transformed regression is
 \begin{equation}
@@ -469,7 +473,7 @@ This equals the code's calculation from the unnormalized score sum and sum of ou
     \operatorname*{arg\,min}_{a\in\mathcal A}W_{e,N}(a).
     \label{eq:gmm-point-estimator}
 \end{equation}
-The minimum need not be zero. The implementation minimizes over the finite profile in Section~\ref{sec:performance-measures}, selects the first exact tie, and gives no point estimate to an incomplete profile.
+The minimum need not be zero. The implementation minimizes over the finite profile in Section~\ref{sec:performance-measures}, selects the first exact tie, and gives no point estimate to an incomplete profile. Point estimators are selected on the fixed numerical grid; except at quantiles whose true effect lies exactly on a grid point, reported point-estimation errors therefore also contain a small discretization component.
 
 Point estimation retains the minimizer; inference tests each $a$ separately. Under the regularity conditions for the corresponding theoretical candidate-specific IVQR score, the null statistic has the asymptotic reference distribution
 \begin{equation}
@@ -479,7 +483,7 @@ Point estimation retains the minimizer; inference tests each $a$ separately. Und
     \qquad d_z=\dim(Z_i).
     \label{eq:weak-id-null-distribution}
 \end{equation}
-The degrees of freedom equal the number of moment components. The preserved Monte Carlo implementation applies this chi-square law as the asymptotic reference distribution for the candidate-specific statistics of all three estimators. For DML-IVQR-BC, however, the implementation-specific residualization intercept described in Section~3.3 is not the literal sample counterpart of the augmented theoretical intercept. This thesis therefore does not establish a separate limit theorem for that implementation detail. Following \textcite{chernozhukov_hansen_2008}, the test evaluates the hypothesized value directly rather than using a normal approximation for $\widehat\alpha_e(\tau)$. At level $\gamma$, reject when $W_{e,N}(a)>c_{1-\gamma,d_z}$. Here $\gamma\in(0,1)$ is the test significance level, and $c_{1-\gamma,d_z}$ is the $(1-\gamma)$-quantile of a chi-square distribution with $d_z$ degrees of freedom. This test-level $\gamma$ is distinct from the instrument-regression slope vector $\gamma_j$ used in Section 3.3.
+The degrees of freedom equal the number of moment components. The preserved Monte Carlo implementation applies this chi-square law as the asymptotic reference distribution for the candidate-specific statistics of all three estimators. For DML-IVQR-BC, however, the implementation-specific residualization intercept described in Section~3.3 is not the literal sample counterpart of the augmented theoretical intercept. Together with the density and DGP qualifications in Sections~3.2--3.3, this means that the thesis does not establish the stated limit law for the preserved executable procedure. Following \textcite{chernozhukov_hansen_2008}, the test evaluates the hypothesized value directly rather than using a normal approximation for $\widehat\alpha_e(\tau)$. At level $\gamma$, reject when $W_{e,N}(a)>c_{1-\gamma,d_z}$. Here $\gamma\in(0,1)$ is the test significance level, and $c_{1-\gamma,d_z}$ is the $(1-\gamma)$-quantile of a chi-square distribution with $d_z$ degrees of freedom. This test-level $\gamma$ is distinct from the instrument-regression slope vector $\gamma_j$ used in Section 3.3.
 
 Inverting these candidate-specific tests gives
 \begin{equation}
@@ -617,6 +621,8 @@ Because all other instrument components are independent of $d_i^*(\kappa)$, each
 \end{equation}
 Joint normality and the invariant variance and covariance in Equations~\eqref{eq:dgp-kappa-variance} and~\eqref{eq:dgp-kappa-endogeneity} keep the joint distribution of $(u_i,d_i^*(\kappa))$ unchanged. The controls, observed-instrument construction, structural outcome equation, induced marginal outcome distribution, and structural quantile effect are also unchanged. In particular, the 100-dimensional control distribution, construction of $Z_{1i}$ and $Z_{2i}$, two instrument moments, estimator definitions, and inference procedure remain fixed. Together with $\operatorname{Var}(d_i^*)=3$ and $\operatorname{Cov}(u_i,d_i^*)=0.3$, these invariances make the exercise a relevance stress test: the intentionally changing feature is the excluded $z$ components' contribution to treatment.
 
+This invariance is marginal. Conditioning on the observed instruments changes the conditional treatment-index variance as $\kappa$ changes, which is inherent to changing the instrument--treatment relationship itself. The design therefore does not claim to hold every conditional dependence measure fixed.
+
 Within each replication, the same primitive draw of $u_i$, $\epsilon_i$, $X_i$, $z_{1i}$, $z_{2i}$, $v_{1i}$, $v_{2i}$, and $w_i$ is reused across all four $\kappa$ values. This common-random-number construction makes matched comparisons more informative because strength differences are not generated by unrelated samples. It does not eliminate Monte Carlo uncertainty.
 
 \subsection{Simulation Design and Estimator Comparison}
@@ -663,7 +669,7 @@ When the generic statistic $W_N$ from Chapter 3 is evaluated in the Monte Carlo 
     =\frac{1}{R}\sum_{r=1}^{R}C_r(\tau).
   \label{eq:performance-coverage}
 \end{equation}
-Coverage evaluates $W_{N,r}$ directly at $\alpha_0(\tau)$ and is therefore independent of the numerical grid. Empirical size is
+Coverage evaluates $W_{N,r}$ directly at $\alpha_0(\tau)$ and is therefore independent of the numerical grid. For DML, the pivotal penalty generates fresh Uniform draws on each evaluation, so a direct truth evaluation and a stored grid-profile evaluation at the same numerical candidate need not use identical pivotal draws. Reported DML coverage is the repeated-sample acceptance frequency of the direct candidate-specific procedure, not literal membership frequency of the particular stored randomized grid realization. Empirical size is
 \begin{equation}
   \widehat{\operatorname{Size}}(\tau)
     =\frac{1}{R}\sum_{r=1}^{R}
@@ -739,7 +745,7 @@ The corresponding either-boundary acceptance rate over $R$ Monte Carlo replicati
   =\frac{1}{R}\sum_{r=1}^{R}B_r^{E}.
   \label{eq:boundary-acceptance-rate}
 \end{equation}
-The same definition is used for an expanded diagnostic domain, with its own left and right endpoints. A boundary is accepted when the candidate-specific test does not reject the endpoint of the finite numerical search interval. A high boundary-acceptance rate therefore means that accepted components frequently reach the edge of the examined domain and are not localized inside it. An accepted endpoint suggests that a component may continue outside the domain; a measure near four indicates limited localization within $A_0$. The $A_1$ and $A_2$ diagnostics examine whether this behavior disappears. Failure to localize even within $A_2$ does not establish global unboundedness or failed identification. Conversely, if boundary acceptance disappears after the domain is widened, the accepted component is numerically localized within the wider range. Persistent boundary acceptance as successively wider finite domains are examined indicates continued lack of numerical localization over those investigated ranges.
+The same definition is used for an expanded diagnostic domain, with its own left and right endpoints. A boundary is accepted when the candidate-specific test does not reject the endpoint of the finite numerical search interval. A high boundary-acceptance rate therefore means that accepted components frequently reach the edge of the examined domain and are not localized inside it. An accepted endpoint suggests that a component may continue outside the domain; a measure near four indicates limited localization within $A_0$. The $A_1$ and $A_2$ diagnostics examine whether this behavior disappears. Failure to localize even within $A_2$ does not establish global unboundedness or failed identification. If boundary acceptance disappears after the domain is widened, the observed accepted grid components no longer touch the investigated endpoints. This does not rule out additional disconnected accepted components outside the investigated domain. Persistent boundary acceptance as successively wider finite domains are examined indicates continued lack of numerical localization over those investigated ranges.
 
 The frozen implementation computes the grid-based accepted-set measure within $A_0$ as the trapezoidal integral of this binary indicator:
 \begin{equation}
