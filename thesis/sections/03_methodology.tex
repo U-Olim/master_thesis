@@ -2,23 +2,27 @@
 
 \subsection{Structural IVQR Model and Identification}
 
-Following the instrumental-variable quantile regression (IVQR) framework of \textcite{chernozhukov_hansen_2005} and \textcite{chernozhukov_hansen_2008}, let $Y_i$ denote a scalar outcome, $D_i$ an endogenous treatment or vector of endogenous variables, $X_i$ a vector of observed controls, and $Z_i$ a vector of instruments. The structural quantile function is denoted by $q(u,d,x)$, where $u\in(0,1)$ is the structural rank. For a fixed treatment state $d$, $q(\tau,d,x)$ gives the conditional $\tau$-quantile of the potential outcome obtained by fixing treatment at $d$.
+Following the IVQR framework of \textcite{chernozhukov_hansen_2005}, let \(Y_i\) denote the outcome, \(D_i\) the endogenous treatment or vector of endogenous variables, \(X_i\) a vector of observed controls, and \(Z_i\) a vector of instruments. The structural quantile function is denoted by \(q(u,d,x)\), where \(u\in(0,1)\) represents the structural rank. For a fixed treatment state \(d\) and covariates \(x\), \(q(\tau,d,x)\) gives the structural \(\tau\)-quantile of the potential outcome under treatment state \(d\).
 
-Under the IVQR assumptions on instrument exogeneity, treatment selection, and rank similarity, the observed data admit the representation
+Under the IVQR assumptions on instrument exogeneity, treatment selection, and rank similarity, the observed data can be represented as
+
 \begin{equation}
     Y_i = q(U_i,D_i,X_i),
     \qquad
     U_i \mid X_i,Z_i \sim \operatorname{Uniform}(0,1),
     \label{eq:structural-ivqr}
 \end{equation}
-where $U_i:=U_{D_i i}$ is the realized structural rank. Rank similarity allows the treatment-state-specific ranks to differ while restricting their conditional distributions; rank invariance is the stronger special case in which the rank is unchanged across treatment states. The strict monotonicity of $q(u,d,x)$ in $u$ links this representation to structural quantiles.
 
-Endogeneity means that the realized treatment $D_i$ may depend on the structural rank $U_i$. Consequently, the observed conditional quantile of $Y_i$ given $D_i$ and $X_i$ generally differs from the structural quantile obtained by externally fixing treatment. IVQR is designed to recover the latter object. For two treatment states $d_1$ and $d_0$, the structural quantile treatment effect at covariates $x$ is
+where \(U_i:=U_{D_i i}\) is the realized structural rank. Rank similarity allows treatment-state-specific ranks to differ while requiring their conditional distributions to be the same across treatment states. Rank invariance is the stronger special case in which an individual's rank is unchanged across treatment states. Strict monotonicity of \(q(u,d,x)\) in \(u\) links the structural rank to the corresponding structural quantile.
+
+Treatment endogeneity arises because the realized treatment \(D_i\) may depend on unobserved factors that are related to the structural rank. Consequently, the observed conditional quantile of \(Y_i\) given \(D_i\) and \(X_i\) does not generally equal the structural quantile obtained under a fixed treatment state. IVQR uses instruments to recover the latter object. For two treatment states \(d_1\) and \(d_0\), the structural quantile treatment effect at quantile \(\tau\) and covariates \(x\) is
+
 \[
     q(\tau,d_1,x)-q(\tau,d_0,x).
 \]
 
-For a fixed quantile index $\tau\in(0,1)$, the DML-IVQR framework of \textcite{chen_huang_tien_2021} uses a linear-in-parameters structural quantile specification,
+For a fixed quantile index \(\tau\in(0,1)\), the DML-IVQR framework considered in \textcite{chen_huang_tien_2021} uses the linear-in-parameters structural quantile specification
+
 \begin{equation}
     q(\tau,D_i,X_i)
     = c_0(\tau)
@@ -26,19 +30,25 @@ For a fixed quantile index $\tau\in(0,1)$, the DML-IVQR framework of \textcite{c
       + X_i^{\prime}\beta_0(\tau).
     \label{eq:linear-structural-quantile}
 \end{equation}
-The parameter of interest is $\alpha_0(\tau)$, the structural treatment coefficient at quantile $\tau$. The vector $\beta_0(\tau)$ contains the coefficients on the observed controls. The term $c_0(\tau)$ is simply the intercept of the structural quantile equation: it determines the baseline structural quantile when the treatment and nonconstant controls are set to zero. It is written explicitly here rather than being absorbed into the control vector. In the particular Monte Carlo DGP used in Section~\ref{sec:monte-carlo-design}, the structural outcome equation has constant term $1$, so the true structural intercept is $c_0(\tau)=1$ for every $\tau$. Keeping $c_0(\tau)$ symbolic in this chapter allows the methodology to be stated in its general form.
 
-The key IVQR restriction follows directly from the structural-rank representation. Because $q(u,d,x)$ is strictly increasing in $u$,
+The parameter of interest is \(\alpha_0(\tau)\), the structural treatment coefficient at quantile \(\tau\). The intercept \(c_0(\tau)\) and control coefficients \(\beta_0(\tau)\) are nuisance parameters. Their specific values in the Monte Carlo data-generating process are introduced later when the simulation design is defined.
+
+The key IVQR restriction follows from the structural-rank representation. Because \(q(u,d,x)\) is strictly increasing in \(u\),
+
 \[
     Y_i\leq q(\tau,D_i,X_i)
     \quad\Longleftrightarrow\quad
     U_i\leq\tau.
 \]
-Conditional on $X_i$ and $Z_i$, the structural rank is uniform, so
+
+Since the realized structural rank is conditionally uniform given \(X_i\) and \(Z_i\),
+
 \[
     \Pr(U_i\leq\tau\mid X_i,Z_i)=\tau.
 \]
-Substituting the linear structural quantile specification therefore gives
+
+Substituting the linear structural quantile specification gives
+
 \begin{equation}
     \Pr\!\left[
         Y_i \leq c_0(\tau)
@@ -50,7 +60,8 @@ Substituting the linear structural quantile specification therefore gives
     \label{eq:ivqr-conditional-restriction}
 \end{equation}
 
-Throughout the remainder of the thesis, $\mathbf{1}\{A\}$ denotes the indicator function: it equals one when statement $A$ is true and zero otherwise. The probability restriction can therefore be written as the conditional moment
+Let \(\mathbf{1}\{A\}\) denote the indicator function, equal to one when statement \(A\) is true and zero otherwise. The same restriction can then be written as the conditional moment condition
+
 \begin{equation}
     \operatorname{E}\!\left[
         \tau
@@ -65,7 +76,7 @@ Throughout the remainder of the thesis, $\mathbf{1}\{A\}$ denotes the indicator 
     \label{eq:ivqr-conditional-moment}
 \end{equation}
 
-This equation is the central population restriction used by IVQR. At the true structural parameters, the indicator has conditional expectation $\tau$. A candidate treatment coefficient that is inconsistent with the structural quantile restriction will generally produce a nonzero moment. Instrument validity makes these moments legitimate; instrument relevance determines how strongly they change when the candidate treatment coefficient moves away from the truth. Hence validity and identification are distinct. A valid instrument can still contain too little treatment variation to distinguish competing values of $\alpha_0(\tau)$ precisely. The next subsection shows how DML-IVQR constructs a nuisance-robust version of this candidate-specific moment.
+Equation~\eqref{eq:ivqr-conditional-moment} is the central population restriction used by IVQR. Instrument exogeneity justifies the conditional moment restriction, while identification requires the instruments to provide enough variation to distinguish the true structural coefficient from competing candidate values. These are separate requirements: an instrument may satisfy the validity conditions but still provide too little information for precise identification of \(\alpha_0(\tau)\). Section 3.2 builds on this restriction and constructs the nuisance-robust score used by DML-IVQR.
 
 \subsection{Orthogonal Score and Nuisance Estimation}
 
